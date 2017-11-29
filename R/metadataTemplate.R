@@ -1,6 +1,6 @@
-#' @title
+#' @title Range modeling metadata
 #'
-#' @description
+#' @description Make an empty metadata list
 #'
 #' @details
 #' See Examples.

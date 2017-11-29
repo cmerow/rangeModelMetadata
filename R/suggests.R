@@ -1,6 +1,6 @@
-#' @title
+#' @title Suggest inputs for a range model metadata list
 #'
-#' @description
+#' @description Supply fields to receive suggested inputs
 #'
 #' @details
 #' See Examples.
