@@ -20,7 +20,7 @@
 # this documentation when the user looks them up from the command
 # line.
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
-packages=c('raster','sp')
-rmmPackageCitation=function(packages){
-  lapply(packages,function(x) toBibtex(citation(x)))
-}
+# packages=c('raster','sp')
+# rmmPackageCitation=function(packages){
+#   lapply(packages,function(x) toBibtex(citation(x)))
+# }

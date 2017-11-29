@@ -9,4 +9,4 @@ if(Sys.info()['user']=='ctg') userPath='/Users/ctg/Dropbox/Projects/Range_Metada
 if(Sys.info()['user']=='brian') userPath='/Users/ctg/Dropbox/Projects/Range_Metadata'
 if(Sys.info()['user']=='hannah') userPath='/Users/ctg/Dropbox/Projects/Range_Metadata'
 
-write.csv(d,paste0(userPath,'/rangeModelMetaData/inst/extdata/dataDictionary.csv'))
+write.csv(d,paste0(userPath,'/rangeModelMetaData/inst/extdata/dataDictionary.csv'),row.names = F)

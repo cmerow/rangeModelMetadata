@@ -1,123 +1,127 @@
-"","Field1","Field2","Field3","Field4","Type","Format","Example","Description","Notes","Obligate"
-"1","data","occurrence","taxaList",NA,"Character vector","Genus species, Genus_species","Example 1: Acer rubrum, Example 2: Nasua_nasua, Nasua_narica","A character vector containing all of the taxa used in the model(s).",NA,1
-"2","data","occurrence","dataType",NA,"Character",NA,"presence only, presence abscence, abundance","The type of records used in modeling.",NA,1
-"3","data","occurrence","yearMin",NA,"Integer",NA,"Example 1: 1900, Example 2: NA","If a temporal range of records was used, this is the earliest year used.  Abscence or NA implies that there was no lower limit.",NA,0
-"4","data","occurrence","yearMax",NA,"Integer",NA,"Example 1: 2000, Example 2: NA","If a temporal range of records was used, this is the latest year used.  Abscence or NA implies there is no upper boundary used.",NA,0
-"5","data","occurrence","sources",NA,"Character vector","bibtex","@article{maitner2017bien,
+"Field1","Field2","Field3","Field4","Type","Format","Example","Description","Notes","Obligate"
+"data","occurrence","taxaList",NA,"Character vector","Genus species, Genus_species","Example 1: Acer rubrum; Example 2: Nasua_nasua; Nasua_narica","A character vector containing all of the taxa used in the model(s).",NA,1
+"data","occurrence","dataType",NA,"Character",NA,"Example 1: presence only; presence abscence; abundance","The type of records used in modeling.",NA,1
+"data","occurrence","yearMin",NA,"Integer",NA,"Example 1: 1900; Example 2: NA","If a temporal range of records was used, this is the earliest year used.  Abscence or NA implies that there was no lower limit.",NA,0
+"data","occurrence","yearMax",NA,"Integer",NA,"Example 1: 2000; Example 2: NA","If a temporal range of records was used, this is the latest year used.  Abscence or NA implies there is no upper boundary used.",NA,0
+"data","occurrence","sources",NA,"Character vector","bibtex","Example 1: @article{maitner2017bien,
   title={The bien r package: A tool to access the Botanical Information and Ecology Network (BIEN) database},
   author={Maitner, Brian S and Boyle, Brad and Casler, Nathan and Condit, Rick and Donoghue, John and Dur{\'a}n, Sandra M and Guaderrama, Daniel and Hinchliff, Cody E and J{\o}rgensen, Peter M and Kraft, Nathan JB and others},
   journal={Methods in Ecology and Evolution},
   year={2017},
   publisher={Wiley Online Library}
 }","A single bibtex format citation or a vector of bibtex format citations.",NA,1
-"6","data","environment","variableName",NA,"Character vector",NA,"Example 1: Bio1, Bio12","Environmental  variable names, preferably as they appear in the source.",NA,1
-"7","data","environment","yearMin",NA,"Integer",NA,"Example: 1970","The first year of the temporal range of climate data in the environmental layers.",NA,0
-"8","data","environment","yearMax",NA,"Integer",NA,"Example: 2000","The last year of the temporal range of climate data in the environmental layers.",NA,0
-"9","data","environment","sources",NA,"Character vector","bibtex","@misc{hijmans2004worldclim,
+"data","occurrence","presenceSampleSize",NA,"Numeric",NA,NA,NA,NA,NA
+"data","occurrence","absenceSampleSize",NA,"Numeric",NA,NA,NA,NA,NA
+"data","environment","variableName",NA,"Character vector",NA,"Example 1: Bio1, Bio12;","Environmental  variable names, preferably as they appear in the source.",NA,1
+"data","environment","yearMin",NA,"Integer",NA,"Example 1: 1970;","The first year of the temporal range of climate data in the environmental layers.",NA,0
+"data","environment","yearMax",NA,"Integer",NA,"Example 1: 2000;","The last year of the temporal range of climate data in the environmental layers.",NA,0
+"data","environment","sources",NA,"Character vector","bibtex","Example 1: @misc{hijmans2004worldclim,
   title={The WorldClim interpolated global terrestrial climate surfaces. Version 1.3},
   author={Hijmans, RJ and Cameron, SE and Parra, JL and Jones, PG and Jarvis, A},
   year={2004}
 }","A single bibtex format citation or a vector of bibtex format citations.",NA,1
-"10","data","dataNotes",NA,NA,"Character",NA,NA,NA,NA,1
-"11","dataPrep","errors","duplicateRemoval","rule","Character",NA,"Example 1: environmental duplicates, Example 2: coordinate duplicates, Example 3: not needed, Example 4: NA","If duplicate records were removed, what criteria were used for removal?",NA,0
-"12","dataPrep","errors","duplicateRemoval","notes","Character",NA,NA,NA,NA,0
-"13","dataPrep","errors","oddPoints","rule","Character",NA,"Example 1: latitude or longitude exactly 0, Example2: latitude or longitude an integer","If points were excluded on the basis of some criteria, what were they?",NA,0
-"14","dataPrep","errors","oddPoints","notes","Character",NA,NA,NA,NA,0
-"15","dataPrep","geographic","geographicHarmonization","rule","Character",NA,"Example 1: GNRS,  Example 2: not needed, Example 3: NA","If an algorithm was used to standardize geographic or political names, which algorithm was used?",NA,0
-"16","dataPrep","geographic","geographicHarmonization","notes","Character",NA,NA,NA,NA,0
-"17","dataPrep","geographic","geographicalOutlierRemoval","rule","Character",NA,"Example 1: Countries with fewer than 5 records were excluded, Example 2: not needed, Example 3: NA","If points were excluded on the basis of  being a geographic outlier, what criteria or algorithm was used?",NA,0
-"18","dataPrep","geographic","geographicalOutlierRemoval","notes","Character",NA,NA,NA,NA,0
-"19","dataPrep","geographic","centroidRemoval","rule","Character",NA,"Example 1: exact match, Example 2: 0.98 likelihood score, Example 3: not needed","If  suspected centroid values were removed, what criteria were used to perform the removal?",NA,0
-"20","dataPrep","geographic","centroidRemoval","notes","Character",NA,NA,NA,NA,0
-"21","dataPrep","geographic","pointInPolygon","rule","Character",NA,"country, state, county, not needed","If point-in-polygon checks were used, what geopolitical levels were the checks perfromed for?",NA,0
-"22","dataPrep","geographic","pointInPolygon","notes","Character",NA,NA,NA,NA,0
-"23","dataPrep","biological","taxonimicHarmonization","rule","Character",NA,"TNRS, notNeeded","If taxonomic harmonization was perfomed, which algorithm was used?",NA,0
-"24","dataPrep","biological","taxonimicHarmonization","notes","Character",NA,NA,NA,NA,0
-"25","dataPrep","biological","cultivatedRemoval","rule","Character",NA,"algorithm name, notNeeded","If cultivated records were removed, what algorithm or criteria were used?",NA,0
-"26","dataPrep","biological","cultivatedRemoval","notes","Character",NA,NA,NA,NA,0
-"27","dataPrep","biological","nonNativeRemoval","rule","Character",NA,"Example 1: NSR, Example 2: not needed","If introduced species were removed, what method/ source was used to assess native status?",NA,0
-"28","dataPrep","biological","nonNativeRemoval","notes","Character",NA,NA,NA,NA,0
-"29","dataPrep","environmental","environmentalOutlierRemoval","rule","Character",NA,"Example 1: algorithm name, Example 2: not needed","If environmental outliers were removed, which algorithm was used to determine outlier status?",NA,0
-"30","dataPrep","environmental","environmentalOutlierRemoval","notes","Character",NA,NA,NA,NA,0
-"31","dataPrep","environmental","altitudeCheck","rule","Character",NA,"Example 1: Altitude within 250 m of reported value, Example 2: not needed","If records were removed for having elevations reported that differ significantly from some source, what method was used?",NA,0
-"32","dataPrep","environmental","notes",NA,"Character",NA,NA,NA,NA,0
-"33","dataPrep","dataPrepNotes",NA,NA,"Character",NA,NA,NA,NA,1
-"34","model","occurrenceTreatedAs",NA,NA,"Character",NA,"point, cell, transect, polygon",NA,NA,1
-"35","model","covariateScaling",NA,NA,"Character",NA,"untransformed, z-score, unit interval",NA,NA,1
-"36","model","occurrenceSubsampling",NA,NA,"Character",NA,"Example 1: 5-fold cross validation, Example 2: none",NA,NA,1
-"37","model","offset",NA,NA,"Character",NA,"description",NA,NA,0
-"38","model","algorithm",NA,NA,"Character",NA,"generalized linear model, generalized additive model, boosted regression trees, maxent, bioclim, Poisson point process, range bagging, all biomod2 models",NA,NA,1
-"39","model","algorithmCitation",NA,NA,"Character vector",NA,"bibtex citations",NA,NA,0
-"40","model","algorithmSettings","maxent","featureSet","Character",NA,"L, LQ, LQP, LQPT, LQPTH, H, HT",NA,NA,0
-"41","model","algorithmSettings","maxent","featureRule","Character",NA,"Example 1: L for <50 presences, LQ for >= 50 presences",NA,NA,0
-"42","model","algorithmSettings","maxent","regularizationMultiplierSet","Numeric",NA,NA,NA,NA,0
-"43","model","algorithmSettings","maxent","regularizationRule","Character",NA,"Example 1: Chosen based on 5-fold cross validation on a grid of regularization multipliers from [0,10]",NA,NA,0
-"44","model","algorithmSettings","maxent","convergenceThresholdSet","Numeric",NA,NA,NA,NA,0
-"45","model","algorithmSettings","maxent","convergenceThresholdRule","Character",NA,NA,NA,NA,0
-"46","model","algorithmSettings","maxent","backgroundSizeSet","Numeric Vector",NA,NA,NA,NA,0
-"47","model","algorithmSettings","maxent","backgroundSizeRule","Character",NA,NA,NA,NA,0
-"48","model","algorithmSettings","maxent","samplingBiasRule","Character",NA,"target group, offset, none",NA,NA,0
-"49","model","algorithmSettings","maxent","modelNotes","Character",NA,NA,NA,NA,0
-"50","model","algorithmSettings","<user supplied>",NA,NA,NA,NA,NA,"see format for standardized algorithms",0
-"51","output","units",NA,NA,"Character",NA,"absolute probability, relative occurrence rate",NA,NA,1
-"52","output","minVal",NA,NA,"Numeric",NA,NA,NA,NA,1
-"53","output","maxVal",NA,NA,"Numeric",NA,NA,NA,NA,1
-"54","output","threshold",NA,NA,"Numeric Vector",NA,NA,NA,"only if binary/trinary",0
-"55","output","outputNotes",NA,NA,"Character",NA,NA,NA,NA,1
-"56","output","transfer","environment1","yearMin","Integer",NA,NA,NA,NA,0
-"57","output","transfer","environment1","yearMax","Integer",NA,NA,NA,NA,0
-"58","output","transfer","environment1","sources","Character vector","bibtex",NA,NA,NA,1
-"59","output","transfer","environment1","extentMax","Numeric Vector","(xmin,xmax,ymin,ymax)",NA,NA,NA,1
-"60","output","transfer","environment1","extentRule","Character",NA,"Example 1: Buffered all points by 500km and joined the resulting polygons",NA,NA,0
-"61","output","transfer","environment1","resolution","Numeric",NA,NA,NA,NA,1
-"62","output","transfer","<environment2>",NA,NA,NA,NA,NA,"As for env 1",0
-"63","output","ensembleRule",NA,NA,"Character",NA,"Example 1: Models weighted by AUC scores on test data",NA,NA,0
-"64","performance","trainingDataStats","<AUC>",NA,"Numeric",NA,NA,NA,NA,0
-"65","performance","trainingDataStats","<Cohens kappa>",NA,"Numeric",NA,NA,NA,NA,0
-"66","performance","trainingDataStats","<true skill statistic>",NA,"Numeric",NA,NA,NA,NA,0
-"67","performance","trainingDataStats","<true positive rate>",NA,"Numeric",NA,NA,NA,NA,0
-"68","performance","trainingDataStats","<true negative rate>",NA,"Numeric",NA,NA,NA,NA,0
-"69","performance","trainingDataStats","<false positive rate>",NA,"Numeric",NA,NA,NA,NA,0
-"70","performance","trainingDataStats","<false negative rate>",NA,"Numeric",NA,NA,NA,NA,0
-"71","performance","trainingDataStats","<user supplied>",NA,"Numeric",NA,NA,NA,NA,0
-"72","performance","trainingDataStats","<user supplied performance statistic citation>",NA,"Character vector","bibtex",NA,"A single bibtex format citation or a vector of bibtex format citations.",NA,0
-"73","performance","testingDataStats","<AUC>",NA,"Numeric",NA,NA,NA,NA,0
-"74","performance","testingDataStats","<Cohens kappa>",NA,"Numeric",NA,NA,NA,NA,0
-"75","performance","testingDataStats","<true skill statistic>",NA,"Numeric",NA,NA,NA,NA,0
-"76","performance","testingDataStats","<true positive rate>",NA,"Numeric",NA,NA,NA,NA,0
-"77","performance","testingDataStats","<true negative rate>",NA,"Numeric",NA,NA,NA,NA,0
-"78","performance","testingDataStats","<false positive rate>",NA,"Numeric",NA,NA,NA,NA,0
-"79","performance","testingDataStats","<false negative rate>",NA,"Numeric",NA,NA,NA,NA,0
-"80","performance","testingDataStats","<user supplied>",NA,"Numeric",NA,NA,NA,NA,0
-"81","performance","testingDataStats","<user supplied performance statistic citation>",NA,"Character vector","bibtex",NA,"A single bibtex format citation or a vector of bibtex format citations.",NA,0
-"82","performance","evaluationDataStats","<AUC>",NA,"Numeric",NA,NA,NA,NA,0
-"83","performance","evaluationDataStats","<Cohens kappa>",NA,"Numeric",NA,NA,NA,NA,0
-"84","performance","evaluationDataStats","<true skill statistic>",NA,"Numeric",NA,NA,NA,NA,0
-"85","performance","evaluationDataStats","<true positive rate>",NA,"Numeric",NA,NA,NA,NA,0
-"86","performance","evaluationDataStats","<true negative rate>",NA,"Numeric",NA,NA,NA,NA,0
-"87","performance","evaluationDataStats","<false positive rate>",NA,"Numeric",NA,NA,NA,NA,0
-"88","performance","evaluationDataStats","<false negative rate>",NA,"Numeric",NA,NA,NA,NA,0
-"89","performance","evaluationDataStats","<user supplied>",NA,"Numeric",NA,NA,NA,NA,0
-"90","performance","evaluationDataStats","<user supplied performance statistic citation>",NA,"Character vector","bibtex",NA,"A single bibtex format citation or a vector of bibtex format citations.",NA,0
-"91","performance","performanceNotes",NA,NA,"Character",NA,NA,NA,NA,1
-"92","misc","authorNotes",NA,NA,"Character",NA,NA,NA,NA,1
-"93","misc","miscNotes",NA,NA,"Character",NA,NA,NA,NA,1
-"94","code","wallaceSettings",NA,NA,NA,NA,NA,NA,"If using Wallace",0
-"95","code","software","platform",NA,"Character vector","bibtex","@Manual{,
+"data","dataNotes",NA,NA,"Character",NA,NA,NA,NA,1
+"dataPrep","errors","duplicateRemoval","rule","Character",NA,"Example 1: environmental duplicates; Example 2: coordinate duplicates; Example 3: not needed; Example 4: NA;","If duplicate records were removed, what criteria were used for removal?",NA,0
+"dataPrep","errors","duplicateRemoval","notes","Character",NA,NA,NA,NA,0
+"dataPrep","errors","oddPoints","rule","Character",NA,"Example 1: latitude or longitude exactly 0; Example2: latitude or longitude an integer;","If points were excluded on the basis of some criteria, what were they?",NA,0
+"dataPrep","errors","oddPoints","notes","Character",NA,NA,NA,NA,0
+"dataPrep","geographic","geographicHarmonization","rule","Character",NA,"Example 1: GNRS;  Example 2: not needed; Example 3: NA;","If an algorithm was used to standardize geographic or political names, which algorithm was used?",NA,0
+"dataPrep","geographic","geographicHarmonization","notes","Character",NA,NA,NA,NA,0
+"dataPrep","geographic","geographicalOutlierRemoval","rule","Character",NA,"Example 1: Countries with fewer than 5 records were excluded; Example 2: not needed; Example 3: NA;","If points were excluded on the basis of  being a geographic outlier, what criteria or algorithm was used?",NA,0
+"dataPrep","geographic","geographicalOutlierRemoval","notes","Character",NA,NA,NA,NA,0
+"dataPrep","geographic","centroidRemoval","rule","Character",NA,"Example 1: exact match; Example 2: 0.98 likelihood score; Example 3: not needed;","If  suspected centroid values were removed, what criteria were used to perform the removal?",NA,0
+"dataPrep","geographic","centroidRemoval","notes","Character",NA,NA,NA,NA,0
+"dataPrep","geographic","pointInPolygon","rule","Character",NA,"Example 1: country; state; county; Example 2: not needed;","If point-in-polygon checks were used, what geopolitical levels were the checks perfromed for?",NA,0
+"dataPrep","geographic","pointInPolygon","notes","Character",NA,NA,NA,NA,0
+"dataPrep","biological","taxonimicHarmonization","rule","Character",NA,"Example 1: TNRS; Example 2: notNeeded;","If taxonomic harmonization was perfomed, which algorithm was used?",NA,0
+"dataPrep","biological","taxonimicHarmonization","notes","Character",NA,NA,NA,NA,0
+"dataPrep","biological","cultivatedRemoval","rule","Character",NA,"Example 1: CSR; Example 2: notNeeded;","If cultivated records were removed, what algorithm or criteria were used?",NA,0
+"dataPrep","biological","cultivatedRemoval","notes","Character",NA,NA,NA,NA,0
+"dataPrep","biological","nonNativeRemoval","rule","Character",NA,"Example 1: NSR; Example 2: not needed;","If introduced species were removed, what method/ source was used to assess native status?",NA,0
+"dataPrep","biological","nonNativeRemoval","notes","Character",NA,NA,NA,NA,0
+"dataPrep","environmental","environmentalOutlierRemoval","rule","Character",NA,"Example 1: algorithm name; Example 2: not needed;","If environmental outliers were removed, which algorithm was used to determine outlier status?",NA,0
+"dataPrep","environmental","environmentalOutlierRemoval","notes","Character",NA,NA,NA,NA,0
+"dataPrep","environmental","altitudeCheck","rule","Character",NA,"Example 1: Altitude within 250 m of reported value; Example 2: not needed;","If records were removed for having elevations reported that differ significantly from some source, what method was used?",NA,0
+"dataPrep","environmental","notes",NA,"Character",NA,NA,NA,NA,0
+"dataPrep","dataPrepNotes",NA,NA,"Character",NA,NA,NA,NA,1
+"model","occurrenceTreatedAs",NA,NA,"Character",NA,"Example 1: point; Example 2: cell; Example 3: transect; Example 4: polygon;",NA,NA,1
+"model","covariateScaling",NA,NA,"Character",NA,"Example 1: untransformed;  Example 2: z-score; Example 3: unit interval;",NA,NA,1
+"model","occurrenceSubsampling",NA,NA,"Character",NA,"Example 1: 5-fold cross validation; Example 2: none;",NA,NA,1
+"model","offset",NA,NA,"Character",NA,"Example 1: description;",NA,NA,0
+"model","algorithm",NA,NA,"Character",NA,"Example 1: generalized linear model; Example 2: generalized additive model; Example 3: boosted regression trees; Example 4: maxent; Example 5: bioclim; Example 6: Poisson point process; Example 7: range bagging; Example 8: all biomod2 models;",NA,NA,1
+"model","algorithmCitation",NA,NA,"Character vector","bibtex","Example 1: @article{phillips2006maximum,
+  title={Maximum entropy modeling of species geographic distributions},
+  author={Phillips, Steven J and Anderson, Robert P and Schapire, Robert E},
+  journal={Ecological modelling},
+  volume={190},
+  number={3},
+  pages={231--259},
+  year={2006},
+  publisher={Elsevier}
+}",NA,NA,0
+"model","algorithmSettings","maxent","featureSet","Character",NA,"Example 1: L; Example 2: LQ; Example 3: LQP; Example 4: LQPT; Example 5: LQPTH; Example 6: H; Example 7:HT",NA,NA,0
+"model","algorithmSettings","maxent","featureRule","Character",NA,"Example 1: L for <50 presences; LQ for >= 50 presences",NA,NA,0
+"model","algorithmSettings","maxent","regularizationMultiplierSet","Numeric",NA,NA,NA,NA,0
+"model","algorithmSettings","maxent","regularizationRule","Character",NA,"Example 1: Chosen based on 5-fold cross validation on a grid of regularization multipliers from [0;10]",NA,NA,0
+"model","algorithmSettings","maxent","convergenceThresholdSet","Numeric",NA,NA,NA,NA,0
+"model","algorithmSettings","maxent","convergenceThresholdRule","Character",NA,NA,NA,NA,0
+"model","algorithmSettings","maxent","backgroundSizeSet","Numeric Vector",NA,NA,NA,NA,0
+"model","algorithmSettings","maxent","backgroundSizeRule","Character",NA,NA,NA,NA,0
+"model","algorithmSettings","maxent","samplingBiasRule","Character",NA,"Example 1: target group; Example 2: offset; Example 3: none;",NA,NA,0
+"model","algorithmSettings","maxent","modelNotes","Character",NA,NA,NA,NA,0
+"output","units",NA,NA,"Character",NA,"Example 1: absolute probability; Example 2:  relative occurrence rate;",NA,NA,1
+"output","minVal",NA,NA,"Numeric",NA,NA,NA,NA,1
+"output","maxVal",NA,NA,"Numeric",NA,NA,NA,NA,1
+"output","threshold",NA,NA,"Numeric Vector",NA,NA,NA,"only if binary/trinary",0
+"output","outputNotes",NA,NA,"Character",NA,NA,NA,NA,1
+"output","transfer","environment1","yearMin","Integer",NA,NA,NA,NA,0
+"output","transfer","environment1","yearMax","Integer",NA,NA,NA,NA,0
+"output","transfer","environment1","sources","Character vector","bibtex",NA,NA,NA,1
+"output","transfer","environment1","extentMax","Numeric Vector","(xmin,xmax,ymin,ymax)",NA,NA,NA,1
+"output","transfer","environment1","extentRule","Character",NA,"Example 1: Buffered all points by 500km and joined the resulting polygons;",NA,NA,0
+"output","transfer","environment1","resolution","Numeric",NA,NA,NA,NA,1
+"output","transfer","environment2",NA,NA,NA,NA,NA,"As for env 1",0
+"output","ensembleRule",NA,NA,"Character",NA,"Example 1: Models weighted by AUC scores on test data;",NA,NA,0
+"performance","trainingDataStats","AUC",NA,"Numeric",NA,NA,NA,NA,0
+"performance","trainingDataStats","CohensKappa",NA,"Numeric",NA,NA,NA,NA,0
+"performance","trainingDataStats","trueSkillStatistic",NA,"Numeric",NA,NA,NA,NA,0
+"performance","trainingDataStats","truePositiveRate",NA,"Numeric",NA,NA,NA,NA,0
+"performance","trainingDataStats","trueNegativeRate",NA,"Numeric",NA,NA,NA,NA,0
+"performance","trainingDataStats","falsePositiveRate",NA,"Numeric",NA,NA,NA,NA,0
+"performance","trainingDataStats","falseNegativeRate",NA,"Numeric",NA,NA,NA,NA,0
+"performance","testingDataStats","AUC",NA,"Numeric",NA,NA,NA,NA,0
+"performance","testingDataStats","CohensKappa",NA,"Numeric",NA,NA,NA,NA,0
+"performance","testingDataStats","trueSkillStatistic",NA,"Numeric",NA,NA,NA,NA,0
+"performance","testingDataStats","truePositiveRate",NA,"Numeric",NA,NA,NA,NA,0
+"performance","testingDataStats","trueNegativeRate",NA,"Numeric",NA,NA,NA,NA,0
+"performance","testingDataStats","falsePositiveRate",NA,"Numeric",NA,NA,NA,NA,0
+"performance","testingDataStats","falseNegativeRate",NA,"Numeric",NA,NA,NA,NA,0
+"performance","evaluationDataStats","AUC",NA,"Numeric",NA,NA,NA,NA,0
+"performance","evaluationDataStats","CohensKappa",NA,"Numeric",NA,NA,NA,NA,0
+"performance","evaluationDataStats","trueSkillStatistic",NA,"Numeric",NA,NA,NA,NA,0
+"performance","evaluationDataStats","truePositiveRate",NA,"Numeric",NA,NA,NA,NA,0
+"performance","evaluationDataStats","trueNegativeRate",NA,"Numeric",NA,NA,NA,NA,0
+"performance","evaluationDataStats","falsePositiveRate",NA,"Numeric",NA,NA,NA,NA,0
+"performance","evaluationDataStats","falseNegativeRate",NA,"Numeric",NA,NA,NA,NA,0
+"performance","performanceNotes",NA,NA,"Character",NA,NA,NA,NA,1
+"misc","authorNotes",NA,NA,"Character",NA,NA,NA,NA,1
+"misc","miscNotes",NA,NA,"Character",NA,NA,NA,NA,1
+"code","wallaceSettings",NA,NA,NA,NA,NA,NA,"If using Wallace",0
+"code","software","platform",NA,"Character vector","bibtex","Example 1: @Manual{,
     title = {R: A Language and Environment for Statistical Computing},
     author = {{R Core Team}},
     organization = {R Foundation for Statistical Computing},
     address = {Vienna, Austria},
     year = {2017},
     url = {https://www.R-project.org/},
-  }","A single bibtex format citation or a vector of bibtex format citations.  Should contain the platform (or platflorms) used in the analysis,",NA,NA
-"96","code","software","packages",NA,"Character vector","bibtex","@Manual{,
+  }","A single bibtex format citation or a vector of bibtex format citations.  Should contain the platform (or platflorms) used in the analysis,",NA,1
+"code","software","packages",NA,"Character vector","bibtex","Example 1: @Manual{,
     title = {dismo: Species Distribution Modeling},
     author = {Robert J. Hijmans and Steven Phillips and John Leathwick and Jane Elith},
     year = {2017},
     note = {R package version 1.1-4},
     url = {https://CRAN.R-project.org/package=dismo},
-  }","A single bibtex format citation or a vector of bibtex format citations.  Should contain all packages used in the workflow.",NA,NA
-"97","code","demoCode",NA,NA,NA,NA,NA,NA,NA,NA
-"98","code","fullCode",NA,NA,NA,NA,NA,NA,NA,NA
-"99","code","codeNotes",NA,NA,"Character",NA,NA,NA,NA,NA
+  }","A single bibtex format citation or a vector of bibtex format citations.  Should contain all packages used in the workflow.",NA,1
+"code","demoCode",NA,NA,NA,NA,NA,NA,NA,0
+"code","fullCode",NA,NA,NA,NA,NA,NA,NA,0
+"code","codeNotes",NA,NA,"Character",NA,NA,NA,NA,0
