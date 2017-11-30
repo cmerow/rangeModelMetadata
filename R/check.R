@@ -59,7 +59,9 @@ rmmNameCheck=function(rmm){
       }
 
   list_names<-capture.output(nametree(rmm))
-  dd=read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetaData'), stringsAsFactors = T)
+
+  dd=read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+
   accepted_names<-c(as.character(dd$Field1), as.character(dd$Field2), as.character(dd$Field3), as.character(dd$Field4))
 
   questionable_names <- list_names[which(!list_names%in%accepted_names)]
@@ -93,5 +95,43 @@ rmmNameCheck=function(rmm){
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
 
 rmmPrintEmpty=function(rmm,obligateOnly=FALSE){
+
+  ##nametree function by Vincent Zoonekynd
+  #nametree <- function(X, prefix = "")
+  #  if( is.list(X) )
+  #    for( i in seq_along(X) ) {
+  #      cat( prefix, names(X)[i], "\n", sep="" )
+  #      nametree(X[[i]], paste0(prefix, ""))
+  #    }
+
+
+  is.NullOb <- function(x) is.null(x) | all(sapply(x, is.null))
+
+  ## Recursively step down into list, removing all such objects
+  rmNullObs <- function(x) {
+    x <- Filter(Negate(is.NullOb), x)
+    lapply(x, function(x) if (is.list(x)) rmNullObs(x) else x)
+
+  }
+
+
+  #list_names <- capture.output(nametree(rmm))
+
+  #if(obligateOnly){
+
+  #  dd=read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  #  dd<-dd[which(dd$Obligate==1),]
+  #  accepted_names<-c(as.character(dd$Field1), as.character(dd$Field2), as.character(dd$Field3), as.character(dd$Field4))
+  #  list_names<-list_names[which(list_names%in%accepted_names)]
+
+
+  #}
+
+  #non_null_names<-rmNullObs(x = rmm)
+  #rmm<-rmNullObs(rmm)
+  #non_null_names<-capture.output(nametree(rmm))
+  #empty_names<-list_names[which(!list_names%in%non_null_names)]
+
+  #return(empty_names)
 
 }
