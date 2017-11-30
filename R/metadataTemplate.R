@@ -25,7 +25,7 @@
 
 rangeModelMetadataTemplate=function(obligateOnly=TRUE){
 
-  dd=read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetaData'), stringsAsFactors = )
+  dd=read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetaData'),stringsAsFactors=F)
 
   #== Level 1 fields
   field1=as.character(unique(dd$Field1))

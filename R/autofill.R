@@ -1,4 +1,4 @@
-#' @title
+#' @title Add all package citations to an rmm object
 #'
 #' @description
 #'
@@ -45,14 +45,15 @@ rmmAutofillPackageCitation=function(packages){
 ##############################################################################################
 ##############################################################################################
 
-#' @title
+#' @title  Add relevant environmental data information to an rmm object
 #'
-#' @description
+#' @description This can be used with environmental layers used for fitting or transferring
 #'
 #' @details
 #' See Examples.
 #'
-#' @param
+#' @param rrm an rmm list
+#' @param env a raster stack
 #' @export
 #'
 # @examples
@@ -68,7 +69,7 @@ rmmAutofillPackageCitation=function(packages){
 # line.
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
 
-rmmAutofillEnvironment=function(rmm,env){
+rmmAutofillEnvironment=function(rmm,env,transfer=FALSE){
 
 }
 
@@ -76,13 +77,14 @@ rmmAutofillEnvironment=function(rmm,env){
 ##############################################################################################
 ##############################################################################################
 
-#' @title
+#' @title Add relevant model info to an rmm object
 #'
 #' @description
 #'
 #' @details
 #' See Examples.
 #'
+#' @param rrm an rmm list
 #' @param
 #' @export
 #'
@@ -107,14 +109,15 @@ rmmAutofillModelObj=function(rmm,modelObj){
 ##############################################################################################
 ##############################################################################################
 
-#' @title
+#' @title Add relevant model prediction info to an rmm object
 #'
 #' @description
 #'
 #' @details
 #' See Examples.
 #'
-#' @param
+#' @param rrm an rmm list
+#' @param prediction a raster layer or stack
 #' @export
 #'
 # @examples
