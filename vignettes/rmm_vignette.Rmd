@@ -1,0 +1,52 @@
+---
+title: "An overview of making rangeModelMetadata objects"
+author: "Cory Merow, Brian Maitner"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    fig_caption: yes
+    toc: true
+    toc_depth: 3
+vignette: >
+  %\VignetteIndexEntry{An overview of making rangeModelMetadata objects}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(rangeModelMetaData)
+```
+
+A simple `rmm` object is a list.
+```{r}
+rmm1=rangeModelMetadataTemplate(obligateOnly=T)
+str(rmm1)
+```
+
+A more complex `rmm` object with all predefined fields.
+```{r}
+rmm2=rangeModelMetadataTemplate()
+str(rmm2)
+```
+
+Not sure what to enter in different fields? We can suggest options.
+
+```{r}
+rangeModelMetaData:::rmmSuggest('dataPrep')
+rangeModelMetaData:::rmmSuggest('dataPrep$errors$duplicateRemoval')
+rangeModelMetaData:::rmmSuggest('dataPrep$errors$duplicateRemoval$rule')
+```
+
+Another more complex example
+
+```{r}
+rangeModelMetaData:::rmmSuggest('model')
+rangeModelMetaData:::rmmSuggest('model$algorithmSettings$')
+rangeModelMetaData:::rmmSuggest('model$algorithmSettings$maxent$')
+rangeModelMetaData:::rmmSuggest('$model$algorithmSettings$maxent$featureSet')
+```
+

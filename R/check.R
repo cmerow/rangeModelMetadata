@@ -67,3 +67,31 @@ rmmNameCheck=function(rmm){
   return(questionable_names)
 
 }
+
+#' @title Check if fields are empty in a range model metadata list
+#'
+#' @description
+#'
+#' @details
+#' See Examples.
+#'
+#' @param rmm a range model metadata list
+#' @param obligateOnly logical; only show empty obligat fields
+#' @export
+#'
+# @examples
+#'
+#'
+#' @return
+#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+#' @note
+# @seealso
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+
+rmmPrintEmpty=function(rmm,obligateOnly=FALSE){
+
+}
