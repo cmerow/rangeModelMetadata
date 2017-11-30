@@ -1,6 +1,6 @@
-#' @title
+#' @title Clean unused fields from range model metadata list
 #'
-#' @description
+#' @description Only optional fields that are empty are removed.
 #'
 #' @details
 #' See Examples.
@@ -26,9 +26,9 @@ rmmCleanEmpties=function(rmm){
 }
 
 
-#' @title
+#' @title Check field names of a range model metadata list against convections
 #'
-#' @description
+#' @description Identify nonstandard fields
 #'
 #' @details
 #' See Examples.
