@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-library(rangeModelMetaData)
+library(rangeModelMetadata)
 ```
 
 A simple `rmm` object is a list.
@@ -36,17 +36,17 @@ str(rmm2)
 Not sure what to enter in different fields? We can suggest options.
 
 ```{r}
-rangeModelMetaData:::rmmSuggest('dataPrep')
-rangeModelMetaData:::rmmSuggest('dataPrep$errors$duplicateRemoval')
-rangeModelMetaData:::rmmSuggest('dataPrep$errors$duplicateRemoval$rule')
+rangeModelMetadata:::rmmSuggest('dataPrep')
+rangeModelMetadata:::rmmSuggest('dataPrep$errors$duplicateRemoval')
+rangeModelMetadata:::rmmSuggest('dataPrep$errors$duplicateRemoval$rule')
 ```
 
 Another more complex example
 
 ```{r}
-rangeModelMetaData:::rmmSuggest('model')
-rangeModelMetaData:::rmmSuggest('model$algorithmSettings$')
-rangeModelMetaData:::rmmSuggest('model$algorithmSettings$maxent$')
-rangeModelMetaData:::rmmSuggest('$model$algorithmSettings$maxent$featureSet')
+rangeModelMetadata:::rmmSuggest('model')
+rangeModelMetadata:::rmmSuggest('model$algorithmSettings$')
+rangeModelMetadata:::rmmSuggest('model$algorithmSettings$maxent$')
+rangeModelMetadata:::rmmSuggest('$model$algorithmSettings$maxent$featureSet')
 ```
 

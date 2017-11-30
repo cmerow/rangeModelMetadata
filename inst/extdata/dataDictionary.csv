@@ -106,6 +106,11 @@
 "performance","trainingDataStats","trueNegativeRate",NA,"Numeric",NA,"See R package ROCR",0,NA
 "performance","trainingDataStats","falsePositiveRate",NA,"Numeric",NA,"See R package ROCR",0,NA
 "performance","trainingDataStats","falseNegativeRate",NA,"Numeric",NA,"See R package ROCR",0,NA
+"performance","trainingDataStats","binaryThreshold",NA,"Numeric",NA,"See R package ROCR",0,NA
+"performance","trainingDataStats","Boyce",NA,"Numeric",NA,"See R package ecospat",0,NA
+"performance","trainingDataStats","pAUC",NA,"Numeric",NA,"See R package pAUC",0,NA
+"performance","trainingDataStats","pAUCLoThreshold",NA,"Numeric",NA,"See R package pAUC",0,NA
+"performance","trainingDataStats","pAUCHiThreshold",NA,"Numeric",NA,"See R package pAUC",0,NA
 "performance","trainingDataStats","AIC",NA,"Numeric",NA,NA,0,NA
 "performance","trainingDataStats","BIC",NA,"Numeric",NA,NA,0,NA
 "performance","trainingDataStats","DIC",NA,"Numeric",NA,NA,0,NA
@@ -117,6 +122,7 @@
 "performance","testingDataStats","trueNegativeRate",NA,"Numeric",NA,"See R package ROCR",0,NA
 "performance","testingDataStats","falsePositiveRate",NA,"Numeric",NA,"See R package ROCR",0,NA
 "performance","testingDataStats","falseNegativeRate",NA,"Numeric",NA,"See R package ROCR",0,NA
+"performance","testingDataStats","Boyce",NA,"Numeric",NA,"See R package ecospat",0,NA
 "performance","evaluationDataStats","AUC",NA,"Numeric",NA,"See R package ROCR",0,NA
 "performance","evaluationDataStats","pearsonCor",NA,"Numeric",NA,"See R package ROCR",0,NA
 "performance","evaluationDataStats","CohensKappa",NA,"Numeric",NA,"See R package ROCR",0,NA
@@ -125,6 +131,7 @@
 "performance","evaluationDataStats","trueNegativeRate",NA,"Numeric",NA,"See R package ROCR",0,NA
 "performance","evaluationDataStats","falsePositiveRate",NA,"Numeric",NA,"See R package ROCR",0,NA
 "performance","evaluationDataStats","falseNegativeRate",NA,"Numeric",NA,"See R package ROCR",0,NA
+"performance","evaluationDataStats","Boyce",NA,"Numeric",NA,"See R package ecospat",0,NA
 "performance","performanceNotes",NA,NA,"Character",NA,"User specified",1,NA
 "misc","authorNotes",NA,NA,"Character",NA,"User specified",1,NA
 "misc","miscNotes",NA,NA,"Character",NA,"User specified",1,NA

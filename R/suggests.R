@@ -32,7 +32,7 @@ rmmSuggest=function(charString){
   # toss leading $ if it occures
   if(substr(charString,1,1)=='$') charString=substr(charString,2,nchar(charString))
 
-  dd=read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetaData'),stringsAsFactors = F)
+  dd=read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
   out=sapply(c('type','suggestions'),function(x) NULL)
   fields=unlist(strsplit(charString,'$',fixed=T))
   for(i in 1:length(fields)){ dd=subset(dd,dd[,i]==fields[i])}

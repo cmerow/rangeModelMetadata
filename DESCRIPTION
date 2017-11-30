@@ -1,4 +1,4 @@
-Package: rangeModelMetaData
+Package: rangeModelMetadata
 Type: Package
 Title: Provides templates for metadata files associated with species range models
 Version: 0.1.0

@@ -23,9 +23,10 @@
 # line.
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
 
+# change obligateOnly to a column name in the data dictionary for a particular template
 rangeModelMetadataTemplate=function(obligateOnly=TRUE){
 
-  dd=read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetaData'),stringsAsFactors=F)
+  dd=read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
 
   #== Level 1 fields
   field1=as.character(unique(dd$Field1))
