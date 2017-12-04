@@ -5,7 +5,7 @@
 #' @details
 #' See Examples.
 #'
-#' @param obligateOnly logical
+#' @param useCase character string; 'apAll', 'apObligate', 'apMinimal'
 #' @export
 #'
 #' @examples
@@ -24,33 +24,47 @@
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
 
 # change obligateOnly to a column name in the data dictionary for a particular template
-rangeModelMetadataTemplate=function(obligateOnly=TRUE){
+
+rangeModelMetadataTemplate=function(useCase='apAll'){
+
+  # for testing
+  # useCase='apObligate'
+
+  if(!(useCase %in% c('apAll','apObligate','apMinimal'))) stop('specifiy a correct useCase')
 
   dd=read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
 
+  # convert to old format that worked with other code
+  dd=.rmmLeftJustify(dd)
+
   #== Level 1 fields
-  field1=as.character(unique(dd$Field1))
+  field1=as.character(unique(dd$field1))
   rmm=sapply(field1,function(x) NULL)
 
   #== Level 2-4 fields
   for(i in 1:length(rmm)){
-    if(obligateOnly){
-      dd.f2=subset(dd,Field1==names(rmm)[i] & Obligate==1)
-    } else {dd.f2=subset(dd,Field1==names(rmm)[i])}
-    field2=as.character(unique(dd.f2$Field2))
+    if(!useCase=='apAll'){
+      dd.f2=dd[dd$field1==names(rmm)[i] & dd[,useCase]==1,]
+    } else {dd.f2=subset(dd,field1==names(rmm)[i])}
+  #paste0(dd.f2[,c('field2','field3','entity')],collapse='$')
+
+    field2=as.character(unique(dd.f2$field2))
     rmm[[i]]=sapply(field2,function(x) NULL)
     for(j in 1:length(field2)){
-      if(obligateOnly){
-        dd.f3=subset(dd.f2,Field2==names(rmm[[i]])[j]  & Obligate==1)
-      } else { dd.f3=subset(dd.f2,Field2==names(rmm[[i]])[j]) }
-      field3=as.character(unique(dd.f3$Field3))
-      if(!all(is.na(field3))){
+      if(!useCase=='apAll'){
+        dd.f3=dd.f2[dd.f2$field2==names(rmm[[i]])[j] & dd.f2[,useCase]==1,]
+          #subset(dd.f2,field2==names(rmm[[i]])[j]  & Obligate==1)
+      } else { dd.f3=subset(dd.f2,field2==names(rmm[[i]])[j]) }
+      field3=as.character(unique(dd.f3$field3))
+      if(!all(is.na(field3) | is.null(field3) | field3=='')){
         rmm[[i]][[j]]=sapply(field3,function(x) NULL)
         for(k in 1:length(field3)){
-          if(obligateOnly){ dd.f4=subset(dd.f3,Field3==names(rmm[[i]][[j]])[k] & Obligate==1)
-          } else {  dd.f4=subset(dd.f3,Field3==names(rmm[[i]][[j]])[k]) }
-          field4=as.character(unique(dd.f4$Field4))
-          if(!all(is.na(field4))) rmm[[i]][[j]][[k]]=sapply(field4,function(x) NULL)
+          if(!useCase=='apAll'){
+            dd.f4=dd.f3[dd.f3$field3==names(rmm[[i]][[j]])[k] & dd.f3[,useCase]==1,]
+              #subset(dd.f3,field3==names(rmm[[i]][[j]])[k] & Obligate==1)
+          } else {  dd.f4=subset(dd.f3,field3==names(rmm[[i]][[j]])[k]) }
+          field4=as.character(unique(dd.f4$entity))
+          if(!all(is.na(field4) | is.null(field4) | field4=='')) rmm[[i]][[j]][[k]]=sapply(field4,function(x) NULL)
         }
       }
     }

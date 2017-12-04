@@ -4,7 +4,22 @@
 \alias{rmmSuggest}
 \title{Suggest inputs for a range model metadata list}
 \usage{
-rmmSuggest(charString)
+rmmSuggest(charString, fullFieldDepth = FALSE)
+}
+\arguments{
+\item{charString}{string referencing fields of the form `field1$field2` or `field1$field2$field3`, etc.}
+
+\item{fullFieldDepth}{print all fields below the current field depth
+
+rmm1=rangeModelMetadataTemplate('apAll')
+rmmSuggest('dataPrep',fullFieldDepth=FALSE)
+rmmSuggest('dataPrep',fullFieldDepth=TRUE)
+rmmSuggest('dataPrep$errors$duplicateRemoval')
+rmmSuggest('dataPrep$errors$duplicateRemoval$rule')
+rmmSuggest('model')
+rmmSuggest('model$algorithmSettings$')
+rmmSuggest('model$algorithmSettings$maxent$')
+rmmSuggest('$model$algorithmSettings$maxent$featureSet')}
 }
 \description{
 Supply fields to receive suggested inputs

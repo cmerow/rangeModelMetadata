@@ -9,11 +9,12 @@
 #'
 #' @param filename The name of the transcription .csv file.
 #'
-#' @export
 #'
-# @examples
-#'
-#'
+#' @examples
+#' outFile=system.file("extdata/demo_rmmToCSV.csv",package='rangeModelMetadata')
+#' rmmObj=rangeModelMetadataTemplate('apAll')
+#' #rmmToCSV(rmmObj,filename=outFile)
+#' #system(paste0('open ' outFile))
 #' @return
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>, Hannah Owens <hannah.owens@@gmail.com
 #' @note
@@ -23,8 +24,9 @@
 # this documentation when the user looks them up from the command
 # line.
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @export
 
-toCSV=function(x = rangeModelMetadataTemplate(obligate = T), filename = NULL){
+rmmToCSV=function(x = rangeModelMetadataTemplate('apAll'), filename = NULL){
   #Verify user has passed the function an rmm object
   if (!class(x) == "list"){
     warning("Target input invalid. Input must be of class 'list'.\n");
@@ -41,7 +43,7 @@ toCSV=function(x = rangeModelMetadataTemplate(obligate = T), filename = NULL){
 
   #Loop through list of lists to fill the table
   for (i in 1:length(x)){
-    if(is.null(names(x[[i]][j]))){
+    if(is.null(names(x[[i]][j]))){ # there's a lonely j here
       csvTable <- rbind(csvTable, c(names(x)[i],"BLANK", "BLANK", "BLANK"));
     }
     else{

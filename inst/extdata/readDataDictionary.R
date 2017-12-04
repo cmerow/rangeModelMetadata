@@ -1,7 +1,7 @@
 library(googlesheets)
 
 d_title=gs_title('Model Metadata Dictionary')
-d=as.data.frame(gs_read(d_title))
+d=as.data.frame(gs_read(d_title),stringsAsFactors=F)
 
 
 #== Write out the dictionary to the package for use with building the metadata template

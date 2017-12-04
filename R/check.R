@@ -104,17 +104,27 @@ rmmPrintEmpty=function(rmm,obligateOnly=FALSE){
   #      nametree(X[[i]], paste0(prefix, ""))
   #    }
 
-
-  is.NullOb <- function(x) is.null(x) | all(sapply(x, is.null))
-
-  ## Recursively step down into list, removing all such objects
-  rmNullObs <- function(x) {
-    x <- Filter(Negate(is.NullOb), x)
-    lapply(x, function(x) if (is.list(x)) rmNullObs(x) else x)
-
-  }
-
-
+  # rmm=rangeModelMetadataTemplate()
+  # rmm1=rmm
+  # is.NullOb <- function(x) is.null(x) | all(sapply(x, is.null))
+  #
+  # for(i in 1:length(rmm)){
+  #   #rmm1[[i]]=
+  #     is.null(rmm1[[i]])
+  #     is.NullOb(rmm1[[i]])
+  # }
+  #
+  # a=list(ww=1,ee=2)
+  # a$ww=NULL
+  #
+  # ## Recursively step down into list, removing all such objects
+  # rmNullObs <- function(x) {
+  #   x <- Filter(Negate(is.NullOb), x)
+  #   lapply(x, function(x) if (is.list(x)) rmNullObs(x) else x)
+  #
+  # }
+  #
+  # rmNullObs(rmm)
   #list_names <- capture.output(nametree(rmm))
 
   #if(obligateOnly){

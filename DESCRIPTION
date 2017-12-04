@@ -2,7 +2,7 @@ Package: rangeModelMetadata
 Type: Package
 Title: Provides templates for metadata files associated with species range models
 Version: 0.1.0
-Author: Cory Merow, Brian Maitner
+Author: Cory Merow, Brian Maitner, Hannah Owens
 Maintainer: Cory Merow <cory.merow@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.

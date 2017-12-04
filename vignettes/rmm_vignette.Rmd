@@ -1,6 +1,6 @@
 ---
 title: "An overview of making rangeModelMetadata objects"
-author: "Cory Merow, Brian Maitner"
+author: "Cory Merow, Brian Maitner, Hannah Owens"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
@@ -23,30 +23,37 @@ library(rangeModelMetadata)
 
 A simple `rmm` object is a list.
 ```{r}
-rmm1=rangeModelMetadataTemplate(obligateOnly=T)
+rmm1=rangeModelMetadataTemplate(useCase='apObligate')
 str(rmm1)
 ```
 
 A more complex `rmm` object with all predefined fields.
 ```{r}
-rmm2=rangeModelMetadataTemplate()
+rmm2=rangeModelMetadataTemplate(useCase='apAll')
 str(rmm2)
 ```
 
 Not sure what to enter in different fields? We can suggest options.
 
 ```{r}
-rangeModelMetadata:::rmmSuggest('dataPrep')
-rangeModelMetadata:::rmmSuggest('dataPrep$errors$duplicateRemoval')
-rangeModelMetadata:::rmmSuggest('dataPrep$errors$duplicateRemoval$rule')
+rmmSuggest('dataPrep',fullFieldDepth=FALSE)
+rmmSuggest('dataPrep',fullFieldDepth=TRUE) # for all fields below the specified one
+rmmSuggest('dataPrep$errors$duplicateRemoval')
+rmmSuggest('dataPrep$errors$duplicateRemoval$rule')
 ```
 
 Another more complex example
 
 ```{r}
-rangeModelMetadata:::rmmSuggest('model')
-rangeModelMetadata:::rmmSuggest('model$algorithmSettings$')
-rangeModelMetadata:::rmmSuggest('model$algorithmSettings$maxent$')
-rangeModelMetadata:::rmmSuggest('$model$algorithmSettings$maxent$featureSet')
+rmmSuggest('model')
+rmmSuggest('model$algorithmSettings$')
+rmmSuggest('model$algorithmSettings$maxent$')
+rmmSuggest('$model$algorithmSettings$maxent$featureSet')
+```
+
+
+To make `rmm` objects portable to other interfaces, they are readily written to csv format.
+```{r}
+
 ```
 

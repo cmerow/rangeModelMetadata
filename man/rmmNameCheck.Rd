@@ -2,18 +2,24 @@
 % Please edit documentation in R/check.R
 \name{rmmNameCheck}
 \alias{rmmNameCheck}
-\title{Check field names of a range model metadata list against convections}
+\title{Check field names of a range model metadata list against conventions}
 \usage{
 rmmNameCheck(rmm)
 }
 \arguments{
 \item{rmm}{a range model metadata list}
 }
+\value{
+A vector of names that are not found in the range model metadata dictionary.
+}
 \description{
 Identify nonstandard fields
 }
 \details{
 See Examples.
+}
+\note{
+Names returned by this check may be either incorrectly named or correctly named but missing from the data dictionary.
 }
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,

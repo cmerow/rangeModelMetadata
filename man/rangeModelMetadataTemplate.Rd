@@ -4,10 +4,10 @@
 \alias{rangeModelMetadataTemplate}
 \title{Range modeling metadata}
 \usage{
-rangeModelMetadataTemplate(obligateOnly = TRUE)
+rangeModelMetadataTemplate(useCase = "apAll")
 }
 \arguments{
-\item{obligateOnly}{logical}
+\item{useCase}{character string; 'apAll', 'apObligate', 'apMinimal'}
 }
 \description{
 Make an empty metadata list

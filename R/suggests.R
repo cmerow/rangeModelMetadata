@@ -5,12 +5,13 @@
 #' @details
 #' See Examples.
 #'
-#' @param
-#' @export
+#' @param charString string referencing fields of the form `field1$field2` or `field1$field2$field3`, etc.
+#' @param fullFieldDepth print all fields below the current field depth
 #'
 # @examples
-#' rmm1=rangeModelMetadataTemplate(FALSE)
-#' rmmSuggest('dataPrep')
+#' rmm1=rangeModelMetadataTemplate('apAll')
+#' rmmSuggest('dataPrep',fullFieldDepth=FALSE)
+#' rmmSuggest('dataPrep',fullFieldDepth=TRUE)
 #' rmmSuggest('dataPrep$errors$duplicateRemoval')
 #' rmmSuggest('dataPrep$errors$duplicateRemoval$rule')
 #' rmmSuggest('model')
@@ -27,26 +28,39 @@
 # this documentation when the user looks them up from the command
 # line.
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
-rmmSuggest=function(charString){
+#' @export
+
+rmmSuggest=function(charString,fullFieldDepth=FALSE){
+
+  #  for testing
+  #  head(dd1[,1:6],20)
 
   # toss leading $ if it occures
   if(substr(charString,1,1)=='$') charString=substr(charString,2,nchar(charString))
 
   dd=read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  dd=.rmmLeftJustify(dd)
+
   out=sapply(c('type','suggestions'),function(x) NULL)
   fields=unlist(strsplit(charString,'$',fixed=T))
-  for(i in 1:length(fields)){ dd=subset(dd,dd[,i]==fields[i])}
-  if(nrow(dd)>1){
-    suggestions=unique(dd[,i+1])
-    suggestions=gsub('<','',  suggestions)
-    suggestions=gsub('>','',  suggestions)
-    suggestions=make.names(suggestions)
-    suggestions=gsub('\\.(\\w?)', '\\U\\1', suggestions, perl=T)
-    out$type=names(dd)[i+1]
-    out$suggestions=paste0(charString,"$",suggestions)
+  dd1=dd
+  # subset to get just the rows related to the charString
+  for(i in 1:length(fields)) dd1=subset(dd1,dd1[,i]==fields[i])
+
+  if(nrow(dd1)>1){
+    if(!fullFieldDepth){
+      suggestions=unique(dd1[,i+1])
+      suggestions=make.names(suggestions)
+      suggestions=gsub('\\.(\\w?)', '\\U\\1', suggestions, perl=T)
+      out$suggestions=paste0(charString,"$",suggestions)
+    } else {
+      out$suggestions=as.vector(apply(dd1[,1:4],1,function(x) gsub('$NA','',paste0(x,collapse='$'),fixed=T)))
+    }
+    out$type=names(dd1)[i+1]
   } else {
-    out$type=dd$Type
-    out$suggestions= strsplit(dd$Example,'; ')[[1]]
+    out$type=dd1$type
+    out$suggestions= strsplit(dd1$example,'; ')[[1]]
+    out$suggestions=gsub(';','',out$suggestions)
   }
 
 
