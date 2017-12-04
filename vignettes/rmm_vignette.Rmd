@@ -53,7 +53,10 @@ rmmSuggest('$model$algorithmSettings$maxent$featureSet')
 
 
 To make `rmm` objects portable to other interfaces, they are readily written to csv format.
-```{r}
-
+```{r,eval=F}
+outFile='~/Desktop/demo_rmmToCSV.csv'
+rmmObj=rangeModelMetadataTemplate('apAll')
+rmmToCSV(rmmObj,filename=outFile)
+system(paste0('open ', outFile, ' -a "Microsoft Excel"'))
 ```
 

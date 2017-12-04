@@ -11,10 +11,13 @@
 #'
 #'
 #' @examples
-#' outFile=system.file("extdata/demo_rmmToCSV.csv",package='rangeModelMetadata')
+#' #outFile=paste0(path.package('rangeModelMetadata'),"/inst/extdata/demo_rmmToCSV.csv")
+#' \dontrun{
+#' outFile='~/Desktop/demo_rmmToCSV.csv'
 #' rmmObj=rangeModelMetadataTemplate('apAll')
-#' #rmmToCSV(rmmObj,filename=outFile)
-#' #system(paste0('open ' outFile))
+#' rmmToCSV(rmmObj,filename=outFile)
+#' system(paste0('open ', outFile, ' -a "Microsoft Excel"'))
+#' }
 #' @return
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>, Hannah Owens <hannah.owens@@gmail.com
 #' @note
@@ -39,27 +42,26 @@ rmmToCSV=function(x = rangeModelMetadataTemplate('apAll'), filename = NULL){
   }
 
   #Generate headers for table
-  csvTable <- c("Field 1", "Field 2", "Field 3", "Value");
+  csvTable <- c("field 1", "field 2", "field 3", "entity");
 
   #Loop through list of lists to fill the table
   for (i in 1:length(x)){
-    if(is.null(names(x[[i]][j]))){ # there's a lonely j here
+    if(is.null(names(x[[i]]))){ # there's a lonely j here
+    #if(is.null(names(x[[i]][j]))){ # there's a lonely j here
       csvTable <- rbind(csvTable, c(names(x)[i],"BLANK", "BLANK", "BLANK"));
-    }
-    else{
+    } else {
       for (j in 1:length(x[[i]])){
-        if(is.null(names(x[[i]][[j]][k]))){
+        if(is.null(names(x[[i]][[j]]))){
+        #if(is.null(names(x[[i]][[j]][k]))){
           csvTable <- rbind(csvTable,c(names(x)[i],names(x[[i]])[j], "BLANK", "BLANK"));
-        }
-        else{
+        } else {
           for (k in 1:length(x[[i]][[j]])){
             if (is.null(unlist(x[[i]][[j]][k]))){
               csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], "BLANK"));
-            }
-            else{
+            } else {
               csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], unlist(x[[1]][[1]][1])));
             }
-          }
+          } # end k
         }
       }
     }

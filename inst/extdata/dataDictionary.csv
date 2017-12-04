@@ -1,56 +1,56 @@
-"field1","field2","field3","entity","type","values","valuesConstrained","example","description","apObligate","apMinimalist","AP_Presence_Only","AP_Presence_Absence","AP_Forecasting","AP_dismo","AP_biomod2","Questions"
-"data","occurrence",NA,"taxaVector","Character vector",NA,"no","Acer rubrum; Nasua_nasua;","A character vector containing all of the taxa used in the model(s).",1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"data","occurrence",NA,"occurrenceDataType","Character","presence only; presence abscence; abundance; occupancy","kinda","presence only;  presence abscence; abundance","The type of records used in modeling.",1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"data","occurrence",NA,"yearMin","Integer",NA,"no","1900; NA","If a temporal range of records was used, this is the earliest year used.  Abscence or NA implies that there was no lower limit.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"data","occurrence",NA,"yearMax","Integer",NA,"no","2000; NA","If a temporal range of records was used, this is the latest year used.  Abscence or NA implies there is no upper boundary used.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"data","occurrence",NA,"sources","Character vector",NA,"no","@article{maitner2017bien,
+"field1","field2","field3","entity","type","speciesSpecific","values","valuesConstrained","example","description","apObligate","apMinimalist","AP_Presence_Only","AP_Presence_Absence","AP_Forecasting","AP_dismo","AP_biomod2","Questions"
+"data","occurrence",NA,"taxaVector","character vector","yes",NA,"no","Acer rubrum; Nasua_nasua;","A character vector containing all of the taxa used in the model(s).",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","occurrence",NA,"occurrenceDataType","character","no","presence only; presence abscence; abundance; occupancy","kinda","presence only;  presence abscence; abundance","The type of records used in modeling.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","occurrence",NA,"yearMin","integer vector","kinda",NA,"no","1900; NA","If a temporal range of records was used, this is the earliest year used.  Abscence or NA implies that there was no lower limit.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","occurrence",NA,"yearMax","integer vector","kinda",NA,"no","2000; NA","If a temporal range of records was used, this is the latest year used.  Abscence or NA implies there is no upper boundary used.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","occurrence",NA,"sources","character vector","kinda",NA,"no","@article{maitner2017bien,
   title={The bien r package: A tool to access the Botanical Information and Ecology Network (BIEN) database},
   author={Maitner, Brian S and Boyle, Brad and Casler, Nathan and Condit, Rick and Donoghue, John and Dur{\'a}n, Sandra M and Guaderrama, Daniel and Hinchliff, Cody E and J{\o}rgensen, Peter M and Kraft, Nathan JB and others},
   journal={Methods in Ecology and Evolution},
   year={2017},
   publisher={Wiley Online Library}
-}","A single bibtex format citation or a vector of bibtex format citations.",1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"data","occurrence",NA,"presenceSampleSize","Integer",NA,"no",NA,NA,1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"data","occurrence",NA,"absenceSampleSize","Integer",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"data","occurrence",NA,"backgroundSampleSize","Integer",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"data","environment",NA,"variableName","Character vector","bio1; bio2; bio3; bio4; bio5; bio6; bio7; bio8; bio9; bio10; bio11; bio12; bio13; bio14; bio15; bio16; bio17; bio18; bio19;","kinda",NA,"Environmental  variable names, preferably as they appear in the source.",1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"data","environment",NA,"yearMin","Integer",NA,"no","1970;","The first year of the temporal range of climate data in the environmental layers.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"data","environment",NA,"yearMax","Integer",NA,"no","2000;","The last year of the temporal range of climate data in the environmental layers.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"data","environment",NA,"sources","Character vector",NA,"no","@misc{hijmans2004worldclim,
+}","A single bibtex format citation or a vector of bibtex format citations.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","occurrence",NA,"presenceSampleSize","integer vector","yes",NA,"no",NA,NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","occurrence",NA,"absenceSampleSize","integer vector","yes",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","occurrence",NA,"backgroundSampleSize","integer vector","kinda",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","environment",NA,"variableName","character vector","kinda","bio1; bio2; bio3; bio4; bio5; bio6; bio7; bio8; bio9; bio10; bio11; bio12; bio13; bio14; bio15; bio16; bio17; bio18; bio19;","kinda",NA,"Environmental  variable names, preferably as they appear in the source.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","environment",NA,"yearMin","integer vector","kinda",NA,"no","1970;","The first year of the temporal range of climate data in the environmental layers.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","environment",NA,"yearMax","integer vector","kinda",NA,"no","2000;","The last year of the temporal range of climate data in the environmental layers.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","environment",NA,"sources","character vector","no",NA,"no","@misc{hijmans2004worldclim,
   title={The WorldClim interpolated global terrestrial climate surfaces. Version 1.3},
   author={Hijmans, RJ and Cameron, SE and Parra, JL and Jones, PG and Jarvis, A},
   year={2004}
-}","A single bibtex format citation or a vector of bibtex format citations.",1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"data",NA,NA,"dataNotes","Character",NA,"no",NA,"User specified",1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","errors","duplicateRemoval","rule","Character","environmental duplicates; coordinate duplicates; not needed; NA;","kinda","environmental duplicates; coordinate duplicates; not needed; NA;","If duplicate records were removed, what criteria were used for removal?",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","errors","duplicateRemoval","notes","Character",NA,"no","Duplicate removal performed on species with more than 10 occurrences;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","errors","oddPoints","rule","Character",NA,"no","latitude or longitude exactly 0; latitude or longitude an integer;","If points were excluded on the basis of some criteria, what were they?",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","errors","oddPoints","notes","Character",NA,"no","Points that corresponded to 100 km lea centroids were removed;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","geographic","geographicHarmonization","rule","Character","GNRS;  not needed; NA;","kinda","GNRS;  not needed; NA;","If an algorithm was used to standardize geographic or political names, which algorithm was used?",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","geographic","geographicHarmonization","notes","Character",NA,"no","Countries that could not be matched to GADM were manually corrected;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","geographic","geographicalOutlierRemoval","rule","Character",NA,"no","Countries with fewer than 5 records were excluded; not needed; NA;","If points were excluded on the basis of  being a geographic outlier, what criteria or algorithm was used?",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","geographic","geographicalOutlierRemoval","notes","Character",NA,"no","Geographical outliers were only removed for species with more than 10 occurrences;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","geographic","centroidRemoval","rule","Character","exact match; 0.98 likelihood score; not needed;","kinda","exact match; 0.98 likelihood score; not needed;","If  suspected centroid values were removed, what criteria were used to perform the removal?",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","geographic","centroidRemoval","notes","Character",NA,"no","Centroids analysis included both WGS84 and LEA centroids;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","geographic","pointInPolygon","rule","Character","country; state; county; not needed;","kinda","country; state; county; not needed;","If point-in-polygon checks were used, what geopolitical levels were the checks perfromed for?",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","geographic","pointInPolygon","notes","Character",NA,"no","Point in polygon testing was done at the lowest declared political division;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","biological","taxonimicHarmonization","rule","Character","TNRS; not needed;","kinda","TNRS; not needed;","If taxonomic harmonization was perfomed, which algorithm was used?",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","biological","taxonimicHarmonization","notes","Character",NA,"no","Taxa with no opinion in the TNRS were checked against ITIS.gov;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","biological","cultivatedRemoval","rule","Character","CSR; not needed;","kinda","CSR; not needed;","If cultivated records were removed, what algorithm or criteria were used?",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","biological","cultivatedRemoval","notes","Character",NA,"no","Cultivated invasives were not removed;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","biological","nonNativeRemoval","rule","Character","NSR; not needed;","kinda","NSR; not needed;","If introduced species were removed, what method/ source was used to assess native status?",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","biological","nonNativeRemoval","notes","Character",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","environmental","environmentalOutlierRemoval","rule","Character",NA,"no","algorithm name; not needed;","If environmental outliers were removed, which algorithm was used to determine outlier status?",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","environmental","environmentalOutlierRemoval","notes","Character",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","environmental","altitudeCheck","rule","Character",NA,"no","Altitude within 250 m of reported value; not needed;","If records were removed for having elevations reported that differ significantly from some source, what method was used?",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep","environmental",NA,"notes","Character",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"dataPrep",NA,NA,"dataPrepNotes","Character",NA,"no",NA,"User specified",1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model",NA,NA,"occurrenceTreatedAs","Character","point; cell; transect; polygon;","kinda","point; cell; transect; polygon;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model",NA,NA,"covariateScaling","Character","untransformed;  z-score; unit interval;","kinda","untransformed;  z-score; unit interval;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model",NA,NA,"occurrenceSubsampling","Character","5-fold cross validation; none;","kinda","5-fold cross validation; none;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model",NA,NA,"offset","Character",NA,"no","description;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model",NA,NA,"algorithm","Character","generalized linear model; generalized additive model; boosted regression trees; maxent; bioclim;  Poisson point process; range bagging; all biomod2 models;","kinda","generalized linear model; generalized additive model; boosted regression trees; maxent; bioclim;  Poisson point process; range bagging; all biomod2 models;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model",NA,NA,"algorithmCitation","Character vector",NA,"no","@article{phillips2006maximum,
+}","A single bibtex format citation or a vector of bibtex format citations.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data",NA,NA,"dataNotes","character","kinda",NA,"no",NA,"User specified",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","errors","duplicateRemoval","rule","character","no","environmental duplicates; coordinate duplicates; not needed; NA;","kinda","environmental duplicates; coordinate duplicates; not needed; NA;","If duplicate records were removed, what criteria were used for removal?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","errors","duplicateRemoval","notes","character","no",NA,"no","Duplicate removal performed on species with more than 10 occurrences;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","errors","oddPoints","rule","character","no",NA,"no","latitude or longitude exactly 0; latitude or longitude an integer;","If points were excluded on the basis of some criteria, what were they?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","errors","oddPoints","notes","character","no",NA,"no","Points that corresponded to 100 km lea centroids were removed;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","geographic","geographicHarmonization","rule","character","no","GNRS;  not needed; NA;","kinda","GNRS;  not needed; NA;","If an algorithm was used to standardize geographic or political names, which algorithm was used?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","geographic","geographicHarmonization","notes","character","no",NA,"no","Countries that could not be matched to GADM were manually corrected;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","geographic","geographicalOutlierRemoval","rule","character","no",NA,"no","Countries with fewer than 5 records were excluded; not needed; NA;","If points were excluded on the basis of  being a geographic outlier, what criteria or algorithm was used?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","geographic","geographicalOutlierRemoval","notes","character","no",NA,"no","Geographical outliers were only removed for species with more than 10 occurrences;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","geographic","centroidRemoval","rule","character","no","exact match; 0.98 likelihood score; not needed;","kinda","exact match; 0.98 likelihood score; not needed;","If  suspected centroid values were removed, what criteria were used to perform the removal?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","geographic","centroidRemoval","notes","character","no",NA,"no","Centroids analysis included both WGS84 and LEA centroids;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","geographic","pointInPolygon","rule","character","no","country; state; county; not needed;","kinda","country; state; county; not needed;","If point-in-polygon checks were used, what geopolitical levels were the checks perfromed for?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","geographic","pointInPolygon","notes","character","no",NA,"no","Point in polygon testing was done at the lowest declared political division;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","biological","taxonimicHarmonization","rule","character","no","TNRS; not needed;","kinda","TNRS; not needed;","If taxonomic harmonization was perfomed, which algorithm was used?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","biological","taxonimicHarmonization","notes","character","no",NA,"no","Taxa with no opinion in the TNRS were checked against ITIS.gov;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","biological","cultivatedRemoval","rule","character","no","CSR; not needed;","kinda","CSR; not needed;","If cultivated records were removed, what algorithm or criteria were used?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","biological","cultivatedRemoval","notes","character","no",NA,"no","Cultivated invasives were not removed;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","biological","nonNativeRemoval","rule","character","no","NSR; not needed;","kinda","NSR; not needed;","If introduced species were removed, what method/ source was used to assess native status?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","biological","nonNativeRemoval","notes","character","no",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","environmental","environmentalOutlierRemoval","rule","character","no",NA,"no","algorithm name; not needed;","If environmental outliers were removed, which algorithm was used to determine outlier status?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","environmental","environmentalOutlierRemoval","notes","character","no",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","environmental","altitudeCheck","rule","character","no",NA,"no","Altitude within 250 m of reported value; not needed;","If records were removed for having elevations reported that differ significantly from some source, what method was used?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","environmental",NA,"notes","character","no",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep",NA,NA,"dataPrepNotes","character vector","kinda",NA,"no",NA,"User specified",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model",NA,NA,"occurrenceTreatedAs","character","no","point; cell; transect; polygon;","kinda","point; cell; transect; polygon;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model",NA,NA,"covariateScaling","character","no","untransformed;  z-score; unit interval;","kinda","untransformed;  z-score; unit interval;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model",NA,NA,"occurrenceSubsampling","character","no","5-fold cross validation; none;","kinda","5-fold cross validation; none;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model",NA,NA,"offset","character","no",NA,"no","description;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model",NA,NA,"algorithm","character vector","kinda","generalized linear model; generalized additive model; boosted regression trees; maxent; bioclim;  Poisson point process; range bagging; all biomod2 models;","kinda","generalized linear model; generalized additive model; boosted regression trees; maxent; bioclim;  Poisson point process; range bagging; all biomod2 models;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model",NA,NA,"algorithmCitation","character vector","no",NA,"no","@article{phillips2006maximum,
   title={Maximum entropy modeling of species geographic distributions},
   author={Phillips, Steven J and Anderson, Robert P and Schapire, Robert E},
   journal={Ecological modelling},
@@ -59,108 +59,108 @@
   pages={231--259},
   year={2006},
   publisher={Elsevier}
-}",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","featureSet","Character","L; LQ; LQP; LQPT; LQPTH;  H; HT","kinda","L; LQ; LQP; LQPT; LQPTH;  H; HT","See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","featureRule","Character",NA,"no","L for <50 presences; LQ for >= 50 presences","See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","regularizationMultiplierSet","Numeric",NA,"no",NA,"See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","regularizationRule","Character",NA,"no","Chosen based on 5-fold cross validation on a grid of regularization multipliers from [0;10]","See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","convergenceThresholdSet","Numeric",NA,"no",NA,"See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","convergenceThresholdRule","Character",NA,"no",NA,"See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","backgroundSizeSet","Numeric Vector",NA,"no",NA,"See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","backgroundSizeRule","Character",NA,"no","increased until gain plateau","See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","samplingBiasRule","Character","target group; offset; none;","kinda","target group; offset; none;","See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","targetGroupSampleSize","Numeric",NA,"no",NA,"See: Phillips, S., M. Dudik, J. Elith, C. Graham, A. Lehmann, J. Leathwick, and S. Ferrier. 2009. Sample selection bias and presence-only distribution models: implications for background and pseudo-absence data. Ecological Applications 19:181–197.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","expertMapProbSet","Numeric",NA,"no",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","expertMapProbRule","Character",NA,"no","Based on proportion of presences correctly classified","See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","expertMapRateSet","Numeric",NA,"no",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","expertMapRateRule","Character",NA,"no",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","expertMapSkewSet","Numeric",NA,"no",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","expertMapSkewRule","Character",NA,"no",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","expertMapShiftSet","Numeric",NA,"no",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","expertMapShiftRule","Character",NA,"no",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"model","algorithmSettings","maxent","modelNotes","Character",NA,"no",NA,"User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","prediction",NA,"units","Character","absolute probability;  relative occurrence rate;","kinda","absolute probability;  relative occurrence rate;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","prediction",NA,"minVal","Numeric",NA,"no",NA,NA,1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","prediction",NA,"maxVal","Numeric",NA,"no",NA,NA,1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","prediction",NA,"threshold","Numeric Vector",NA,"no",NA,"only if binary/trinary",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","prediction",NA,"notes","Character",NA,"no",NA,"User specified",1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","transfer","environment1","yearMin","Integer",NA,"no",NA,"additional environments can be addded as environment2, environments3, etc.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","transfer","environment1","yearMax","Integer",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","transfer","environment1","sources","Character vector",NA,"no",NA,"A single bibtex format citation or a vector of bibtex format citations.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","transfer","environment1","extentMax","Numeric Vector",NA,"no","(xmin,xmax,ymin,ymax)",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","transfer","environment1","extentRule","Character",NA,"no","Buffered all points by 500km and joined the resulting polygons;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","transfer","environment1","resolution","Numeric",NA,"no",NA,"A single bibtex format citation or a vector of bibtex format citations.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","transfer","environment2","yearMin","Integer",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","transfer","environment2","yearMax","Integer",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","transfer","environment2","sources","Character vector",NA,"no",NA,"A single bibtex format citation or a vector of bibtex format citations.",1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","transfer","environment2","extentMax","Numeric Vector",NA,"no","(xmin,xmax,ymin,ymax)",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","transfer","environment2","extentRule","Character",NA,"no","Buffered all points by 500km and joined the resulting polygons;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","transfer","environment2","resolution","Numeric",NA,"no",NA,"The spatial resolution of the environmental raster.",1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","transfer",NA,"notes",NA,NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","transfer",NA,"extrapolation","Character","clamping; extrapolate function","kinda","clamping; extrapolate function","In Example 2, 'extrapolate function' indicates that the fitted functional form was not modified beyond the range of the data.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output",NA,NA,"ensembleRule","Character",NA,"no","Models weighted by AUC scores on test data;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","uncertainty",NA,"units","Character",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","uncertainty",NA,"minVal","Numeric",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","uncertainty",NA,"maxVal","Numeric",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"output","uncertainty",NA,"notes","Character",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"AUC","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"pearsonCor","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"CohensKappa","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"trueSkillStatistic","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"truePositiveRate","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"trueNegativeRate","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"falsePositiveRate","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"falseNegativeRate","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"binaryThreshold","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"Boyce","Numeric",NA,"no",NA,"See R package ecospat",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"pAUC","Numeric",NA,"no",NA,"See R package pAUC",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"pAUCLoThreshold","Numeric",NA,"no",NA,"See R package pAUC",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"pAUCHiThreshold","Numeric",NA,"no",NA,"See R package pAUC",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"AIC","Numeric",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"BIC","Numeric",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","trainingDataStats",NA,"DIC","Numeric",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","testingDataStats",NA,"AUC","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","testingDataStats",NA,"pearsonCor","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","testingDataStats",NA,"CohensKappa","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","testingDataStats",NA,"trueSkillStatistic","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","testingDataStats",NA,"truePositiveRate","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","testingDataStats",NA,"trueNegativeRate","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","testingDataStats",NA,"falsePositiveRate","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","testingDataStats",NA,"falseNegativeRate","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","testingDataStats",NA,"Boyce","Numeric",NA,"no",NA,"See R package ecospat",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","evaluationDataStats",NA,"AUC","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","evaluationDataStats",NA,"pearsonCor","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","evaluationDataStats",NA,"CohensKappa","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","evaluationDataStats",NA,"trueSkillStatistic","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","evaluationDataStats",NA,"truePositiveRate","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","evaluationDataStats",NA,"trueNegativeRate","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","evaluationDataStats",NA,"falsePositiveRate","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","evaluationDataStats",NA,"falseNegativeRate","Numeric",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance","evaluationDataStats",NA,"Boyce","Numeric",NA,"no",NA,"See R package ecospat",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"performance",NA,NA,"performanceNotes","Character",NA,"no",NA,"User specified",1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"authorship",NA,NA,"names","Character vector",NA,"no","Merow, Cory; Maitner, Brian","The names of those who created this model.",1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"authorship",NA,NA,"ownership","Character",NA,"no","Merow, Cory;","The names of the person(s) who own this model.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"authorship",NA,NA,"license","Character","CC; CC BY; CC BY-SA; CC BY-ND; CC BY-NC; CC BY-NC-SA; CC BY-NC-ND","kinda","CC; CC BY; CC BY-SA; CC BY-ND; CC BY-NC; CC BY-NC-SA; CC BY-NC-ND","The license this model has been produced under.  See https://creativecommons.org/licenses/ for common options.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"authorship",NA,NA,"contact","Character",NA,"no","Example: cory.merow@gmail.com","An email address for someone responsible for creating this model.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"authorship",NA,NA,"relatedPublications","Character vector",NA,"no",NA,"bibtex; User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"authorship",NA,NA,"authorNotes","Character",NA,"no",NA,"User specified. Any information related to author/ownership or limits on use.",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"authorship",NA,NA,"miscNotes","Character",NA,"no",NA,"User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"code",NA,NA,"wallaceSettings",NA,NA,"no",NA,"If using Wallace",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"code","software",NA,"platform","Character vector",NA,"no","@Manual{,
+}",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","featureSet","character vector","kinda","L; LQ; LQP; LQPT; LQPTH;  H; HT","kinda","L; LQ; LQP; LQPT; LQPTH;  H; HT","See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","featureRule","character","no",NA,"no","L for <50 presences; LQ for >= 50 presences","See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","regularizationMultiplierSet","numeric vector","kinda",NA,"no",NA,"See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","regularizationRule","character","no",NA,"no","Chosen based on 5-fold cross validation on a grid of regularization multipliers from [0;10]","See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","convergenceThresholdSet","numeric vector","kinda",NA,"no",NA,"See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","convergenceThresholdRule","character","no",NA,"no",NA,"See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","backgroundSizeSet","numeric vector","kinda",NA,"no",NA,"See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","backgroundSizeRule","character","no",NA,"no","increased until gain plateau","See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","samplingBiasRule","character","no","target group; offset; none;","kinda","target group; offset; none;","See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","targetGroupSampleSize","numeric vector","kinda",NA,"no",NA,"See: Phillips, S., M. Dudik, J. Elith, C. Graham, A. Lehmann, J. Leathwick, and S. Ferrier. 2009. Sample selection bias and presence-only distribution models: implications for background and pseudo-absence data. Ecological Applications 19:181–197.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","expertMapProbSet","numeric vector","kinda",NA,"no",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","expertMapProbRule","character","no",NA,"no","Based on proportion of presences correctly classified","See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","expertMapRateSet","numeric vector","kinda",NA,"no",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","expertMapRateRule","character","no",NA,"no",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","expertMapSkewSet","numeric vector","kinda",NA,"no",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","expertMapSkewRule","character","no",NA,"no",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","expertMapShiftSet","numeric vector","kinda",NA,"no",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","expertMapShiftRule","character","no",NA,"no",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","algorithmSettings","maxent","modelNotes","character vector","kinda",NA,"no",NA,"User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","prediction",NA,"units","character","no","absolute probability;  relative occurrence rate;","kinda","absolute probability;  relative occurrence rate;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","prediction",NA,"minVal","numeric vector","kinda",NA,"no",NA,NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","prediction",NA,"maxVal","numeric vector","kinda",NA,"no",NA,NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","prediction",NA,"threshold","numeric vector","kinda",NA,"no",NA,"only if binary/trinary",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","prediction",NA,"notes","character vector","kinda",NA,"no",NA,"User specified",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment1","yearMin","integer","no",NA,"no",NA,"additional environments can be addded as environment2, environments3, etc.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment1","yearMax","integer","no",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment1","sources","character vector","no",NA,"no",NA,"A single bibtex format citation or a vector of bibtex format citations.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment1","extentMax","numeric vector","no",NA,"no","(xmin,xmax,ymin,ymax)",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","this is already a vector; what if it differs by specie?"
+"output","transfer","environment1","extentRule","character","no",NA,"no","Buffered all points by 500km and joined the resulting polygons;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment1","resolution","numeric","no",NA,"no",NA,"A single bibtex format citation or a vector of bibtex format citations.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment2","yearMin","integer","no",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment2","yearMax","integer","no",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment2","sources","character vector","no",NA,"no",NA,"A single bibtex format citation or a vector of bibtex format citations.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment2","extentMax","numeric vector","no",NA,"no","(xmin,xmax,ymin,ymax)",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment2","extentRule","character","no",NA,"no","Buffered all points by 500km and joined the resulting polygons;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment2","resolution","numeric","no",NA,"no",NA,"The spatial resolution of the environmental raster.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer",NA,"notes","character vector","kinda",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer",NA,"extrapolation","character","no","clamping; extrapolate function","kinda","clamping; extrapolate function","In Example 2, 'extrapolate function' indicates that the fitted functional form was not modified beyond the range of the data.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output",NA,NA,"ensembleRule","character vector","kinda",NA,"no","Models weighted by AUC scores on test data;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","uncertainty",NA,"units","character","no",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","uncertainty",NA,"minVal","numeric vector","kinda",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","uncertainty",NA,"maxVal","numeric vector","kinda",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","uncertainty",NA,"notes","character vector","kinda",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"AUC","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"pearsonCor","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"CohensKappa","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"trueSkillStatistic","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"truePositiveRate","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"trueNegativeRate","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"falsePositiveRate","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"falseNegativeRate","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"binaryThreshold","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"Boyce","numeric vector","kinda",NA,"no",NA,"See R package ecospat",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"pAUC","numeric vector","kinda",NA,"no",NA,"See R package pAUC",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"pAUCLoThreshold","numeric vector","kinda",NA,"no",NA,"See R package pAUC",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"pAUCHiThreshold","numeric vector","kinda",NA,"no",NA,"See R package pAUC",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"AIC","numeric vector","kinda",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"BIC","numeric vector","kinda",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","trainingDataStats",NA,"DIC","numeric vector","kinda",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","testingDataStats",NA,"AUC","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","testingDataStats",NA,"pearsonCor","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","testingDataStats",NA,"CohensKappa","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","testingDataStats",NA,"trueSkillStatistic","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","testingDataStats",NA,"truePositiveRate","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","testingDataStats",NA,"trueNegativeRate","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","testingDataStats",NA,"falsePositiveRate","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","testingDataStats",NA,"falseNegativeRate","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","testingDataStats",NA,"Boyce","numeric vector","kinda",NA,"no",NA,"See R package ecospat",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","evaluationDataStats",NA,"AUC","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","evaluationDataStats",NA,"pearsonCor","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","evaluationDataStats",NA,"CohensKappa","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","evaluationDataStats",NA,"trueSkillStatistic","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","evaluationDataStats",NA,"truePositiveRate","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","evaluationDataStats",NA,"trueNegativeRate","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","evaluationDataStats",NA,"falsePositiveRate","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","evaluationDataStats",NA,"falseNegativeRate","numeric vector","kinda",NA,"no",NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance","evaluationDataStats",NA,"Boyce","numeric vector","kinda",NA,"no",NA,"See R package ecospat",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance",NA,NA,"performanceNotes","character vector","kinda",NA,"no",NA,"User specified",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"authorship",NA,NA,"names","character vector","no",NA,"no","Merow, Cory; Maitner, Brian","The names of those who created this model.",1,"NULL","NULL","NULL","NULL","NULL","NULL","already a vectore, but not species specific"
+"authorship",NA,NA,"ownership","character","no",NA,"no","Merow, Cory;","The names of the person(s) who own this model.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"authorship",NA,NA,"license","character","no","CC; CC BY; CC BY-SA; CC BY-ND; CC BY-NC; CC BY-NC-SA; CC BY-NC-ND","kinda","CC; CC BY; CC BY-SA; CC BY-ND; CC BY-NC; CC BY-NC-SA; CC BY-NC-ND","The license this model has been produced under.  See https://creativecommons.org/licenses/ for common options.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"authorship",NA,NA,"contact","character","no",NA,"no","Example: cory.merow@gmail.com","An email address for someone responsible for creating this model.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"authorship",NA,NA,"relatedPublications","character vector","no",NA,"no",NA,"bibtex; User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"authorship",NA,NA,"authorNotes","character","no",NA,"no",NA,"User specified. Any information related to author/ownership or limits on use.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"authorship",NA,NA,"miscNotes","character","no",NA,"no",NA,"User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"code",NA,NA,"wallaceSettings",NA,"no",NA,"no",NA,"If using Wallace",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"code","software",NA,"platform","character vector","no",NA,"no","@Manual{,
     title = {R: A Language and Environment for Statistical Computing},
     author = {{R Core Team}},
     organization = {R Foundation for Statistical Computing},
     address = {Vienna, Austria},
     year = {2017},
     url = {https://www.R-project.org/},
-  }","A single bibtex format citation or a vector of bibtex format citations.  Should contain the platform (or platflorms) used in the analysis,",1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"code","software",NA,"packages","Character vector",NA,"no","@Manual{,
+  }","A single bibtex format citation or a vector of bibtex format citations.  Should contain the platform (or platflorms) used in the analysis,",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"code","software",NA,"packages","character vector","no",NA,"no","@Manual{,
     title = {dismo: Species Distribution Modeling},
     author = {Robert J. Hijmans and Steven Phillips and John Leathwick and Jane Elith},
     year = {2017},
     note = {R package version 1.1-4},
     url = {https://CRAN.R-project.org/package=dismo},
-  }","A single bibtex format citation or a vector of bibtex format citations.  Should contain all packages used in the workflow.",1,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"code",NA,NA,"demoCode","Character",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"code",NA,NA,"fullCode","Character",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
-"code",NA,NA,"codeNotes","Character",NA,"no",NA,"User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL","NULL"
+  }","A single bibtex format citation or a vector of bibtex format citations.  Should contain all packages used in the workflow.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"code",NA,NA,"demoCode","character","no",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"code",NA,NA,"fullCode","character","no",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"code",NA,NA,"codeNotes","character","no",NA,"no",NA,"User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
