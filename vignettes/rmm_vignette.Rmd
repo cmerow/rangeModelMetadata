@@ -60,3 +60,20 @@ rmmToCSV(rmmObj,filename=outFile)
 system(paste0('open ', outFile, ' -a "Microsoft Excel"'))
 ```
 
+To make it easier to fill in important `rmm` fields with some autofill functions for common objects
+```{r}
+# rmmAutoFillData(rmm,species=)
+# rmmAutoFillEnv(rmm,species=)
+# rmmAutoFillTransferEnv(rmm,layer=1)
+# rmmAutoFillMaxent(rmm,species=)
+# rmmAutoFillPrediction(rmm,species=,layer=1)
+
+```
+
+To see what fields you might've missed...
+```{r}
+# rmmFindEmpties(rmm)
+# rmmCleanEmpties(rmm)
+```
+
+
