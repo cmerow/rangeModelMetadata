@@ -23,11 +23,6 @@
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
 #' @export
 
-# packages=c('raster','sp')
-# rmmPackageCitation=function(packages){
-#   lapply(packages,function(x) toBibtex(citation(x)))
-# }
-
 rmmAutofillPackageCitation=function(rmm,packages){
   out<-lapply(packages,function(x) utils::toBibtex(utils::citation(x)))
   out<-unlist(out)
@@ -116,7 +111,6 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
   return(rmm)
 }
 
-<<<<<<< HEAD
 
 #' ##############################################################################################
 #' ##############################################################################################
@@ -181,27 +175,27 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 #' rmmAutofillPrediction=function(rmm,prediction){
 #'
 #' }
-=======
+
 ##############################################################################################
 ##############################################################################################
 ##############################################################################################
 
 #' @title Add relevant model info to an rmm object
 #'
-#' @description
+# @description
 #'
 #' @details
 #' See Examples.
 #'
 #' @param rmm an rmm list
-#' @param
+# @param
 #'
 # @examples
 #'
 #'
-#' @return
+# @return
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
-#' @note
+# @note
 # @seealso
 # @references
 # @aliases - a list of additional topic names that will be mapped to

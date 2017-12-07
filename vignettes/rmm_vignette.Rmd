@@ -74,7 +74,7 @@ rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
 # rmmAutoFillTransferEnv(rmm,layer=1)
 # rmmAutoFillMaxent(rmm,species=)
 # rmmAutoFillPrediction(rmm,species=,layer=1)
-rmm
+# rmmPrintFull(rmm) #print just the non-NULL fields
 ```
 
 To see what fields you might've missed...

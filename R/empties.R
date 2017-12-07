@@ -23,7 +23,7 @@
 #' @export
 #'
 rmmPrintEmpty=function(rmm,obligateOnly=FALSE){
-
+  lapply(rmm,function(x) is.null(x))
   ##nametree function by Vincent Zoonekynd
   #nametree <- function(X, prefix = "")
   #  if( is.list(X) )
@@ -72,5 +72,45 @@ rmmPrintEmpty=function(rmm,obligateOnly=FALSE){
 
   #return(empty_names)
 
+}
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+#' @title Check if fields are non-NULL in a range model metadata list
+#'
+#' @description Check if fields are full in a range model metadata list
+#'
+#' @details
+#' See Examples.
+#'
+#' @param rmm a range model metadata list
+#' @param obligateOnly logical; only show empty obligat fields
+#'
+#' @examples
+#' rmm=rangeModelMetadataTemplate(useCase='apAll')
+#' raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
+#' env=raster::stack(raster.files)
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=0) # for fitting environment
+#' rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
+#' rmmPrintFull(rmm)
+#'
+# @return
+#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+# @note
+# @seealso
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @export
+
+# would better if this didn't have the quotes in the names, but this is fine for viewing
+
+rmmPrintFull=function(rmm){
+  out=unlist(rmm)
+  names(out)=gsub('.','$',names(out),fixed=T)
+  out
 }
 
