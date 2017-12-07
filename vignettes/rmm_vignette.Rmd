@@ -63,7 +63,7 @@ system(paste0('open ', outFile, ' -a "Microsoft Excel"'))
 To make it easier to fill in important `rmm` fields with some autofill functions for common objects
 ```{r}
 rmm=rangeModelMetadataTemplate(useCase='apAll')
-rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
+#rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 # rmmAutoFillData(rmm,species=)
 # rmmAutoFillEnv(rmm,species=)
 # rmmAutoFillTransferEnv(rmm,layer=1)

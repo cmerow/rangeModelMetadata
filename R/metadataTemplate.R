@@ -13,9 +13,9 @@
 #' rmm2=rangeModelMetadataTemplate(obgligateOnly=T)
 #' str(rmm2)
 #'
-#' @return
+# @return
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>
-#' @note
+# @note
 # @seealso
 # @references
 # @aliases - a list of additional topic names that will be mapped to
@@ -32,7 +32,7 @@ rangeModelMetadataTemplate=function(useCase='apAll'){
 
   if(!(useCase %in% c('apAll','apObligate','apMinimal'))) stop('specifiy a correct useCase')
 
-  dd=read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
 
   # convert to old format that worked with other code
   dd=.rmmLeftJustify(dd)

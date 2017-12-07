@@ -19,9 +19,9 @@
 #' rmmSuggest('model$algorithmSettings$maxent$')
 #' rmmSuggest('$model$algorithmSettings$maxent$featureSet')
 
-#' @return
+# @return
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
-#' @note strings should note have a leading $ (fix this to remove it!)
+# @note
 # @seealso
 # @references
 # @aliases - a list of additional topic names that will be mapped to
@@ -29,6 +29,7 @@
 # line.
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
 #' @export
+
 # Need to make this also take objects of the form rmm$data rather than just a character
 rmmSuggest=function(charString,fullFieldDepth=FALSE){
 
@@ -38,7 +39,7 @@ rmmSuggest=function(charString,fullFieldDepth=FALSE){
   # toss leading $ if it occures
   if(substr(charString,1,1)=='$') charString=substr(charString,2,nchar(charString))
 
-  dd=read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
   dd=.rmmLeftJustify(dd)
 
   out=sapply(c('type','suggestions'),function(x) NULL)

@@ -11,8 +11,7 @@ rmmFindEmpties(rmm)
 }
 \description{
 Only optional fields that are empty are removed.
-}
-\details{
+
 See Examples.
 }
 \author{

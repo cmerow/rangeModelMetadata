@@ -27,9 +27,6 @@ Supply fields to receive suggested inputs
 \details{
 See Examples.
 }
-\note{
-strings should note have a leading $ (fix this to remove it!)
-}
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
