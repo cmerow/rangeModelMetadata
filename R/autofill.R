@@ -116,6 +116,7 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
   return(rmm)
 }
 
+<<<<<<< HEAD
 
 #' ##############################################################################################
 #' ##############################################################################################
@@ -180,3 +181,101 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 #' rmmAutofillPrediction=function(rmm,prediction){
 #'
 #' }
+=======
+##############################################################################################
+##############################################################################################
+##############################################################################################
+
+#' @title Add relevant model info to an rmm object
+#'
+#' @description
+#'
+#' @details
+#' See Examples.
+#'
+#' @param rmm an rmm list
+#' @param
+#'
+# @examples
+#'
+#'
+#' @return
+#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+#' @note
+# @seealso
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @export
+
+rmmAutofillModelObj=function(rmm,modelObj){
+
+}
+
+##############################################################################################
+##############################################################################################
+##############################################################################################
+
+#' @title Add relevant model prediction info to an rmm object
+#'
+#' @description
+#'
+#' @details
+#' See Examples.
+#'
+#' @param rrm an rmm list
+#' @param prediction a raster layer or stack
+#'
+# @examples
+#'
+#'
+#' @return
+#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+#' @note
+# @seealso
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @export
+
+rmmAutofillPrediction=function(rmm,prediction){
+
+}
+
+##############################################################################################
+##############################################################################################
+##############################################################################################
+
+#' @title Fill in relevant rmm fields from an ENMevaluation object.
+#'
+#' @description
+#'
+#' @details
+#' See Examples.
+#'
+#' @param rrm an rmm list
+#' @param ENMevaluation an ENMevaluation object
+#'
+# @examples
+#'
+#'
+#' @return
+#' @author Jamie M. Kass <jamie.m.kass@@gmail.com>
+#' @note
+# @seealso
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @export
+
+rmmAutofillENMeval=function(rmm, ENMevaluation){
+
+}
+
+>>>>>>> 09bd6c4341c4af037b90c9ef8c527e7e5dda1afe
