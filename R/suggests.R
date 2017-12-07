@@ -29,7 +29,7 @@
 # line.
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
 #' @export
-
+# Need to make this also take objects of the form rmm$data rather than just a character
 rmmSuggest=function(charString,fullFieldDepth=FALSE){
 
   #  for testing

@@ -13,9 +13,12 @@
 "data","occurrence",NA,"presenceSampleSize","integer vector","yes",NA,"no",NA,NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "data","occurrence",NA,"absenceSampleSize","integer vector","yes",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "data","occurrence",NA,"backgroundSampleSize","integer vector","kinda",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"data","environment",NA,"variableName","character vector","kinda","bio1; bio2; bio3; bio4; bio5; bio6; bio7; bio8; bio9; bio10; bio11; bio12; bio13; bio14; bio15; bio16; bio17; bio18; bio19;","kinda",NA,"Environmental  variable names, preferably as they appear in the source.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","environment",NA,"variableNames","character vector","kinda","bio1; bio2; bio3; bio4; bio5; bio6; bio7; bio8; bio9; bio10; bio11; bio12; bio13; bio14; bio15; bio16; bio17; bio18; bio19;wc2.0_bio_10m_01;wc2.0_bio_5m_01;wc2.0_bio_1m_01;wc2.0_bio_10m_02;wc2.0_bio_5m_02;wc2.0_bio_1m_02;wc2.0_bio_10m_03;wc2.0_bio_5m_03;wc2.0_bio_1m_03;wc2.0_bio_10m_04;wc2.0_bio_5m_04;wc2.0_bio_1m_04;wc2.0_bio_10m_05;wc2.0_bio_5m_05;wc2.0_bio_1m_05;wc2.0_bio_10m_06;wc2.0_bio_5m_06;wc2.0_bio_1m_06;wc2.0_bio_10m_07;wc2.0_bio_5m_07;wc2.0_bio_1m_07;wc2.0_bio_10m_08;wc2.0_bio_5m_08;wc2.0_bio_1m_08;wc2.0_bio_10m_09;wc2.0_bio_5m_09;wc2.0_bio_1m_09;wc2.0_bio_10m_10;wc2.0_bio_5m_10;wc2.0_bio_1m_10;wc2.0_bio_10m_11;wc2.0_bio_5m_11;wc2.0_bio_1m_11;wc2.0_bio_10m_12;wc2.0_bio_5m_12;wc2.0_bio_1m_12;wc2.0_bio_10m_13;wc2.0_bio_5m_13;wc2.0_bio_1m_13;wc2.0_bio_10m_14;wc2.0_bio_5m_14;wc2.0_bio_1m_14;wc2.0_bio_10m_15;wc2.0_bio_5m_15;wc2.0_bio_1m_15;wc2.0_bio_10m_16;wc2.0_bio_5m_16;wc2.0_bio_1m_16;wc2.0_bio_10m_17;wc2.0_bio_5m_17;wc2.0_bio_1m_17;wc2.0_bio_10m_18;wc2.0_bio_5m_18;wc2.0_bio_1m_18;wc2.0_bio_10m_19;wc2.0_bio_5m_19;wc2.0_bio_1m_19","kinda",NA,"Environmental  variable names, preferably as they appear in the source.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "data","environment",NA,"yearMin","integer vector","kinda",NA,"no","1970;","The first year of the temporal range of climate data in the environmental layers.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "data","environment",NA,"yearMax","integer vector","kinda",NA,"no","2000;","The last year of the temporal range of climate data in the environmental layers.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","environment",NA,"extent","numeric vector","no",NA,"no","(xmin,xmax,ymin,ymax);",NA,NA,NA,NA,NA,NA,NA,NA,NA
+"data","environment",NA,"extentRule","character","no",NA,"no","Buffered all points by 500km and joined the resulting polygons;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","environment",NA,"resolution","numeric vector","no",NA,"no",NA,"A single bibtex format citation or a vector of bibtex format citations.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "data","environment",NA,"sources","character vector","no",NA,"no","@misc{hijmans2004worldclim,
   title={The WorldClim interpolated global terrestrial climate surfaces. Version 1.3},
   author={Hijmans, RJ and Cameron, SE and Parra, JL and Jones, PG and Jarvis, A},
@@ -34,15 +37,15 @@
 "dataPrep","geographic","centroidRemoval","notes","character","no",NA,"no","Centroids analysis included both WGS84 and LEA centroids;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "dataPrep","geographic","pointInPolygon","rule","character","no","country; state; county; not needed;","kinda","country; state; county; not needed;","If point-in-polygon checks were used, what geopolitical levels were the checks perfromed for?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "dataPrep","geographic","pointInPolygon","notes","character","no",NA,"no","Point in polygon testing was done at the lowest declared political division;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"dataPrep","biological","taxonimicHarmonization","rule","character","no","TNRS; not needed;","kinda","TNRS; not needed;","If taxonomic harmonization was perfomed, which algorithm was used?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"dataPrep","biological","taxonimicHarmonization","notes","character","no",NA,"no","Taxa with no opinion in the TNRS were checked against ITIS.gov;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","geographic","altitudeCheck","rule","character","no",NA,"no","Altitude within 250 m of reported value; not needed;","If records were removed for having elevations reported that differ significantly from some source, what method was used?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","biological","taxonomicHarmonization","rule","character","no","TNRS; not needed;","kinda","TNRS; not needed;","If taxonomic harmonization was perfomed, which algorithm was used?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"dataPrep","biological","taxonomicHarmonization","notes","character","no",NA,"no","Taxa with no opinion in the TNRS were checked against ITIS.gov;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "dataPrep","biological","cultivatedRemoval","rule","character","no","CSR; not needed;","kinda","CSR; not needed;","If cultivated records were removed, what algorithm or criteria were used?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "dataPrep","biological","cultivatedRemoval","notes","character","no",NA,"no","Cultivated invasives were not removed;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "dataPrep","biological","nonNativeRemoval","rule","character","no","NSR; not needed;","kinda","NSR; not needed;","If introduced species were removed, what method/ source was used to assess native status?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "dataPrep","biological","nonNativeRemoval","notes","character","no",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "dataPrep","environmental","environmentalOutlierRemoval","rule","character","no",NA,"no","algorithm name; not needed;","If environmental outliers were removed, which algorithm was used to determine outlier status?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "dataPrep","environmental","environmentalOutlierRemoval","notes","character","no",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"dataPrep","environmental","altitudeCheck","rule","character","no",NA,"no","Altitude within 250 m of reported value; not needed;","If records were removed for having elevations reported that differ significantly from some source, what method was used?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "dataPrep","environmental",NA,"notes","character","no",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "dataPrep",NA,NA,"dataPrepNotes","character vector","kinda",NA,"no",NA,"User specified",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "model",NA,NA,"occurrenceTreatedAs","character","no","point; cell; transect; polygon;","kinda","point; cell; transect; polygon;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
@@ -164,3 +167,4 @@
 "code",NA,NA,"demoCode","character","no",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "code",NA,NA,"fullCode","character","no",NA,"no",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "code",NA,NA,"codeNotes","character","no",NA,"no",NA,"User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"do not share",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
