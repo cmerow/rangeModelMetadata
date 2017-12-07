@@ -158,3 +158,35 @@ rmmAutofillModelObj=function(rmm,modelObj){
 rmmAutofillPrediction=function(rmm,prediction){
 
 }
+
+##############################################################################################
+##############################################################################################
+##############################################################################################
+
+#' @title Fill in relevant rmm fields from an ENMevaluation object.
+#'
+#' @description
+#'
+#' @details
+#' See Examples.
+#'
+#' @param rrm an rmm list
+#' @param ENMevaluation an ENMevaluation object
+#'
+# @examples
+#'
+#'
+#' @return
+#' @author Jamie M. Kass <jamie.m.kass@@gmail.com>
+#' @note
+# @seealso
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @export
+
+rmmAutofillENMeval=function(rmm, ENMevaluation){
+
+}
