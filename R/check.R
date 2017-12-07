@@ -31,9 +31,9 @@ rmmNameCheck=function(rmm){
         nametree(X[[i]], paste0(prefix, ""))
       }
 
-  list_names<-capture.output(nametree(rmm))
+  list_names<-utils::capture.output(nametree(rmm))
 
-  dd=read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
 
   accepted_names<-c(as.character(dd$Field1), as.character(dd$Field2), as.character(dd$Field3), as.character(dd$Field4))
 
@@ -57,9 +57,9 @@ rmmNameCheck=function(rmm){
 # @examples
 #'
 #'
-#' @return
+# @return
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
-#' @note
+# @note
 # @seealso
 # @references
 # @aliases - a list of additional topic names that will be mapped to

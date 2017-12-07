@@ -4,15 +4,22 @@
 \alias{rmmAutofillPackageCitation}
 \title{Add all package citations to an rmm object}
 \usage{
-rmmAutofillPackageCitation(packages)
+rmmAutofillPackageCitation(rmm, packages)
+}
+\arguments{
+\item{rmm}{an rmm list}
+
+\item{packages}{a vector of quoted package names}
 }
 \description{
-
+Using bibtex citations
 }
 \details{
 See Examples.
 }
 \examples{
+rmm=rangeModelMetadataTemplate(useCase='apAll')
+rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 
 }
 \author{

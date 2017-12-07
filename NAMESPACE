@@ -2,9 +2,8 @@
 
 export(.rmmLeftJustify)
 export(rangeModelMetadataTemplate)
-export(rmmAutofillModelObj)
+export(rmmAutofillEnvironment)
 export(rmmAutofillPackageCitation)
-export(rmmAutofillPrediction)
 export(rmmFindEmpties)
 export(rmmNameCheck)
 export(rmmPrintEmpty)

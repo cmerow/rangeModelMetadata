@@ -5,26 +5,26 @@
 #' @details
 #' See Examples.
 #'
-#' @param x An object of class \code{\link{rmm}} that the user wishes transposed into a .csv file.
+#' @param x An object of class \code{rmm} that the user wishes transposed into a .csv file.
 #'
 #' @param filename The name of the transcription .csv file.
 #'
-#' @export
 #'
 # @examples
 #'
 #'
-#' @return
+# @return
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>, Hannah Owens <hannah.owens@@gmail.com
-#' @note
+# @note
 # @seealso
 # @references
 # @aliases - a list of additional topic names that will be mapped to
 # this documentation when the user looks them up from the command
 # line.
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @export
 
-rmmToCSV=function(x = rangeModelMetadataTemplate(obligate = T), filename = NULL){
+rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NULL){
   #Verify user has passed the function an rmm object
   if (!class(x) == "list"){
     warning("Target input invalid. Input must be of class 'list'.\n");
@@ -85,5 +85,7 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(obligate = T), filename = NULL)
   csvTable <- csvTable[-1,]
 
   #Write to csv
-  write.csv(csvTable, filename, row.names = F);
+  utils::write.csv(csvTable, filename, row.names = F);
 }
+
+

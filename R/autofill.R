@@ -1,20 +1,20 @@
 #' @title Add all package citations to an rmm object
 #'
-#' @description
+#' @description Using bibtex citations
 #'
 #' @details
 #' See Examples.
 #'
-#' @param rrm an rmm list
-#' @param package a vector of quoted package names
+#' @param rmm an rmm list
+#' @param packages a vector of quoted package names
 #'
 #' @examples
 #' rmm=rangeModelMetadataTemplate(useCase='apAll')
 #' rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 #'
-#' @return
+# @return
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
-#' @note
+# @note
 # @seealso
 # @references
 # @aliases - a list of additional topic names that will be mapped to
@@ -27,8 +27,9 @@
 # rmmPackageCitation=function(packages){
 #   lapply(packages,function(x) toBibtex(citation(x)))
 # }
+
 rmmAutofillPackageCitation=function(rmm,packages){
-  out<-lapply(packages,function(x) toBibtex(citation(x)))
+  out<-lapply(packages,function(x) utils::toBibtex(utils::citation(x)))
   out<-unlist(out)
   out<-paste0(out,collapse = "")
   #The following bit could be done in a more clever way with regex, but this works for now
@@ -55,8 +56,9 @@ rmmAutofillPackageCitation=function(rmm,packages){
 #' @details
 #' See Examples.
 #'
-#' @param rrm an rmm list
+#' @param rmm an rmm list
 #' @param env a raster stack
+#' @param transfer 0 if not transfer, 1:n for n environments that you're transferring to
 #'
 # @examples
 
@@ -73,9 +75,9 @@ rmmAutofillPackageCitation=function(rmm,packages){
 
 
 #'
-#' @return
+# @return
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
-#' @note
+# @note
 # @seealso
 # @references
 # @aliases - a list of additional topic names that will be mapped to
@@ -85,7 +87,7 @@ rmmAutofillPackageCitation=function(rmm,packages){
 #' @export
 
 rmmAutofillEnvironment=function(rmm,env,transfer){
-  if(is.null(transfer)) error('specify whether this environment is used for transfer (>1) or not (0)')
+  if(is.null(transfer)) stop('specify whether this environment is used for transfer (>1) or not (0)')
   if(transfer==0){
     rmm$data$environment$resolution=raster::res(env)
     rmm$data$environment$extent=raster::extent(env)
@@ -95,66 +97,66 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
   }
 }
 
-##############################################################################################
-##############################################################################################
-##############################################################################################
-
-#' @title Add relevant model info to an rmm object
+#' ##############################################################################################
+#' ##############################################################################################
+#' ##############################################################################################
 #'
-#' @description
+#' #' @title Add relevant model info to an rmm object
+#' #'
+#' #' @description
+#' #'
+#' #' @details
+#' #' See Examples.
+#' #'
+#' #' @param rmm an rmm list
+#' #' @param
+#' #'
+#' # @examples
+#' #'
+#' #'
+#' # @return
+#' #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+#' # @note
+#' # @seealso
+#' # @references
+#' # @aliases - a list of additional topic names that will be mapped to
+#' # this documentation when the user looks them up from the command
+#' # line.
+#' # @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' #' @export
 #'
-#' @details
-#' See Examples.
+#' rmmAutofillModelObj=function(rmm,modelObj){
 #'
-#' @param rmm an rmm list
-#' @param
+#' }
 #'
-# @examples
+#' ##############################################################################################
+#' ##############################################################################################
+#' ##############################################################################################
 #'
+#' #' @title Add relevant model prediction info to an rmm object
+#' #'
+#' #' @description
+#' #'
+#' #' @details
+#' #' See Examples.
+#' #'
+#' #' @param rrm an rmm list
+#' #' @param prediction a raster layer or stack
+#' #'
+#' # @examples
+#' #'
+#' #'
+#' # @return
+#' #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+#' # @note
+#' # @seealso
+#' # @references
+#' # @aliases - a list of additional topic names that will be mapped to
+#' # this documentation when the user looks them up from the command
+#' # line.
+#' # @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' #' @export
 #'
-#' @return
-#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
-#' @note
-# @seealso
-# @references
-# @aliases - a list of additional topic names that will be mapped to
-# this documentation when the user looks them up from the command
-# line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
-#' @export
-
-rmmAutofillModelObj=function(rmm,modelObj){
-
-}
-
-##############################################################################################
-##############################################################################################
-##############################################################################################
-
-#' @title Add relevant model prediction info to an rmm object
+#' rmmAutofillPrediction=function(rmm,prediction){
 #'
-#' @description
-#'
-#' @details
-#' See Examples.
-#'
-#' @param rrm an rmm list
-#' @param prediction a raster layer or stack
-#'
-# @examples
-#'
-#'
-#' @return
-#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
-#' @note
-# @seealso
-# @references
-# @aliases - a list of additional topic names that will be mapped to
-# this documentation when the user looks them up from the command
-# line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
-#' @export
-
-rmmAutofillPrediction=function(rmm,prediction){
-
-}
+#' }

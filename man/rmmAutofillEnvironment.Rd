@@ -4,12 +4,20 @@
 \alias{rmmAutofillEnvironment}
 \title{Add relevant environmental data information to an rmm object}
 \usage{
-rmmAutofillEnvironment(rmm, env, transfer = FALSE)
+rmmAutofillEnvironment(rmm, env, transfer)
 }
 \arguments{
+\item{rmm}{an rmm list}
+
 \item{env}{a raster stack}
 
-\item{rrm}{an rmm list}
+\item{transfer}{0 if not transfer, 1:n for n environments that you're transferring to
+
+raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
+env=raster::stack(raster.files)
+# for fitting environment
+# for the first environment that you're transfering to
+# for the second environment that you're transfering to, etc.}
 }
 \description{
 This can be used with environmental layers used for fitting or transferring
