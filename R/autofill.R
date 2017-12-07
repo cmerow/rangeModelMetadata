@@ -63,15 +63,15 @@ rmmAutofillPackageCitation=function(rmm,packages){
 # @examples
 
 
-#rmm=rangeModelMetadataTemplate(useCase='apAll')
+#' rmm=rangeModelMetadataTemplate(useCase='apAll')
 #' raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
 #' env=raster::stack(raster.files)
 #' # for fitting environment
-#rmmAutofillEnvironment(rmm,env,transfer=0)
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
 #' # for the first environment that you're transfering to
-#rmmAutofillEnvironment(rmm,env,transfer=1)
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=1)
 #' # for the second environment that you're transfering to, etc.
-#rmmAutofillEnvironment(rmm,env,transfer=2)
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
 
 
 #'
@@ -87,15 +87,35 @@ rmmAutofillPackageCitation=function(rmm,packages){
 #' @export
 
 rmmAutofillEnvironment=function(rmm,env,transfer){
+
+  .worldclimFill=function(env,rmm){
+    if(length(grep('wc2.0',names(env)))>0){
+      rmm$data$environment$sources='@article{Fick:2017bq, author = {Fick, Stephen E and Hijmans, Robert J}, title = {{WorldClim 2: new 1-km spatial resolution climate surfaces for global land areas}}, journal = {International Journal of Climatology}, year = {2017},  volume = {37}, number = {12},  pages = {4302--4315}}'
+      rmm$data$environment$yearMin=1970
+      rmm$data$environment$yearMax=2000
+    }
+    if(length(grep('wc1.3',names(env)))>0){
+      rmm$data$environment$sources='@misc{hijmans2004worldclim, title={The WorldClim interpolated global terrestrial climate surfaces. Version 1.3}, author={Hijmans, RJ and Cameron, SE and Parra, JL and Jones, PG and Jarvis, A}, year={2004}}'
+      rmm$data$environment$yearMin=1970
+      rmm$data$environment$yearMax=2000
+    }
+    return(rmm)
+  }
+
   if(is.null(transfer)) stop('specify whether this environment is used for transfer (>1) or not (0)')
   if(transfer==0){
     rmm$data$environment$resolution=raster::res(env)
     rmm$data$environment$extent=raster::extent(env)
-    #rmm$data$environment$variableNames=names(env)
+    rmm$data$environment$variableNames=names(env)
+    rmm=.worldclimFill(env,rmm)
   } else {
-
+    rmm$output$transfer[paste0('environment',transfer)][[1]]$resolution=raster::res(env)
+    rmm$output$transfer[paste0('environment',transfer)][[1]]$extent=raster::extent(env)
+    rmm$output$transfer[paste0('environment',transfer)][[1]]$variableNames=names(env)
   }
+  return(rmm)
 }
+
 
 #' ##############################################################################################
 #' ##############################################################################################

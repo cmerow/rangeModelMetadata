@@ -22,6 +22,7 @@ Suggests:
 Imports:    
     raster,
     dismo,
+    ENMeval,
     googlesheets,
     utils
 VignetteBuilder: knitr
