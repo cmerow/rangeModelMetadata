@@ -84,16 +84,16 @@ rmmAutofillPackageCitation=function(rmm,packages){
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
 #' @export
 
-# rmmAutofillEnvironment=function(rmm,env,transfer){
-#   if(is.null(transfer)) error('specify whether this environment is used for transfer (>1) or not (0)')
-#   if(transfer==0){
-#     rmm$data$environment$resolution=raster::res(env)
-#     rmm$data$environment$extent=raster::extent(env)
-#     rmm$data$environment$variableNames=names(env)
-#   } else {
-#
-#   }
-# }
+rmmAutofillEnvironment=function(rmm,env,transfer){
+  if(is.null(transfer)) error('specify whether this environment is used for transfer (>1) or not (0)')
+  if(transfer==0){
+    rmm$data$environment$resolution=raster::res(env)
+    rmm$data$environment$extent=raster::extent(env)
+    #rmm$data$environment$variableNames=names(env)
+  } else {
+
+  }
+}
 
 ##############################################################################################
 ##############################################################################################
