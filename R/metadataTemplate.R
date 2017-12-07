@@ -13,7 +13,7 @@
 #' rmm2=rangeModelMetadataTemplate(obgligateOnly=T)
 #' str(rmm2)
 #'
-# @return
+#' @return a range model metadata list
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>
 # @note
 # @seealso

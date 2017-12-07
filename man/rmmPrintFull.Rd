@@ -11,6 +11,9 @@ rmmPrintFull(rmm)
 
 \item{obligateOnly}{logical; only show empty obligat fields}
 }
+\value{
+printout to the console
+}
 \description{
 Check if fields are full in a range model metadata list
 }

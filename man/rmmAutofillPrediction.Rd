@@ -11,6 +11,9 @@ rmmAutofillPrediction(rmm, prediction)
 
 \item{rrm}{an rmm list}
 }
+\value{
+a range model metadata list
+}
 \description{
 
 }

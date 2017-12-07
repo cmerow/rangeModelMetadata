@@ -11,6 +11,9 @@ rmmAutofillENMeval(rmm, ENMevaluation)
 
 \item{rrm}{an rmm list}
 }
+\value{
+a range model metadata list
+}
 \description{
 
 }

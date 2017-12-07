@@ -12,8 +12,8 @@
 #' rmm=rangeModelMetadataTemplate(useCase='apAll')
 #' rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 #'
-# @return
-#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+#' @return a range model metadata list
+#' @author Brian Maitner <bmaitner@@gmail.com>, Cory Merow <cory.merow@@gmail.com>
 # @note
 # @seealso
 # @references
@@ -55,22 +55,15 @@ rmmAutofillPackageCitation=function(rmm,packages){
 #' @param env a raster stack
 #' @param transfer 0 if not transfer, 1:n for n environments that you're transferring to
 #'
-# @examples
-
-
+#' @examples
 #' rmm=rangeModelMetadataTemplate(useCase='apAll')
 #' raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
 #' env=raster::stack(raster.files)
-#' # for fitting environment
-#' rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
-#' # for the first environment that you're transfering to
-#' rmm=rmmAutofillEnvironment(rmm,env,transfer=1)
-#' # for the second environment that you're transfering to, etc.
-#' rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
-
-
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=0) # for fitting environment
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=1) # for the first environment that you're transfering to
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=2) # for the second environment that you're transfering to, etc.
 #'
-# @return
+#' @return a range model metadata list
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 # @note
 # @seealso
@@ -112,9 +105,9 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 }
 
 
-#' ##############################################################################################
-#' ##############################################################################################
-#' ##############################################################################################
+##############################################################################################
+##############################################################################################
+##############################################################################################
 #'
 #' #' @title Add relevant model info to an rmm object
 #' #'
@@ -129,7 +122,7 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 #' # @examples
 #' #'
 #' #'
-#' # @return
+#' #' @return a range model metadata list
 #' #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 #' # @note
 #' # @seealso
@@ -161,7 +154,7 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 #' # @examples
 #' #'
 #' #'
-#' # @return
+#' #' @return a range model metadata list
 #' #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 #' # @note
 #' # @seealso
@@ -225,9 +218,9 @@ rmmAutofillModelObj=function(rmm,modelObj){
 # @examples
 #'
 #'
-#' @return
+#' @return a range model metadata list
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
-#' @note
+# @note
 # @seealso
 # @references
 # @aliases - a list of additional topic names that will be mapped to
@@ -257,9 +250,9 @@ rmmAutofillPrediction=function(rmm,prediction){
 # @examples
 #'
 #'
-#' @return
+#' @return a range model metadata list
 #' @author Jamie M. Kass <jamie.m.kass@@gmail.com>
-#' @note
+# @note
 # @seealso
 # @references
 # @aliases - a list of additional topic names that will be mapped to

@@ -17,7 +17,16 @@ Takes user-input rangeModelMetaData object and from it generates a .csv file tha
 \details{
 See Examples.
 }
+\examples{
+rmm=rangeModelMetadataTemplate(useCase='apAll')
+raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
+env=raster::stack(raster.files)
+rmm=rmmAutofillEnvironment(rmm,env,transfer=0) # for fitting environment
+rmm=rmmAutofillEnvironment(rmm,env,transfer=1) # for the first environment that you're transfering to
+rmm=rmmAutofillEnvironment(rmm,env,transfer=2) # for the second environment that you're transfering to, etc.
+
+}
 \author{
-Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>, Hannah Owens <hannah.owens@gmail.com
+Hannah Owens <hannah.owens@gmail.com>, Cory Merow <cory.merow@gmail.com>
 }
 

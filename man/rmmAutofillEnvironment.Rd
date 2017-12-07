@@ -11,23 +11,25 @@ rmmAutofillEnvironment(rmm, env, transfer)
 
 \item{env}{a raster stack}
 
-\item{transfer}{0 if not transfer, 1:n for n environments that you're transferring to
-
-rmm=rangeModelMetadataTemplate(useCase='apAll')
-raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
-env=raster::stack(raster.files)
-# for fitting environment
-rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
-# for the first environment that you're transfering to
-rmm=rmmAutofillEnvironment(rmm,env,transfer=1)
-# for the second environment that you're transfering to, etc.
-rmm=rmmAutofillEnvironment(rmm,env,transfer=2)}
+\item{transfer}{0 if not transfer, 1:n for n environments that you're transferring to}
+}
+\value{
+a range model metadata list
 }
 \description{
 This can be used with environmental layers used for fitting or transferring
 }
 \details{
 See Examples.
+}
+\examples{
+rmm=rangeModelMetadataTemplate(useCase='apAll')
+raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
+env=raster::stack(raster.files)
+rmm=rmmAutofillEnvironment(rmm,env,transfer=0) # for fitting environment
+rmm=rmmAutofillEnvironment(rmm,env,transfer=1) # for the first environment that you're transfering to
+rmm=rmmAutofillEnvironment(rmm,env,transfer=2) # for the second environment that you're transfering to, etc.
+
 }
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,

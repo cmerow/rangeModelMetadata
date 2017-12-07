@@ -10,11 +10,16 @@
 #' @param filename The name of the transcription .csv file.
 #'
 #'
-# @examples
-#'
+#' @examples
+#' rmm=rangeModelMetadataTemplate(useCase='apAll')
+#' raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
+#' env=raster::stack(raster.files)
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=0) # for fitting environment
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=1) # for the first environment that you're transfering to
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=2) # for the second environment that you're transfering to, etc.
 #'
 # @return
-#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>, Hannah Owens <hannah.owens@@gmail.com
+#' @author Hannah Owens <hannah.owens@@gmail.com>, Cory Merow <cory.merow@@gmail.com>
 # @note
 # @seealso
 # @references
@@ -33,7 +38,8 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NU
   #Verify user has passed the function a string for the .csv name
   if (!is.character(filename)){
     warning("Filename input invalid. Input must be a character string.\n");
-    return(NULL);
+    # CM: its actually useful to just output the table, so let's not require the filename
+    #return(NULL);
   }
 
   #Generate headers for table
@@ -47,9 +53,11 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NU
       #Check to see if Field 2 is null
       if(!is.list(x[[i]][[j]])){
         if(is.null(unlist(x[[i]][j]))){
+          #print(cat(i,'  ',j))
           csvTable <- rbind(csvTable,c(names(x)[i],"NA", "NA", names(x[[i]])[j], "EMPTY"));
         }
         else{
+          #print(cat(i,'  ',j))
           csvTable <- rbind(csvTable,c(names(x)[i],"NA", "NA", names(x[[i]])[j], unlist(x[[i]][j])));
         }
       }
@@ -59,23 +67,29 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NU
           #Check to see if Field 3 is null
           if(!is.list(x[[i]][[j]][[k]])){
             if (is.null(unlist(x[[i]][[j]][k]))){
+              #print(cat(i,'  ',j,'  ',k))
+
               csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], "NA", names(x[[i]][[j]])[k], "EMPTY"));
             }
             else{
+              #print(cat(i,'  ',j,'  ',k))
               csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], "NA", names(x[[i]][[j]])[k], unlist(x[[i]][[j]][k])));
             }
           }
           else{
             for (l in 1:length(names(x[[i]][[j]][[k]]))){
               if (is.null(unlist(x[[i]][[j]][[k]][l]))){
+                #print(cat(i,'  ',j,'  ',k,'  ',l))
+
                 csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], names(x[[i]][[j]][[k]])[l], "EMPTY"));
               }
               else{
+                #print(cat(i,'  ',j,'  ',k,'  ',l))
                 csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], names(x[[i]][[j]][[k]])[l], unlist(x[[i]][[j]][[k]][l])));
               }
             }
           }
-        }
+        } # end loop over field 3
       }
     }
   }
@@ -85,7 +99,9 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NU
   csvTable <- csvTable[-1,]
 
   #Write to csv
-  utils::write.csv(csvTable, filename, row.names = F);
+  if(!is.null(filename)) utils::write.csv(csvTable, filename, row.names = F)
+
+  return(csvTable)
 }
 
 

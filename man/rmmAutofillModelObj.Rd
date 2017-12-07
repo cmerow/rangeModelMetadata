@@ -10,11 +10,6 @@ rmmAutofillModelObj(rmm, modelObj)
 \item{rmm}{an rmm list}
 }
 \description{
-##############################################################################################
-##############################################################################################
-##############################################################################################
-}
-\details{
 #' @title Add relevant model info to an rmm object
 #'
 #' @description
@@ -28,7 +23,7 @@ rmmAutofillModelObj(rmm, modelObj)
 # @examples
 #'
 #'
-# @return
+#' @return a range model metadata list
 #' @author Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 # @note
 # @seealso
@@ -38,7 +33,8 @@ rmmAutofillModelObj(rmm, modelObj)
 # line.
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
 #' @export
-
+}
+\details{
 rmmAutofillModelObj=function(rmm,modelObj){
 
 }
@@ -60,7 +56,7 @@ rmmAutofillModelObj=function(rmm,modelObj){
 # @examples
 #'
 #'
-# @return
+#' @return a range model metadata list
 #' @author Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 # @note
 # @seealso

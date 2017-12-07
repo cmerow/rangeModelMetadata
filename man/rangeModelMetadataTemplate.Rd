@@ -9,6 +9,9 @@ rangeModelMetadataTemplate(useCase = "apAll")
 \arguments{
 \item{useCase}{character string; 'apAll', 'apObligate', 'apMinimal'}
 }
+\value{
+a range model metadata list
+}
 \description{
 Make an empty metadata list
 }
