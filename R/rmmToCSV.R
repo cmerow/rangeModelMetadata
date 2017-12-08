@@ -9,7 +9,6 @@
 #'
 #' @param filename The name of the transcription .csv file.
 #'
-#'
 #' @examples
 #' rmm=rangeModelMetadataTemplate(useCase='apAll')
 #' raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
@@ -35,12 +34,6 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NU
     warning("Target input invalid. Input must be of class 'list'.\n");
     return(NULL);
   }
-  #Verify user has passed the function a string for the .csv name
-  if (!is.character(filename)){
-    warning("Filename input invalid. Input must be a character string.\n");
-    # CM: its actually useful to just output the table, so let's not require the filename
-    #return(NULL);
-  }
 
   #Generate headers for table
   csvTable <- c("Field 1", "Field 2", "Field 3", "Entity", "Value");
@@ -58,7 +51,7 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NU
         }
         else{
           #print(cat(i,'  ',j))
-          csvTable <- rbind(csvTable,c(names(x)[i],"NA", "NA", names(x[[i]])[j], unlist(x[[i]][j])));
+          csvTable <- rbind(csvTable,c(names(x)[i],"NA", "NA", names(x[[i]])[j], cleanForCSV(x[[i]][j])));
         }
       }
       else{
@@ -73,7 +66,7 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NU
             }
             else{
               #print(cat(i,'  ',j,'  ',k))
-              csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], "NA", names(x[[i]][[j]])[k], unlist(x[[i]][[j]][k])));
+              csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], "NA", names(x[[i]][[j]])[k], cleanForCSV(x[[i]][[j]][k])));
             }
           }
           else{
@@ -85,7 +78,7 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NU
               }
               else{
                 #print(cat(i,'  ',j,'  ',k,'  ',l))
-                csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], names(x[[i]][[j]][[k]])[l], unlist(x[[i]][[j]][[k]][l])));
+                csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], names(x[[i]][[j]][[k]])[l], cleanForCSV(x[[i]][[j]][[k]][l])));
               }
             }
           }
@@ -103,5 +96,3 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NU
 
   return(csvTable)
 }
-
-
