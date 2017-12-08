@@ -77,4 +77,3 @@ See Examples.
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
-

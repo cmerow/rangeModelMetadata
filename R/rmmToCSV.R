@@ -36,7 +36,9 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NU
   }
 
   #Generate headers for table
-  csvTable <- c("Field 1", "Field 2", "Field 3", "Entity", "Value");
+  csvTable <- matrix(ncol = 5)
+  colnames(csvTable) <- c("Field 1", "Field 2", "Field 3", "Entity", "Value");
+  csvTable <- as.data.frame(csvTable)
 
   #Loop through list of lists to fill the table
   ##Field 1
@@ -46,12 +48,12 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NU
       #Check to see if Field 2 is null
       if(!is.list(x[[i]][[j]])){
         if(is.null(unlist(x[[i]][j]))){
-          #print(cat(i,'  ',j))
+          print(cat(i,'  ',j))
           csvTable <- rbind(csvTable,c(names(x)[i],"NA", "NA", names(x[[i]])[j], "EMPTY"));
         }
         else{
-          #print(cat(i,'  ',j))
-          csvTable <- rbind(csvTable,c(names(x)[i],"NA", "NA", names(x[[i]])[j], cleanForCSV(x[[i]][j])));
+          print(cat(i,'  ',j))
+          csvTable <- rbind(csvTable,c(names(x)[i],"NA", "NA", names(x[[i]])[j], cleanForCSV(x[[i]][[j]])));
         }
       }
       else{
@@ -60,25 +62,25 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NU
           #Check to see if Field 3 is null
           if(!is.list(x[[i]][[j]][[k]])){
             if (is.null(unlist(x[[i]][[j]][k]))){
-              #print(cat(i,'  ',j,'  ',k))
+              print(cat(i,'  ',j,'  ',k))
 
               csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], "NA", names(x[[i]][[j]])[k], "EMPTY"));
             }
             else{
-              #print(cat(i,'  ',j,'  ',k))
-              csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], "NA", names(x[[i]][[j]])[k], cleanForCSV(x[[i]][[j]][k])));
+              print(cat(i,'  ',j,'  ',k))
+              csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], "NA", names(x[[i]][[j]])[k], cleanForCSV(x[[i]][[j]][[k]])));
             }
           }
           else{
             for (l in 1:length(names(x[[i]][[j]][[k]]))){
               if (is.null(unlist(x[[i]][[j]][[k]][l]))){
-                #print(cat(i,'  ',j,'  ',k,'  ',l))
+                print(cat(i,'  ',j,'  ',k,'  ',l))
 
                 csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], names(x[[i]][[j]][[k]])[l], "EMPTY"));
               }
               else{
-                #print(cat(i,'  ',j,'  ',k,'  ',l))
-                csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], names(x[[i]][[j]][[k]])[l], cleanForCSV(x[[i]][[j]][[k]][l])));
+                print(cat(i,'  ',j,'  ',k,'  ',l))
+                csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], names(x[[i]][[j]][[k]])[l], cleanForCSV(x[[i]][[j]][[k]][[l]])));
               }
             }
           }
@@ -88,6 +90,7 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NU
   }
 
   #Assign header row
+  csvTable <- csvTable[-1,]
   colnames(csvTable) <- csvTable[1,]
   csvTable <- csvTable[-1,]
 

@@ -4,12 +4,12 @@
 \alias{rmmAutofillENMeval}
 \title{Fill in relevant rmm fields from an ENMevaluation object.}
 \usage{
-rmmAutofillENMeval(rmm, ENMevaluation)
+rmmAutofillENMeval(rmm, e)
 }
 \arguments{
-\item{ENMevaluation}{an ENMevaluation object}
-
 \item{rrm}{an rmm list}
+
+\item{ENMevaluation}{an ENMevaluation object}
 }
 \value{
 a range model metadata list
@@ -23,4 +23,3 @@ See Examples.
 \author{
 Jamie M. Kass <jamie.m.kass@gmail.com>
 }
-

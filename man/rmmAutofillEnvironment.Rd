@@ -34,4 +34,3 @@ rmm=rmmAutofillEnvironment(rmm,env,transfer=2) # for the second environment that
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
-
