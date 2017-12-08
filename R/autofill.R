@@ -264,14 +264,18 @@ rmmAutofillPrediction=function(rmm,prediction){
 rmmAutofillENMeval=function(rmm, e){
   rmm$model$algorithm <- e@algorithm
   rmm$model$maxent$backgroundSizeSet <- nrow(e@bg.pts)
+
   if (e@partition.method == "block" | e@partition.method == "checkerboard2") k <- 4
   else if (e@partition.method == "checkerboard1") k <- 2
   else if (e@partition.method == "randomkfold" | e@partition.method == "user") k <- as.numeric(e@partition.method[2])
   rmm$model$partition$numberFolds <- k
+
   if (grepl("maxnet", e@algorithm) == TRUE | grepl("maxent", e@algorithm) == TRUE) {
     rmm$model$maxent$featureSet <- unique(e@results$features)
     rmm$model$maxent$regularizationMultiplierSet <- unique(e@results$rm)
   }
+
+  return(rmm)
 
 
 }
