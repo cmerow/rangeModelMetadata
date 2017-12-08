@@ -11,6 +11,9 @@ rmmAutofillPackageCitation(rmm, packages)
 
 \item{packages}{a vector of quoted package names}
 }
+\value{
+a range model metadata list
+}
 \description{
 Using bibtex citations
 }
@@ -23,6 +26,6 @@ rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 
 }
 \author{
-Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
+Brian Maitner <bmaitner@gmail.com>, Cory Merow <cory.merow@gmail.com>
 }
 

@@ -63,13 +63,16 @@ system(paste0('open ', outFile, ' -a "Microsoft Excel"'))
 To make it easier to fill in important `rmm` fields with some autofill functions for common objects
 ```{r}
 rmm=rangeModelMetadataTemplate(useCase='apAll')
-#rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
+rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 # rmmAutoFillData(rmm,species=)
-# rmmAutoFillEnv(rmm,species=)
-# rmmAutoFillTransferEnv(rmm,layer=1)
+raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
+env=raster::stack(raster.files)
+rmm=rmmAutofillEnvironment(rmm,env,transfer=0) # for fitting environment
+rmm=rmmAutofillEnvironment(rmm,env,transfer=1) # for transfer environment 1 (assuming different than for fitting)
+rmm=rmmAutofillEnvironment(rmm,env,transfer=2) # for transfer environment 2 (assuming different than for fitting)
 # rmmAutoFillMaxent(rmm,species=)
 # rmmAutoFillPrediction(rmm,species=,layer=1)
-rmm
+rmmPrintFull(rmm) #print just the non-NULL fields
 ```
 
 To see what fields you might've missed...
