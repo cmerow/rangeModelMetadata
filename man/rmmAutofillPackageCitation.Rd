@@ -28,3 +28,4 @@ rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 \author{
 Brian Maitner <bmaitner@gmail.com>, Cory Merow <cory.merow@gmail.com>
 }
+

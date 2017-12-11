@@ -46,9 +46,8 @@ Another more complex example
 
 ```{r}
 rmmSuggest('model')
-rmmSuggest('model$algorithmSettings$')
-rmmSuggest('model$algorithmSettings$maxent$')
-rmmSuggest('$model$algorithmSettings$maxent$featureSet')
+rmmSuggest('model$maxent$')
+rmmSuggest('$model$maxent$featureSet')
 ```
 
 

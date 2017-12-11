@@ -16,9 +16,12 @@ Cleans up metadata instances that get messy if one tries to write them directly 
 See Examples.
 }
 \examples{
-cleanForCSV(rmm$data$environment$extent);
+rmm=rangeModelMetadataTemplate(useCase='apAll')
+rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
+cleanForCSV(rmm$data$environment$extent)
 
 }
 \author{
 Hannah Owens <hannah.owens@gmail.com>, Cory Merow <cory.merow@gmail.com>
 }
+

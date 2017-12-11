@@ -12,9 +12,12 @@
 #' rmm=rangeModelMetadataTemplate(useCase='apAll')
 #' raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
 #' env=raster::stack(raster.files)
-#' rmm=rmmAutofillEnvironment(rmm,env,transfer=0) # for fitting environment
-#' rmm=rmmAutofillEnvironment(rmm,env,transfer=1) # for the first environment that you're transfering to
-#' rmm=rmmAutofillEnvironment(rmm,env,transfer=2) # for the second environment that you're transfering to, etc.
+#' # for fitting environment
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
+#' # for the first environment that you're transfering to
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=1)
+#' # for the second environment that you're transfering to, etc.
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
 #'
 #' @return a range model metadata list
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
@@ -119,7 +122,6 @@ rmmPrintEmpty=function(rmm,obligateOnly=FALSE){
 #' See Examples.
 #'
 #' @param rmm a range model metadata list
-#' @param obligateOnly logical; only show empty obligat fields
 #'
 #' @examples
 #' rmm=rangeModelMetadataTemplate(useCase='apAll')

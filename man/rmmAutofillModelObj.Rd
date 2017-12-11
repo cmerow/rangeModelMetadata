@@ -9,71 +9,10 @@ rmmAutofillModelObj(rmm, modelObj)
 \arguments{
 \item{rmm}{an rmm list}
 }
-\description{
-#' @title Add relevant model info to an rmm object
-#'
-#' @description
-#'
-#' @details
-#' See Examples.
-#'
-#' @param rmm an rmm list
-#' @param
-#'
-# @examples
-#'
-#'
-#' @return a range model metadata list
-#' @author Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
-# @note
-# @seealso
-# @references
-# @aliases - a list of additional topic names that will be mapped to
-# this documentation when the user looks them up from the command
-# line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
-#' @export
-}
 \details{
-rmmAutofillModelObj=function(rmm,modelObj){
-
-}
-
-##############################################################################################
-##############################################################################################
-##############################################################################################
-
-#' @title Add relevant model prediction info to an rmm object
-#'
-#' @description
-#'
-#' @details
-#' See Examples.
-#'
-#' @param rrm an rmm list
-#' @param prediction a raster layer or stack
-#'
-# @examples
-#'
-#'
-#' @return a range model metadata list
-#' @author Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
-# @note
-# @seealso
-# @references
-# @aliases - a list of additional topic names that will be mapped to
-# this documentation when the user looks them up from the command
-# line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
-#' @export
-
-rmmAutofillPrediction=function(rmm,prediction){
-
-}
-
-
 See Examples.
 }
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
+

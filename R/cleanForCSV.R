@@ -8,7 +8,9 @@
 #' @param x An \code{rmm} entry that will be entered into an \code{rmmToCSV} function.
 #'
 #' @examples
-#' cleanForCSV(rmm$data$environment$extent);
+#' rmm=rangeModelMetadataTemplate(useCase='apAll')
+#' rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
+#' cleanForCSV(rmm$data$environment$extent)
 #'
 # @return
 #' @author Hannah Owens <hannah.owens@@gmail.com>, Cory Merow <cory.merow@@gmail.com>

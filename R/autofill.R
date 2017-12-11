@@ -59,9 +59,12 @@ rmmAutofillPackageCitation=function(rmm,packages){
 #' rmm=rangeModelMetadataTemplate(useCase='apAll')
 #' raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
 #' env=raster::stack(raster.files)
-#' rmm=rmmAutofillEnvironment(rmm,env,transfer=0) # for fitting environment
-#' rmm=rmmAutofillEnvironment(rmm,env,transfer=1) # for the first environment that you're transfering to
-#' rmm=rmmAutofillEnvironment(rmm,env,transfer=2) # for the second environment that you're transfering to, etc.
+#' # for fitting environment
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
+#' # for the first environment that you're transfering to
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=1)
+#' # for the second environment that you're transfering to, etc.
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
 #'
 #' @return a range model metadata list
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
@@ -136,38 +139,38 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 #' rmmAutofillModelObj=function(rmm,modelObj){
 #'
 #' }
+
+##############################################################################################
+##############################################################################################
+##############################################################################################
+
+#' @title Add relevant model prediction info to an rmm object
 #'
-#' ##############################################################################################
-#' ##############################################################################################
-#' ##############################################################################################
+#' @description
 #'
-#' #' @title Add relevant model prediction info to an rmm object
-#' #'
-#' #' @description
-#' #'
-#' #' @details
-#' #' See Examples.
-#' #'
-#' #' @param rrm an rmm list
-#' #' @param prediction a raster layer or stack
-#' #'
-#' # @examples
-#' #'
-#' #'
-#' #' @return a range model metadata list
-#' #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
-#' # @note
-#' # @seealso
-#' # @references
-#' # @aliases - a list of additional topic names that will be mapped to
-#' # this documentation when the user looks them up from the command
-#' # line.
-#' # @family - a family name. All functions that have the same family tag will be linked in the documentation.
-#' #' @export
+#' @details
+#' See Examples.
 #'
-#' rmmAutofillPrediction=function(rmm,prediction){
+#' @param rmm an rmm list
+#' @param prediction a raster layer or stack
 #'
-#' }
+# @examples
+#'
+#'
+#' @return a range model metadata list
+#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+# @note
+# @seealso
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @export
+
+rmmAutofillPrediction=function(rmm,prediction){
+  print('not done')
+}
 
 ##############################################################################################
 ##############################################################################################
@@ -198,7 +201,7 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 #' @export
 
 rmmAutofillModelObj=function(rmm,modelObj){
-
+  print('not done')
 }
 
 ##############################################################################################
@@ -207,7 +210,7 @@ rmmAutofillModelObj=function(rmm,modelObj){
 
 #' @title Add relevant model prediction info to an rmm object
 #'
-#' @description
+#' @description Add relevant model prediction info to an rmm object
 #'
 #' @details
 #' See Examples.
@@ -230,7 +233,7 @@ rmmAutofillModelObj=function(rmm,modelObj){
 #' @export
 
 rmmAutofillPrediction=function(rmm,prediction){
-
+  print('not done')
 }
 
 ##############################################################################################
@@ -239,7 +242,7 @@ rmmAutofillPrediction=function(rmm,prediction){
 
 #' @title Fill in relevant rmm fields from an ENMevaluation object.
 #'
-#' @description
+#' @description Fill in relevant rmm fields from an ENMevaluation object.
 #'
 #' @details
 #' See Examples.

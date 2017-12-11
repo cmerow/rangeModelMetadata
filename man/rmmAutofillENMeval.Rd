@@ -15,7 +15,7 @@ rmmAutofillENMeval(rmm, e)
 a range model metadata list
 }
 \description{
-
+Fill in relevant rmm fields from an ENMevaluation object.
 }
 \details{
 See Examples.
@@ -23,3 +23,4 @@ See Examples.
 \author{
 Jamie M. Kass <jamie.m.kass@gmail.com>
 }
+

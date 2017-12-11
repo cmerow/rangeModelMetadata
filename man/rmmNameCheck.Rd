@@ -24,3 +24,4 @@ Names returned by this check may be either incorrectly named or correctly named 
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
+

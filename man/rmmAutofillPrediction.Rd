@@ -5,21 +5,65 @@
 \title{Add relevant model prediction info to an rmm object}
 \usage{
 rmmAutofillPrediction(rmm, prediction)
+
+rmmAutofillPrediction(rmm, prediction)
 }
 \arguments{
+\item{rmm}{an rmm list}
+
 \item{prediction}{a raster layer or stack}
 
 \item{rrm}{an rmm list}
+
+\item{prediction}{a raster layer or stack}
 }
 \value{
+a range model metadata list
+
 a range model metadata list
 }
 \description{
 
+
+Add relevant model prediction info to an rmm object
 }
 \details{
+#' @title Add relevant model info to an rmm object
+#'
+#' @description
+#'
+#' @details
+#' See Examples.
+#'
+#' @param rmm an rmm list
+#' @param
+#'
+# @examples
+#'
+#'
+#' @return a range model metadata list
+#' @author Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
+# @note
+# @seealso
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @export
+
+rmmAutofillModelObj=function(rmm,modelObj){
+
+}
+
+
+See Examples.
+
 See Examples.
 }
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
+
+Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
+

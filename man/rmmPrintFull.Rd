@@ -8,8 +8,6 @@ rmmPrintFull(rmm)
 }
 \arguments{
 \item{rmm}{a range model metadata list}
-
-\item{obligateOnly}{logical; only show empty obligat fields}
 }
 \value{
 printout to the console
@@ -32,3 +30,4 @@ rmmPrintFull(rmm)
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
+
