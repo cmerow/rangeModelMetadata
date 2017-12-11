@@ -248,7 +248,9 @@ rmmAutofillPrediction=function(rmm,prediction){
 #' See Examples.
 #'
 #' @param rrm an rmm list
-#' @param ENMevaluation an ENMevaluation object
+#' @param e an ENMevaluation object
+#' @param i a numeric index value referring to the chosen model
+#' (e.g., if you chose the model corresponding to row 5 in the results table, this number would be 5)
 #'
 # @examples
 #'
@@ -264,18 +266,19 @@ rmmAutofillPrediction=function(rmm,prediction){
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
 #' @export
 
-rmmAutofillENMeval=function(rmm, e){
+rmmAutofillENMeval <- function(rmm, e, i) {
   rmm$model$algorithm <- e@algorithm
   rmm$model$maxent$backgroundSizeSet <- nrow(e@bg.pts)
+  rmm$model$partition$partitionSet <- unname(e@partition.method[1])
 
-  if (e@partition.method == "block" | e@partition.method == "checkerboard2") k <- 4
-  else if (e@partition.method == "checkerboard1") k <- 2
-  else if (e@partition.method == "randomkfold" | e@partition.method == "user") k <- as.numeric(e@partition.method[2])
+  if ("block" %in% e@partition.method | "checkerboard2" %in% e@partition.method) k <- 4
+  else if ("checkerboard1" %in% e@partition.method) k <- 2
+  else if ("randomkfold" %in% e@partition.method | "user" %in% e@partition.method) k <- as.numeric(e@partition.method[2])
   rmm$model$partition$numberFolds <- k
 
   if (grepl("maxnet", e@algorithm) == TRUE | grepl("maxent", e@algorithm) == TRUE) {
-    rmm$model$maxent$featureSet <- unique(e@results$features)
-    rmm$model$maxent$regularizationMultiplierSet <- unique(e@results$rm)
+    rmm$model$maxent$featureSet <- as.character(e@results[i, "features"])
+    rmm$model$maxent$regularizationMultiplierSet <- e@results[i, "rm"]
   }
 
   return(rmm)
