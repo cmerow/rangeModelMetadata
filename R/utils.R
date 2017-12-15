@@ -12,3 +12,9 @@
   dd1
 
 }
+
+#############
+.onAttach <- function(libname,pkgname) {
+  packageStartupMessage('Type vignette("rmm_vignette") or vignette("rmm_directory") to get started')
+}
+###############
