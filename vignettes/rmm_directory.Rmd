@@ -1,0 +1,38 @@
+---
+title: "rangeModelMetadata"
+author: "Brian Maitner"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{rangeModelMetadata R package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+##Function Directory
+For full information on each function, see the associated help file.
+
+
+##Function Types
+* rmm Primary functions are the most commonly used functions in the package and are usually where you start.
+* rmm Auto-fill functions take in R objects and automatically populate the relevant fields in an rmm object.  Autofill functions begin with the prefix "rmmAutofill"
+* rmm Check functions check for common errors in rmm objects.
+
+###Primary functions
+* `rangeModelMetadataTemplate` Creates an empty rmm object that can then be populated by the user.
+* `cleanForCSV` Helper function that facilitates converting rmm objects to csv if they containg objects that aren't easily coerced to characters.
+* `rmmPrintFull` Prints only the rmm fields that have been populated.
+* `rmmPrintEmpty` Checks for empty values in the rmm object.
+* `rmmToCSV` Converts the rmm object to a CSV file.
+* `rmmSuggest` Provides suggested values for rmm object fields.
+
+
+###rmm autofill functions
+* `rmmAutofillPackageCitation` Takes in a vector of packages used by the user in a workflow and returns a vector of Bibtex citations that can be inserted into the rmm object.
+* `rmmAutofillEnvironment` Takes in environmental rasters used in modeling and adds relevant information to the rmm object.
+* `rmmAutofillENMeval` Populated rmm objects with data taken from an ENMeval object.
+
+###rmm Check functions
+* `rmmNameCheck` Identifies non-standard name fields in an rmm object.
+* `rmmValueCheck` Checks a subset of rmm values against commonly used values and returns information on possible errors.
