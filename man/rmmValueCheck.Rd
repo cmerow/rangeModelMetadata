@@ -32,9 +32,10 @@ rmmValueCheck(rmm = rmm) #Now, when we check the values, we see that bio1 and bi
 #If we'd like to return a dataframe containing this information in a perhaps more useful format:
 rmmValueCheck_output<-rmmValueCheck(rmm = rmm,returnData = T)
 }
-\seealso{
-Other check: \code{\link{rmmNameCheck}}
-}
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
+\seealso{
+Other check: \code{\link{rmmNameCheck}}
+}
+

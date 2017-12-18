@@ -28,9 +28,10 @@ rmmNameCheck(rmm) # Checking the names should identify the new, non-standard fie
 
 
 }
-\seealso{
-Other check: \code{\link{rmmValueCheck}}
-}
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
+\seealso{
+Other check: \code{\link{rmmValueCheck}}
+}
+
