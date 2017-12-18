@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-#' rmm<-rangeModelMetadataTemplate # Make an empty template
+#' rmm<-rangeModelMetadataTemplate() # Make an empty template
 #' rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List" # Add a new, non-standard field
 #' rmmNameCheck(rmm) # Checking the names should identify the new, non-standard field we've added ("taxonomy_source")
 #'
