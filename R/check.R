@@ -9,7 +9,10 @@
 #' @param rmm a range model metadata list
 #' @export
 #'
-# @examples
+#' @examples
+#' rmm<-rangeModelMetadataTemplate # Make an empty template
+#' rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List" # Add a new, non-standard field
+#' rmmNameCheck(rmm) # Checking the names should identify the new, non-standard field we've added ("taxonomy_source")
 #'
 #'
 #' @return A vector of names that are not found in the range model metadata dictionary.
@@ -20,7 +23,7 @@
 # @aliases - a list of additional topic names that will be mapped to
 # this documentation when the user looks them up from the command
 # line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @family check
 rmmNameCheck=function(rmm){
 
   #nametree function by Vincent Zoonekynd
@@ -35,7 +38,7 @@ rmmNameCheck=function(rmm){
 
   dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
 
-  accepted_names<-c(as.character(dd$Field1), as.character(dd$Field2), as.character(dd$Field3), as.character(dd$Field4))
+  accepted_names<-unique(c(as.character(dd$field1), as.character(dd$field2), as.character(dd$field3), as.character(dd$entity)))
 
   questionable_names <- list_names[which(!list_names%in%accepted_names)]
 
@@ -60,10 +63,15 @@ rmmNameCheck=function(rmm){
 #' @param returnData Should a dataframe containing information on matched and unmatched values be returned?  Default is FALSE
 #' @export
 #'
-# @examples
+#' @examples
+#'rmm<-rangeModelMetadataTemplate() #First, we create an empty rmm template
+#'rmm$data$environment$variableNames<- c("bio1", "bio 2", "bio3", "cromulent") #We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2, and a word that is clearly not a climate layer, 'cromulent'.
+#'rmmValueCheck(rmm = rmm) #Now, when we check the values, we see that bio1 and bio2 are reported as exact matches, while 'bio 2' is flagged as a partial match with a suggested value of 'bio2', and cromulent is flagged as not matched at all.
+#'#If we'd like to return a dataframe containing this information in a perhaps more useful format:
+#'rmmValueCheck_output<-rmmValueCheck(rmm = rmm,returnData = T)
 #'
 #'
-#' @return Text describing identical, similar and non-matched values for rmm entities with suggested values.
+#' @return Text describing identical, similar and non-matched values for rmm entities with suggested values.  If returnData = T, a dataframe is returned containing 5 columns: field (the rmm entity), exact_match (values that appear correct), partial_match (values that are partial_match to common values), not_matched( values that are dissimilar from accepted values), partial_match_suggestions (suggested values for partial_match values).
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 #' @note Names returned by this check may be either incorrectly named or correctly named but missing from the data dictionary.
 # @seealso
@@ -71,7 +79,7 @@ rmmNameCheck=function(rmm){
 # @aliases - a list of additional topic names that will be mapped to
 # this documentation when the user looks them up from the command
 # line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @family check
 rmmValueCheck=function(rmm,cutoff_distance=3, returnData=F){
 
   dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
@@ -80,13 +88,13 @@ rmmValueCheck=function(rmm,cutoff_distance=3, returnData=F){
 
   #For all fields with either a kinda or yes in the valuesConstrained field, check values against those in datadictionary
 
-  #Split values into a "good", "close", and "not close" set.
+  #Split values into a "exact_match", "partial_match", and "not partial_match" set.
 
   #Print each set of values along with a note.
 
 
   value_check_df<-as.data.frame((matrix(ncol=5,nrow = nrow(dd_constrained))))
-  colnames(value_check_df)<-c("field","good","close","close_options","bad")
+  colnames(value_check_df)<-c("field","exact_match","partial_match","partial_match_suggestions","not_matched")
 
   for(i in 1:nrow(dd_constrained)){
 
@@ -109,7 +117,7 @@ rmmValueCheck=function(rmm,cutoff_distance=3, returnData=F){
         element_j<-eval(parse(text=dd_i))[j]
 
         if(element_j%in%constrained_values){
-          value_check_df$good[i]<-paste(na.omit(c(value_check_df$good[i],element_j)),sep = "; ",collapse = "; ")}else{
+          value_check_df$exact_match[i]<-paste(na.omit(c(value_check_df$exact_match[i],element_j)),sep = "; ",collapse = "; ")}else{
 
             #get the distance between the value and the potential values.
 
@@ -118,20 +126,20 @@ rmmValueCheck=function(rmm,cutoff_distance=3, returnData=F){
             if(min_dist<=cutoff_distance){
               constrained_values[which.min(adist(x = element_j,y = constrained_values))]
 
-              value_check_df$close[i]<-paste(na.omit(c(value_check_df$close[i],element_j)),sep = "; ",collapse = "; ")
-              value_check_df$close_options[i]<-paste(na.omit(c(value_check_df$close_options[i],constrained_values[which.min(adist(x = element_j,y = constrained_values))])),sep = "; ",collapse = "; ")
+              value_check_df$partial_match[i]<-paste(na.omit(c(value_check_df$partial_match[i],element_j)),sep = "; ",collapse = "; ")
+              value_check_df$partial_match_suggestions[i]<-paste(na.omit(c(value_check_df$partial_match_suggestions[i],constrained_values[which.min(adist(x = element_j,y = constrained_values))])),sep = "; ",collapse = "; ")
             }
 
             if(min_dist>cutoff_distance){
-              value_check_df$bad[i]<-paste(na.omit(c(value_check_df$bad[i],element_j)),sep = "; ",collapse = "; ")
+              value_check_df$not_matched[i]<-paste(na.omit(c(value_check_df$not_matched[i],element_j)),sep = "; ",collapse = "; ")
 
             }else{
 
-              value_check_df$close[i]<-paste(na.omit(c(value_check_df$bad[i],element_j)),sep = "; ",collapse = "; ")
+              value_check_df$partial_match[i]<-paste(na.omit(c(value_check_df$not_matched[i],element_j)),sep = "; ",collapse = "; ")
 
             }
-            #take the closest value,
-            #or if distance > something, label it as "bad"
+            #take the partial_matchst value,
+            #or if distance > something, label it as "not_matched"
 
           }#if element is not in suggested values
 
@@ -152,14 +160,14 @@ rmmValueCheck=function(rmm,cutoff_distance=3, returnData=F){
     for(r in 1:nrow(value_check_df)){
       print(paste("For the field ",value_check_df$field[r],":")  )
 
-      if(!is.na(value_check_df$good[r])){
-        print(paste("   The entries",value_check_df$good[r], " appear accurate."   ))}
+      if(!is.na(value_check_df$exact_match[r])){
+        print(paste("   The entries",value_check_df$exact_match[r], " appear accurate."   ))}
 
-      if(!is.na(value_check_df$close[r])){
-        print(paste("   The entries",value_check_df$close[r], " are similar to suggested values, please verify.  Suggested alternatives include: ", value_check_df$close_options[r]   ))}
+      if(!is.na(value_check_df$partial_match[r])){
+        print(paste("   The entries",value_check_df$partial_match[r], " are similar to suggested values, please verify.  Suggested alternatives include: ", value_check_df$partial_match_suggestions[r]   ))}
 
-      if(!is.na(value_check_df$bad[r])){
-        print(paste("   The entries",value_check_df$bad[r], " are not similar to any suggested values, please verify that these are accurate."   ))}
+      if(!is.na(value_check_df$not_matched[r])){
+        print(paste("   The entries",value_check_df$not_matched[r], " are not similar to any suggested values, please verify that these are accurate."   ))}
     }
 
   }else{  #if there are values to check
