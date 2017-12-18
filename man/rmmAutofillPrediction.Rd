@@ -2,6 +2,7 @@
 % Please edit documentation in R/autofill.R
 \name{rmmAutofillPrediction}
 \alias{rmmAutofillPrediction}
+\alias{rmmAutofillPrediction}
 \title{Add relevant model prediction info to an rmm object}
 \usage{
 rmmAutofillPrediction(rmm, prediction)
@@ -66,4 +67,3 @@ Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
-

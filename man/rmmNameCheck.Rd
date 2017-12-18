@@ -21,7 +21,16 @@ See Examples.
 \note{
 Names returned by this check may be either incorrectly named or correctly named but missing from the data dictionary.
 }
+\examples{
+rmm<-rangeModelMetadataTemplate() # Make an empty template
+rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List" # Add a new, non-standard field
+rmmNameCheck(rmm) # Checking the names should identify the new, non-standard field we've added ("taxonomy_source")
+
+
+}
+\seealso{
+Other check: \code{\link{rmmValueCheck}}
+}
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
-

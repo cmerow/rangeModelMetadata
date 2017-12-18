@@ -24,6 +24,8 @@
 # this documentation when the user looks them up from the command
 # line.
 #' @family check
+#' @import stats
+#' @import utils
 #' @export
 rmmNameCheck=function(rmm){
 

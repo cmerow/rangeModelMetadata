@@ -32,4 +32,3 @@ rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
 \author{
 Hannah Owens <hannah.owens@gmail.com>, Cory Merow <cory.merow@gmail.com>
 }
-
