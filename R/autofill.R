@@ -57,7 +57,7 @@ rmmAutofillPackageCitation=function(rmm,packages){
 #'
 #' @examples
 #' rmm=rangeModelMetadataTemplate(useCase='apAll')
-#' raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
+#' raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = TRUE)
 #' env=raster::stack(raster.files)
 #' # for fitting environment
 #' rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
@@ -178,13 +178,13 @@ rmmAutofillPrediction=function(rmm,prediction){
 
 #' @title Add relevant model info to an rmm object
 #'
-# @description
+#' @description Does stuff
 #'
 #' @details
 #' See Examples.
 #'
 #' @param rmm an rmm list
-# @param
+#' @param modelObj a model object
 #'
 # @examples
 #'
@@ -208,33 +208,6 @@ rmmAutofillModelObj=function(rmm,modelObj){
 ##############################################################################################
 ##############################################################################################
 
-#' @title Add relevant model prediction info to an rmm object
-#'
-#' @description Add relevant model prediction info to an rmm object
-#'
-#' @details
-#' See Examples.
-#'
-#' @param rrm an rmm list
-#' @param prediction a raster layer or stack
-#'
-# @examples
-#'
-#'
-#' @return a range model metadata list
-#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
-# @note
-# @seealso
-# @references
-# @aliases - a list of additional topic names that will be mapped to
-# this documentation when the user looks them up from the command
-# line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
-#' @export
-
-rmmAutofillPrediction=function(rmm,prediction){
-  print('not done')
-}
 
 ##############################################################################################
 ##############################################################################################

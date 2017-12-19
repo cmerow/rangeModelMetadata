@@ -11,8 +11,10 @@
 #'
 #' @examples
 #' rmm<-rangeModelMetadataTemplate() # Make an empty template
-#' rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List" # Add a new, non-standard field
-#' rmmCheckName(rmm) # Checking the names should identify the new, non-standard field we've added ("taxonomy_source")
+#' rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List"
+#' # Add a new, non-standard field
+#' rmmCheckName(rmm)
+#' # Checking the names should identify the new, non-standard field we've added ("taxonomy_source")
 #'
 #'
 #' @return A vector of names that are not found in the range model metadata dictionary.
@@ -69,8 +71,13 @@ rmmCheckName=function(rmm){
 #' @param returnData Should a dataframe containing information on matched and unmatched values be returned?  Default is FALSE
 #' @examples
 #' rmm<-rangeModelMetadataTemplate() #First, we create an empty rmm template
-#' rmm$data$environment$variableNames<- c("bio1", "bio 2", "bio3", "cromulent") #We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2, and a word that is clearly not a climate layer, 'cromulent'.
-#' rmmCheckValue(rmm = rmm) #Now, when we check the values, we see that bio1 and bio2 are reported as exact matches, while 'bio 2' is flagged as a partial match with a suggested value of 'bio2', and cromulent is flagged as not matched at all.
+#' rmm$data$environment$variableNames<- c("bio1", "bio 2", "bio3", "cromulent")
+#' #We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2,
+#' # and a word that is clearly not a climate layer, 'cromulent'.
+#' rmmCheckValue(rmm = rmm)
+#' #Now, when we check the values, we see that bio1 and bio2 are reported as exact matches,
+#' #while 'bio 2' is flagged as a partial match with a suggested value of 'bio2',
+#' # and cromulent is flagged as not matched at all.
 #' #If we'd like to return a dataframe containing this information in a perhaps more useful format:
 #' rmmCheckValue_output<-rmmCheckValue(rmm = rmm,returnData = T)
 #' @return Text describing identical, similar and non-matched values for rmm entities with suggested values.  If returnData = T, a dataframe is returned containing 5 columns: field (the rmm entity), exact_match (values that appear correct), partial_match (values that are partial_match to common values), not_matched( values that are dissimilar from accepted values), partial_match_suggestions (suggested values for partial_match values).

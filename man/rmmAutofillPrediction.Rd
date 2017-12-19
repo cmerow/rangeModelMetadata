@@ -14,7 +14,7 @@ rmmAutofillPrediction(rmm, prediction)
 
 \item{prediction}{a raster layer or stack}
 
-\item{rrm}{an rmm list}
+\item{rmm}{an rmm list}
 
 \item{prediction}{a raster layer or stack}
 }

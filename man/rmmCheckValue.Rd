@@ -27,8 +27,13 @@ Names returned by this check may be either incorrectly named or correctly named 
 }
 \examples{
 rmm<-rangeModelMetadataTemplate() #First, we create an empty rmm template
-rmm$data$environment$variableNames<- c("bio1", "bio 2", "bio3", "cromulent") #We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2, and a word that is clearly not a climate layer, 'cromulent'.
-rmmCheckValue(rmm = rmm) #Now, when we check the values, we see that bio1 and bio2 are reported as exact matches, while 'bio 2' is flagged as a partial match with a suggested value of 'bio2', and cromulent is flagged as not matched at all.
+rmm$data$environment$variableNames<- c("bio1", "bio 2", "bio3", "cromulent")
+#We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2,
+# and a word that is clearly not a climate layer, 'cromulent'.
+rmmCheckValue(rmm = rmm)
+#Now, when we check the values, we see that bio1 and bio2 are reported as exact matches,
+#while 'bio 2' is flagged as a partial match with a suggested value of 'bio2',
+# and cromulent is flagged as not matched at all.
 #If we'd like to return a dataframe containing this information in a perhaps more useful format:
 rmmCheckValue_output<-rmmCheckValue(rmm = rmm,returnData = T)
 }

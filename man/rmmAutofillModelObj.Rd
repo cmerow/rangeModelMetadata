@@ -8,6 +8,8 @@ rmmAutofillModelObj(rmm, modelObj)
 }
 \arguments{
 \item{rmm}{an rmm list}
+
+\item{modelObj}{a model object}
 }
 \details{
 See Examples.
