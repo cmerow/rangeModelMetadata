@@ -29,29 +29,89 @@
 #' @import stats
 #' @import utils
 #' @export
-rmmCheckName=function(rmm){
+rmmCheckName=function(rmm, cutoff_distance = 3, returnData = F ){
 
-  #nametree function by Vincent Zoonekynd
-  nametree <- function(X, prefix = "")
-    if( is.list(X) )
-      for( i in seq_along(X) ) {
-        cat( prefix, names(X)[i], "\n", sep="" )
-        nametree(X[[i]], paste0(prefix, ""))
-      }
 
-  list_names<-utils::capture.output(nametree(rmm))
+  list_elements<-capture.output(rmm)
+  list_elements<-list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
+
+  #Now, we need to purge the non-terminal list elements.
+  #Solution (probably not optimal):
+  #Identify elements that are completely contained within another element (but are not identical to that element).
+  #Any of these will not be terminal element names
+
+  terminal<-lapply(X = list_elements,FUN = function(x){
+
+    if(length(grep(pattern = x,x = unique(list_elements),fixed = T))>1){output<-FALSE}else{output<-TRUE}
+    return(output)
+  })
+  terminal<-unlist(terminal)
+  list_elements<-list_elements[terminal]
+  rm(terminal)
 
   dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  dd_names<-NULL
+  for(i in 1:nrow(dd)){
+    val_i<-dd[i,][unique(c(grep(pattern = "field",x = colnames(dd)),grep(pattern = "entity",x = colnames(dd)))) ]#The complicate indexing ensures that id additional fields (eg field4,field5) are added things won't break
+    val_i<-val_i[which(!is.na(val_i))]
+    val_i<-paste("$",paste(val_i,collapse = "$"),sep = "")
+    dd_names<-c(dd_names,val_i)
+  }
 
-  accepted_names<-unique(c(as.character(dd$field1), as.character(dd$field2), as.character(dd$field3), as.character(dd$entity)))
-
-  questionable_names <- list_names[which(!list_names%in%accepted_names)]
-
-  if(length(questionable_names)==0){print("All of the field names appear accurate.")}
-  if(length(questionable_names)>0){print(paste("Non-standard field names found, please verify these: ",paste(questionable_names,collapse = ", "),collapse = "",sep=""))}
+  rm(i,val_i)
 
 
-  return(questionable_names)
+  name_check_df<-as.data.frame((matrix(ncol=4,nrow = length(list_elements))))
+  colnames(name_check_df)<-c("exact_match","partial_match","partial_match_suggestions","not_matched")
+
+  for(i in 1:length(list_elements)){
+
+    element_i<-list_elements[i]
+
+
+    if(element_i%in%dd_names){
+      name_check_df$exact_match[i]<-element_i}else{  #if name is valid, else:
+
+        min_dist<-min(adist(x = element_i,y = dd_names))
+
+        if(min_dist<=cutoff_distance){
+
+
+          name_check_df$partial_match[i]<-element_i
+          name_check_df$partial_match_suggestions[i]<-dd_names[which.min(adist(x = element_i,y = dd_names))]
+        }
+
+        if(min_dist>cutoff_distance){
+          name_check_df$not_matched[i]<-element_i
+
+        }
+
+      }#if name is NOT valid exactly
+  }#i loop
+
+  if(nrow(name_check_df)>0){
+
+    if(length(which(!is.na(name_check_df$exact_match)))>0 ){
+      cat(paste("The names ",paste(name_check_df$exact_match[which(!is.na(name_check_df$exact_match))],collapse = ", "), " appear accurate.", sep = ""   ))
+      cat(noquote("\n "))
+    }
+
+    if(length(which(!is.na(name_check_df$partial_match)))>0 ){
+      message(paste("The names ",paste(name_check_df$partial_match[which(!is.na(name_check_df$partial_match))],collapse = ", "), " are similar to suggested names, please verify.  Suggested alternatives include: ",paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions))],collapse = ", "), sep = ""   ))
+      cat(noquote("\n "))
+      }
+
+    if(length(which(!is.na(name_check_df$not_matched)))>0 ){
+      message(paste("The names ",paste(name_check_df$not_matched[which(!is.na(name_check_df$not_matched))],collapse = ", "), " are not similar to any suggested names, please verify that these are accurate.", sep = ""   ))
+      cat(noquote("\n "))
+    }
+
+
+    if(returnData==T){
+      return(name_check_df)
+    }
+
+  }#overall fx
 
 }
 
@@ -167,21 +227,27 @@ rmmCheckValue <- function( rmm, cutoff_distance = 3, returnData = F ){
   if(nrow(value_check_df)>0){
 
     for(r in 1:nrow(value_check_df)){
-      print(paste("For the field ",value_check_df$field[r],":")  )
+      cat(noquote("For the field ",value_check_df$field[r],":")  )
+      cat(noquote("\n "))
 
       if(!is.na(value_check_df$exact_match[r])){
-        print(paste("   The entries",value_check_df$exact_match[r], " appear accurate."   ))}
-
+        cat(noquote("   The entries",value_check_df$exact_match[r], " appear accurate."   ))
+        cat(noquote("\n "))}
       if(!is.na(value_check_df$partial_match[r])){
-        print(paste("   The entries",value_check_df$partial_match[r], " are similar to suggested values, please verify.  Suggested alternatives include: ", value_check_df$partial_match_suggestions[r]   ))}
+        message(noquote("   The entries",value_check_df$partial_match[r], " are similar to suggested values, please verify.  Suggested alternatives include: ", value_check_df$partial_match_suggestions[r]   ))
+        cat(noquote("\n "))
+        }
 
       if(!is.na(value_check_df$not_matched[r])){
-        print(paste("   The entries",value_check_df$not_matched[r], " are not similar to any suggested values, please verify that these are accurate."   ))}
+        message(noquote("   The entries",value_check_df$not_matched[r], " are not similar to any suggested values, please verify that these are accurate."   ))
+        cat(noquote("\n "))
+        }
     }
 
   }else{  #if there are values to check
 
-    print(paste("The are no suggested fields to verify in this rmm object"))
+    message(noquote("The are no suggested fields to verify in this rmm object"))
+    cat(noquote("\n "))
 
   } #if there are no values to check
 
@@ -255,7 +321,7 @@ rmmCheckMissingNames<-function(rmm,useCase="apObligate"){
   missing_names<-obligate_names[which(!obligate_names%in%list_elements)]
   #list_elements[which(!list_elements%in%obligate_names)]
 
-  if(length(missing_names)==0){print("All obligate field names are present")}
+  if(length(missing_names)==0){cat("All obligate field names are present")}
 
   return(missing_names)
 
@@ -294,14 +360,18 @@ rmmCheckMissingNames<-function(rmm,useCase="apObligate"){
 #' @export
 rmmCheckFinalize<-function(rmm,useCase="apObligate"){
 
-  odd_names<-rmmCheckName(rmm)
+  names<-rmmCheckName(rmm,returnData = T)
 
   values<-rmmCheckValue(rmm = rmm,returnData = T)
+
   missing_names<-rmmCheckMissingNames(rmm,useCase = useCase)
 
 
 
-  if(length(odd_names)==0 & length(na.omit(values$partial_match))==0 & length(na.omit(values$not_matched))==0 & length(missing_names)==0 ){
+  if(length(na.omit(values$partial_match))==0 & length(na.omit(values$not_matched))==0 & #All values are exactly matched
+     length(missing_names)==0 & #No names are missing
+     length(na.omit(names$partial_match))==0 & length(na.omit(names$not_matched))==0 #All names are exactly matched
+        ){
   print("Everything looks good!")
   }
 
