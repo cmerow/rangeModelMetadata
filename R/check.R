@@ -12,7 +12,7 @@
 #' @examples
 #' rmm<-rangeModelMetadataTemplate() # Make an empty template
 #' rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List" # Add a new, non-standard field
-#' rmmNameCheck(rmm) # Checking the names should identify the new, non-standard field we've added ("taxonomy_source")
+#' rmmCheckName(rmm) # Checking the names should identify the new, non-standard field we've added ("taxonomy_source")
 #'
 #'
 #' @return A vector of names that are not found in the range model metadata dictionary.
@@ -27,7 +27,7 @@
 #' @import stats
 #' @import utils
 #' @export
-rmmNameCheck=function(rmm){
+rmmCheckName=function(rmm){
 
   #nametree function by Vincent Zoonekynd
   nametree <- function(X, prefix = "")
@@ -44,6 +44,10 @@ rmmNameCheck=function(rmm){
   accepted_names<-unique(c(as.character(dd$field1), as.character(dd$field2), as.character(dd$field3), as.character(dd$entity)))
 
   questionable_names <- list_names[which(!list_names%in%accepted_names)]
+
+  if(length(questionable_names)==0){print("All of the field names appear accurate.")}
+  if(length(questionable_names)>0){print(paste("Non-standard field names found, please verify these: ",paste(questionable_names,collapse = ", "),collapse = "",sep=""))}
+
 
   return(questionable_names)
 
@@ -66,9 +70,9 @@ rmmNameCheck=function(rmm){
 #' @examples
 #' rmm<-rangeModelMetadataTemplate() #First, we create an empty rmm template
 #' rmm$data$environment$variableNames<- c("bio1", "bio 2", "bio3", "cromulent") #We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2, and a word that is clearly not a climate layer, 'cromulent'.
-#' rmmValueCheck(rmm = rmm) #Now, when we check the values, we see that bio1 and bio2 are reported as exact matches, while 'bio 2' is flagged as a partial match with a suggested value of 'bio2', and cromulent is flagged as not matched at all.
+#' rmmCheckValue(rmm = rmm) #Now, when we check the values, we see that bio1 and bio2 are reported as exact matches, while 'bio 2' is flagged as a partial match with a suggested value of 'bio2', and cromulent is flagged as not matched at all.
 #' #If we'd like to return a dataframe containing this information in a perhaps more useful format:
-#' rmmValueCheck_output<-rmmValueCheck(rmm = rmm,returnData = T)
+#' rmmCheckValue_output<-rmmCheckValue(rmm = rmm,returnData = T)
 #' @return Text describing identical, similar and non-matched values for rmm entities with suggested values.  If returnData = T, a dataframe is returned containing 5 columns: field (the rmm entity), exact_match (values that appear correct), partial_match (values that are partial_match to common values), not_matched( values that are dissimilar from accepted values), partial_match_suggestions (suggested values for partial_match values).
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 #' @note Names returned by this check may be either incorrectly named or correctly named but missing from the data dictionary.
@@ -79,7 +83,7 @@ rmmNameCheck=function(rmm){
 # line.
 #' @family check
 #' @export
-rmmValueCheck <- function( rmm, cutoff_distance = 3, returnData = F ){
+rmmCheckValue <- function( rmm, cutoff_distance = 3, returnData = F ){
   dd<-utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
 
   dd_constrained<-dd[which(dd$valuesConstrained!="no"),]
@@ -180,4 +184,121 @@ rmmValueCheck <- function( rmm, cutoff_distance = 3, returnData = F ){
 
 
 }#end of fx
+
+#############################
+
+#############################
+
+#' @title Check for missing fields
+#'
+#' @description Identify obligate fields that are missing
+#'
+#' @details
+#' See Examples.
+#'
+#' @param rmm a range model metadata list
+#' @param useCase The rmm useCase to check the rmm against
+#'
+#' @examples
+#' rmm<-rangeModelMetadataTemplate() # Make an empty template
+#'
+#'
+#' @return A vector of names that are missing from the rmm object.
+#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+# @seealso
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+#' @family check
+#' @import stats
+#' @import utils
+#' @export
+rmmCheckMissingNames<-function(rmm,useCase="apObligate"){
+
+  list_elements<-capture.output(rmm)
+  list_elements<-list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
+
+  #Now, we need to purge the non-terminal list elements.
+  #Solution (probably not optimal):
+  #Identify elements that are completely contained within another element (but are not identical to that element).
+  #Any of these will not be terminal element names
+
+  terminal<-lapply(X = list_elements,FUN = function(x){
+
+    if(length(grep(pattern = x,x = unique(list_elements),fixed = T))>1){output<-FALSE}else{output<-TRUE}
+    return(output)
+  })
+  terminal<-unlist(terminal)
+  list_elements<-list_elements[terminal]
+
+
+  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  dd_ob<-dd[which(dd[useCase]==1),]
+
+  obligate_names<-NULL
+  for(i in 1:nrow(dd_ob)){
+    val_i<-dd_ob[i,][unique(c(grep(pattern = "field",x = colnames(dd_ob)),grep(pattern = "entity",x = colnames(dd_ob)))) ]#The complicate indexing ensures that id additional fields (eg field4,field5) are added things won't break
+    val_i<-val_i[which(!is.na(val_i))]
+    val_i<-paste("$",paste(val_i,collapse = "$"),sep = "")
+    obligate_names<-c(obligate_names,val_i)
+
+  }
+
+  missing_names<-obligate_names[which(!obligate_names%in%list_elements)]
+  #list_elements[which(!list_elements%in%obligate_names)]
+
+  if(length(missing_names)==0){print("All obligate field names are present")}
+
+  return(missing_names)
+
+}
+
+
+##################################
+
+##################################
+
+#' @title Run a final check of an rmm object
+#'
+#' @description Check an rmm object for non-standard and missing values and fields
+#'
+#' @details
+#' See Examples.
+#'
+#' @param rmm a range model metadata list
+#' @param useCase The rmm useCase to check the rmm against
+#'
+#' @examples
+#' rmm<-rangeModelMetadataTemplate() # Make an empty template
+#' rmmCheckFinalize(rmm)
+#'
+#'
+#' @return Prints feedback to point out possible errors.
+#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+# @seealso
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+#' @family check
+#' @import stats
+#' @import utils
+#' @export
+rmmCheckFinalize<-function(rmm,useCase="apObligate"){
+
+  odd_names<-rmmCheckName(rmm)
+
+  values<-rmmCheckValue(rmm = rmm,returnData = T)
+  missing_names<-rmmCheckMissingNames(rmm,useCase = useCase)
+
+
+
+  if(length(odd_names)==0 & length(na.omit(values$partial_match))==0 & length(na.omit(values$not_matched))==0 & length(missing_names)==0 ){
+  print("Everything looks good!")
+  }
+
+
+}
+
 

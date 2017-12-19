@@ -247,7 +247,7 @@ rmmAutofillPrediction=function(rmm,prediction){
 #' @details
 #' See Examples.
 #'
-#' @param rrm an rmm list
+#' @param rmm an rmm list
 #' @param e an ENMevaluation object
 #' @param i a numeric index value referring to the chosen model
 #' (e.g., if you chose the model corresponding to row 5 in the results table, this number would be 5)

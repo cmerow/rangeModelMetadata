@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' rmm1=rangeModelMetadataTemplate()
-#' rmm2=rangeModelMetadataTemplate(obgligateOnly=T)
+#' rmm2=rangeModelMetadataTemplate(useCase="apObligate")
 #' str(rmm2)
 #'
 #' @return a range model metadata list

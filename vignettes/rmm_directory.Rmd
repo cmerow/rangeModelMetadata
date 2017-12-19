@@ -37,5 +37,5 @@ For full information on each function, see the associated help file.
 * `rmmAutofillENMeval` Populated rmm objects with data taken from an ENMeval object.
 
 ###rmm Check functions
-* `rmmNameCheck` Identifies non-standard name fields in an rmm object.
-* `rmmValueCheck` Checks a subset of rmm values against commonly used values and returns information on possible errors.
+* `rmmCheckName` Identifies non-standard name fields in an rmm object.
+* `rmmCheckValue` Checks a subset of rmm values against commonly used values and returns information on possible errors.
