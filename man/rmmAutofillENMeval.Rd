@@ -7,12 +7,12 @@
 rmmAutofillENMeval(rmm, e, i)
 }
 \arguments{
+\item{rmm}{an rmm list}
+
 \item{e}{an ENMevaluation object}
 
 \item{i}{a numeric index value referring to the chosen model
 (e.g., if you chose the model corresponding to row 5 in the results table, this number would be 5)}
-
-\item{rrm}{an rmm list}
 }
 \value{
 a range model metadata list
