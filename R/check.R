@@ -92,17 +92,22 @@ rmmCheckName=function(rmm, cutoff_distance = 3, returnData = F ){
   if(nrow(name_check_df)>0){
 
     if(length(which(!is.na(name_check_df$exact_match)))>0 ){
-      cat(paste("The names ",paste(name_check_df$exact_match[which(!is.na(name_check_df$exact_match))],collapse = ", "), " appear accurate.", sep = ""   ))
+      cat(paste("The following names appear accurate:", sep = ""   ))
+      cat(paste("\n",paste(name_check_df$exact_match[which(!is.na(name_check_df$exact_match))],collapse = ", "), sep = ""   ))
       cat(noquote("\n "))
     }
 
     if(length(which(!is.na(name_check_df$partial_match)))>0 ){
-      message(paste("The names ",paste(name_check_df$partial_match[which(!is.na(name_check_df$partial_match))],collapse = ", "), " are similar to suggested names, please verify.  Suggested alternatives include: ",paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions))],collapse = ", "), sep = ""   ))
+      message(paste("The following names are similar to suggested names, please verify: ", sep = ""   ))
+      message(paste("\n",paste(name_check_df$partial_match[which(!is.na(name_check_df$partial_match))],collapse = ", "), sep = ""   ))
+      message(paste("Suggested alternatives include: ",paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions))],collapse = ", "), sep = ""   ))
+      message(paste(paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions))],collapse = ", "), sep = ""   ))
       cat(noquote("\n "))
       }
 
     if(length(which(!is.na(name_check_df$not_matched)))>0 ){
-      message(paste("The names ",paste(name_check_df$not_matched[which(!is.na(name_check_df$not_matched))],collapse = ", "), " are not similar to any suggested names, please verify that these are accurate.", sep = ""   ))
+      message(paste("The following names are not similar to any suggested names, please verify that these are accurate.", sep = ""   ))
+      message(paste(paste(name_check_df$not_matched[which(!is.na(name_check_df$not_matched))],collapse = ", "), sep = ""   ))
       cat(noquote("\n "))
     }
 
@@ -227,19 +232,24 @@ rmmCheckValue <- function( rmm, cutoff_distance = 3, returnData = F ){
   if(nrow(value_check_df)>0){
 
     for(r in 1:nrow(value_check_df)){
-      cat(noquote("For the field ",value_check_df$field[r],":")  )
+      cat(noquote(paste("For the field ",value_check_df$field[r],":",collapse = "",sep = ""))  )
       cat(noquote("\n "))
 
       if(!is.na(value_check_df$exact_match[r])){
-        cat(noquote("   The entries",value_check_df$exact_match[r], " appear accurate."   ))
-        cat(noquote("\n "))}
+        cat(noquote(paste("   The following entries appear accurate:"   )))
+        cat(noquote(paste("\n",value_check_df$exact_match[r])))
+        cat(noquote("\n "))
+        }
       if(!is.na(value_check_df$partial_match[r])){
-        message(noquote("   The entries",value_check_df$partial_match[r], " are similar to suggested values, please verify.  Suggested alternatives include: ", value_check_df$partial_match_suggestions[r]   ))
+        message(noquote(paste("   The following entries are similar to suggested values, please verify:" )))
+        message(noquote(paste(value_check_df$partial_match[r])))
+        message(noquote(paste( "Suggested alternatives include: ", value_check_df$partial_match_suggestions[r]  )))
         cat(noquote("\n "))
         }
 
       if(!is.na(value_check_df$not_matched[r])){
-        message(noquote("   The entries",value_check_df$not_matched[r], " are not similar to any suggested values, please verify that these are accurate."   ))
+        message(noquote(paste("   The following entries are not similar to any suggested values, please verify that these are accurate:"   )))
+        message(noquote(paste(value_check_df$not_matched[r])))
         cat(noquote("\n "))
         }
     }
@@ -329,6 +339,118 @@ rmmCheckMissingNames<-function(rmm,useCase="apObligate"){
 
 
 ##################################
+#' @title Check an rmm object for empty fields
+#'
+#' @description Identify empty fields in an rmm object and classify these into obligate, optional and suggested fields.
+#'
+#' @details
+#' See Examples.
+#'
+#' @param rmm a range model metadata list
+#' @param useCase an rmm useCase, "apObligate" by default
+#'
+#' @examples
+#' #First, make an empty rmm object:
+#' rmm<-rangeModelMetadataTemplate()
+#' #Next, we check for emtpy fields:
+#' empties1<-rmmCheckEmpty(rmm = rmm)
+#' #If looks like there are quite a few empty obligate fields.  Let's populate a few:
+#' rmm$data$occurrence$taxa<-"Acer rubrum"
+#' rmm$data$environment$variableNames<-"Bio1"
+#' #Now, if we run rmmCheckEmpty again, we see there are 2 fewer empty, obligate fields
+#' empties2<-rmmCheckEmpty(rmm = rmm)
+#'
+#'
+#' @return A dataframe containing empty fields labelled as obligate, optional, or suggested.
+#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+# @seealso
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+#' @family check
+#' @export
+rmmCheckEmpty<-function(rmm, useCase="apObligate"){
+
+  list_elements<-capture.output(rmm)
+  list_elements<-list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
+
+  #Now, we need to purge the non-terminal list elements.
+  #Solution (probably not optimal):
+  #Identify elements that are completely contained within another element (but are not identical to that element).
+  #Any of these will not be terminal element names
+
+  terminal<-lapply(X = list_elements,FUN = function(x){
+
+    if(length(grep(pattern = x,x = unique(list_elements),fixed = T))>1){output<-FALSE}else{output<-TRUE}
+    return(output)
+  })
+  terminal<-unlist(terminal)
+  list_elements<-list_elements[terminal]
+  rm(terminal)
+
+  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+
+  #Identify which fields are empty
+  nulls<-NULL
+  for(i in 1:length(list_elements)){
+    # eval(parse(text = paste("rmm",list_elements[i],sep = "",collapse = "")))
+    if(is.null(eval(parse(text = paste("rmm",list_elements[i],sep = "",collapse = ""))))){output<-TRUE}else{output<-FALSE}
+    nulls<-cbind(nulls,output)  }
+  rm(i,output)
+
+  empties<-list_elements[nulls]
+
+  output_data<-as.data.frame(matrix(ncol = 4,nrow = length(empties)))
+  colnames(output_data)<-c("Empty_field","Obligate","Suggested","Optional")
+
+  output_data$Empty_field<-empties
+
+
+  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  dd_names<-NULL
+  for(i in 1:nrow(dd)){
+    val_i<-dd[i,][unique(c(grep(pattern = "field",x = colnames(dd)),grep(pattern = "entity",x = colnames(dd)))) ]#The complicate indexing ensures that id additional fields (eg field4,field5) are added things won't break
+    val_i<-val_i[which(!is.na(val_i))]
+    val_i<-paste("$",paste(val_i,collapse = "$"),sep = "")
+    dd_names<-c(dd_names,val_i)
+  }
+
+  rm(i,val_i)
+
+
+
+  output_data$Obligate[which(output_data$Empty_field%in%dd_names[which(dd[useCase]==1)])]<-1
+  output_data$Optional[which(output_data$Empty_field%in%dd_names[which(dd[useCase]==0)])]<-1
+  #output_data$Suggested[which(output_data$Empty_field%in%dd_names[which(dd[useCase]==2)])]<-1 Add this once we figure out how to label suggested fields
+
+
+  #If there are missing obligate values, warn the user
+  if(sum(na.omit(output_data$Obligate))>0){
+    message(paste("There are ",sum(na.omit(output_data$Obligate)), "empty obligate fields:" ))
+    message(paste(output_data$Empty_field[which(output_data$Obligate==1)],sep = ", ",collapse = ", "))
+    cat("\n")
+  }
+
+  if(sum(na.omit(output_data$Suggested))>0){
+    cat(paste("There are ",sum(na.omit(output_data$Suggested)), "empty suggested fields." ))
+    cat("\n")
+  }
+
+  if(sum(na.omit(output_data$Optional))>0){
+    cat(paste("There are ",sum(na.omit(output_data$Optional)), "empty optional fields." ))
+    cat("\n")
+  }
+
+  if(nrow(output_data)==0){
+    cat("All fields are populated, groovy.")
+    cat("\n")
+
+  }
+
+  return(output_data)
+
+}
 
 ##################################
 
@@ -366,16 +488,18 @@ rmmCheckFinalize<-function(rmm,useCase="apObligate"){
 
   missing_names<-rmmCheckMissingNames(rmm,useCase = useCase)
 
-
+  empty_values<-rmmCheckEmpty(rmm = rmm,useCase = useCase)
 
   if(length(na.omit(values$partial_match))==0 & length(na.omit(values$not_matched))==0 & #All values are exactly matched
      length(missing_names)==0 & #No names are missing
-     length(na.omit(names$partial_match))==0 & length(na.omit(names$not_matched))==0 #All names are exactly matched
+     length(na.omit(names$partial_match))==0 & length(na.omit(names$not_matched))==0 & #All names are exactly matched
+     sum(na.omit(empty_values$Obligate))==0
         ){
   print("Everything looks good!")
   }
 
 
 }
+
 
 
