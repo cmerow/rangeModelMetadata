@@ -4,10 +4,14 @@
 \alias{rmmCheckName}
 \title{Check field names of a range model metadata list against conventions}
 \usage{
-rmmCheckName(rmm)
+rmmCheckName(rmm, cutoff_distance = 3, returnData = F)
 }
 \arguments{
 \item{rmm}{a range model metadata list}
+
+\item{cutoff_distance}{number of allowed different characters to match standardized names}
+
+\item{returnData}{logical}
 }
 \value{
 A vector of names that are not found in the range model metadata dictionary.
@@ -30,11 +34,13 @@ rmmCheckName(rmm)
 
 
 }
-\seealso{
-Other check: \code{\link{rmmCheckFinalize}},
-  \code{\link{rmmCheckMissingNames}},
-  \code{\link{rmmCheckValue}}
-}
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
+\seealso{
+Other check: \code{\link{rmmCheckEmpty}},
+  \code{\link{rmmCheckFinalize}},
+  \code{\link{rmmCheckMissingNames}},
+  \code{\link{rmmCheckValue}}
+}
+

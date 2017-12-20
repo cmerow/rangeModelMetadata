@@ -2,30 +2,19 @@
 % Please edit documentation in R/autofill.R
 \name{rmmAutofillPrediction}
 \alias{rmmAutofillPrediction}
-\alias{rmmAutofillPrediction}
 \title{Add relevant model prediction info to an rmm object}
 \usage{
-rmmAutofillPrediction(rmm, prediction)
-
 rmmAutofillPrediction(rmm, prediction)
 }
 \arguments{
 \item{rmm}{an rmm list}
 
 \item{prediction}{a raster layer or stack}
-
-\item{rmm}{an rmm list}
-
-\item{prediction}{a raster layer or stack}
 }
 \value{
 a range model metadata list
-
-a range model metadata list
 }
 \description{
-
-
 Add relevant model prediction info to an rmm object
 }
 \details{
@@ -59,11 +48,8 @@ rmmAutofillModelObj=function(rmm,modelObj){
 
 
 See Examples.
-
-See Examples.
 }
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
-
-Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
+

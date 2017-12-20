@@ -49,6 +49,7 @@ rangeModelMetadataTemplate=function(useCase='apAll'){
   #paste0(dd.f2[,c('field2','field3','entity')],collapse='$')
 
     field2=as.character(unique(dd.f2$field2))
+    field2=field2[complete.cases(field2)]
     rmm[[i]]=sapply(field2,function(x) NULL)
     for(j in 1:length(field2)){
       if(!useCase=='apAll'){
@@ -56,6 +57,7 @@ rangeModelMetadataTemplate=function(useCase='apAll'){
           #subset(dd.f2,field2==names(rmm[[i]])[j]  & Obligate==1)
       } else { dd.f3=subset(dd.f2,field2==names(rmm[[i]])[j]) }
       field3=as.character(unique(dd.f3$field3))
+      field3=field3[complete.cases(field3)]
       if(!all(is.na(field3) | is.null(field3) | field3=='')){
         rmm[[i]][[j]]=sapply(field3,function(x) NULL)
         for(k in 1:length(field3)){
@@ -64,6 +66,7 @@ rangeModelMetadataTemplate=function(useCase='apAll'){
               #subset(dd.f3,field3==names(rmm[[i]][[j]])[k] & Obligate==1)
           } else {  dd.f4=subset(dd.f3,field3==names(rmm[[i]][[j]])[k]) }
           field4=as.character(unique(dd.f4$entity))
+          field4=field4[complete.cases(field4)]
           if(!all(is.na(field4) | is.null(field4) | field4=='')) rmm[[i]][[j]][[k]]=sapply(field4,function(x) NULL)
         }
       }

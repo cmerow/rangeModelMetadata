@@ -146,7 +146,7 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 
 #' @title Add relevant model prediction info to an rmm object
 #'
-#' @description
+#' @description Add relevant model prediction info to an rmm object
 #'
 #' @details
 #' See Examples.
