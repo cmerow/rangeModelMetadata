@@ -24,4 +24,3 @@ cleanForCSV(rmm$data$environment$extent)
 \author{
 Hannah Owens <hannah.owens@gmail.com>, Cory Merow <cory.merow@gmail.com>
 }
-

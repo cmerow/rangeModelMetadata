@@ -33,12 +33,11 @@ empties2<-rmmCheckEmpty(rmm = rmm)
 
 
 }
-\author{
-Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
-}
 \seealso{
 Other check: \code{\link{rmmCheckFinalize}},
   \code{\link{rmmCheckMissingNames}},
   \code{\link{rmmCheckName}}, \code{\link{rmmCheckValue}}
 }
-
+\author{
+Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
+}

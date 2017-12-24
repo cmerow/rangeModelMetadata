@@ -26,4 +26,3 @@ See Examples.
 \author{
 Jamie M. Kass <jamie.m.kass@gmail.com>
 }
-

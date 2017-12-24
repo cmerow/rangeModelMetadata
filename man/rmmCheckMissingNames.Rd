@@ -25,12 +25,11 @@ rmm<-rangeModelMetadataTemplate() # Make an empty template
 
 
 }
-\author{
-Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
-}
 \seealso{
 Other check: \code{\link{rmmCheckEmpty}},
   \code{\link{rmmCheckFinalize}},
   \code{\link{rmmCheckName}}, \code{\link{rmmCheckValue}}
 }
-
+\author{
+Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
+}

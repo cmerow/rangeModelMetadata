@@ -26,12 +26,11 @@ rmmCheckFinalize(rmm)
 
 
 }
-\author{
-Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
-}
 \seealso{
 Other check: \code{\link{rmmCheckEmpty}},
   \code{\link{rmmCheckMissingNames}},
   \code{\link{rmmCheckName}}, \code{\link{rmmCheckValue}}
 }
-
+\author{
+Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
+}
