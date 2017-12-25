@@ -2,6 +2,7 @@
 
 export(.rmmLeftJustify)
 export(cleanForCSV)
+export(csvToRMM)
 export(rangeModelMetadataTemplate)
 export(rmmAutofillENMeval)
 export(rmmAutofillEnvironment)
