@@ -497,10 +497,8 @@ rmmCheckFinalize<-function(rmm,useCase="apObligate"){
      length(na.omit(names$partial_match))==0 & length(na.omit(names$not_matched))==0 & #All names are exactly matched
      sum(na.omit(empty_values$Obligate))==0
         ){
-  print("Everything looks good!")
+  cat("Everything looks good!")
   }
-
-
 }
 
 

@@ -80,8 +80,16 @@ rmmCheckShiny <- function() {
 
       output$rmmCheckOut <- renderPrint({
         if (!is.null(readRMM())) {
+          cat("-------------------------------")
+          cat("\n")
           for (i in 1:length(readRMM())) {
+            cat(paste("Performing all checks on RMM", i, "..."))
+            cat("\n")
             rmmCheckFinalize(readRMM()[[i]])
+            cat("All checks complete.")
+            cat("\n")
+            cat("-------------------------------")
+            cat("\n")
           }
         }
 
