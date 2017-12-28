@@ -11,3 +11,4 @@ if(Sys.info()['user']=='hannah') userPath='/Users/ctg/Dropbox/Projects/Range_Met
 if(Sys.info()['user']=='musasabi') userPath='/Users/musasabi/Documents/github'
 
 write.csv(d,paste0(userPath,'/rangeModelMetaData/inst/extdata/dataDictionary.csv'),row.names = F)
+

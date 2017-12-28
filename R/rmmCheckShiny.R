@@ -25,7 +25,7 @@ rmmCheckShiny <- function() {
       # sidebar with controls
       sidebarLayout(
         sidebarPanel(
-          fileInput("rmm_in", label = "Load RMMs", accept = c("csv", "rds"), multiple = TRUE),
+          fileInput("rmm_in", label = "Load RMMs", accept = c("csv", "rds","rdata","rda"), multiple = TRUE),
           helpText("Note: RMMs can be loaded as either a list of RMMs saved as
                    .rds or one or more .csv files."),
           strong("Compare RMMs"),

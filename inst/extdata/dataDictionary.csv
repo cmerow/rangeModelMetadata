@@ -10,10 +10,22 @@
 "data","environment",NA,"variableNames","character vector","kinda","bio1; bio2; bio3; bio4; bio5; bio6; bio7; bio8; bio9; bio10; bio11; bio12; bio13; bio14; bio15; bio16; bio17; bio18; bio19; wc2.0_bio_10m_01; wc2.0_bio_5m_01; wc2.0_bio_1m_01; wc2.0_bio_10m_02; wc2.0_bio_5m_02; wc2.0_bio_1m_02; wc2.0_bio_10m_03; wc2.0_bio_5m_03; wc2.0_bio_1m_03; wc2.0_bio_10m_04; wc2.0_bio_5m_04; wc2.0_bio_1m_04; wc2.0_bio_10m_05; wc2.0_bio_5m_05; wc2.0_bio_1m_05; wc2.0_bio_10m_06; wc2.0_bio_5m_06; wc2.0_bio_1m_06; wc2.0_bio_10m_07; wc2.0_bio_5m_07; wc2.0_bio_1m_07; wc2.0_bio_10m_08; wc2.0_bio_5m_08; wc2.0_bio_1m_08; wc2.0_bio_10m_09; wc2.0_bio_5m_09; wc2.0_bio_1m_09; wc2.0_bio_10m_10; wc2.0_bio_5m_10; wc2.0_bio_1m_10; wc2.0_bio_10m_11; wc2.0_bio_5m_11; wc2.0_bio_1m_11; wc2.0_bio_10m_12; wc2.0_bio_5m_12; wc2.0_bio_1m_12; wc2.0_bio_10m_13; wc2.0_bio_5m_13; wc2.0_bio_1m_13; wc2.0_bio_10m_14; wc2.0_bio_5m_14; wc2.0_bio_1m_14; wc2.0_bio_10m_15; wc2.0_bio_5m_15; wc2.0_bio_1m_15; wc2.0_bio_10m_16; wc2.0_bio_5m_16; wc2.0_bio_1m_16; wc2.0_bio_10m_17; wc2.0_bio_5m_17; wc2.0_bio_1m_17; wc2.0_bio_10m_18; wc2.0_bio_5m_18; wc2.0_bio_1m_18; wc2.0_bio_10m_19; wc2.0_bio_5m_19; wc2.0_bio_1m_19","kinda",NA,NA,"Environmental  variable names, preferably as they appear in the source.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "data","environment",NA,"yearMin","integer vector","kinda",NA,"no",NA,"1970;","The first year of the temporal range of climate data in the environmental layers.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "data","environment",NA,"yearMax","integer vector","kinda",NA,"no",NA,"2000;","The last year of the temporal range of climate data in the environmental layers.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"data","environment",NA,"extent","numeric vector","no",NA,"no",NA,"(xmin,xmax,ymin,ymax);","vectorize a raster::extent() object",NA,NA,NA,NA,NA,NA,NA,NA
-"data","environment",NA,"extentRule","character","no",NA,"no",NA,"Buffered all points by 500km and joined the resulting polygons;","User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","environment",NA,"extent","numeric vector","kinda",NA,"no",NA,"(xmin,xmax,ymin,ymax);","vectorize a raster::extent() object",NA,NA,NA,NA,NA,NA,NA,NA
+"data","environment",NA,"extentRule","character","kinda",NA,"no",NA,"Buffered all points by 500km and joined the resulting polygons;","User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "data","environment",NA,"resolution","numeric vector","no",NA,"no",NA,NA,"A single bibtex format citation or a vector of bibtex format citations.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "data","environment",NA,"sources","character vector","no",NA,"no",NA,"@misc{hijmans2004worldclim,title={The WorldClim interpolated global terrestrial climate surfaces. Version 1.3},author={Hijmans, RJ and Cameron, SE and Parra, JL and Jones, PG and Jarvis, A},year={2004}}","A single bibtex format citation or a vector of bibtex format citations.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","transfer","environment1","yearMin","integer","no",NA,"no","transferEnv1",NA,"additional environments can be addded as environment2, environments3, etc.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","transfer","environment1","yearMax","integer","no",NA,"no","transferEnv1",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","transfer","environment1","sources","character vector","no",NA,"no","transferEnv1",NA,"A single bibtex format citation or a vector of bibtex format citations.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","transfer","environment1","extentSet","numeric vector","no",NA,"no","transferEnv1","(xmin,xmax,ymin,ymax)",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","this is already a vector; what if it differs by specie?"
+"data","transfer","environment1","extentRule","character","no",NA,"no","transferEnv1","Buffered all points by 500km and joined the resulting polygons;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","transfer","environment1","resolution","numeric","no",NA,"no","transferEnv1",NA,"A single bibtex format citation or a vector of bibtex format citations.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","transfer","environment2","yearMin","integer","no",NA,"no","transferEnv2",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","transfer","environment2","yearMax","integer","no",NA,"no","transferEnv2",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","transfer","environment2","sources","character vector","no",NA,"no","transferEnv2",NA,"A single bibtex format citation or a vector of bibtex format citations.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","transfer","environment2","extentSet","numeric vector","no",NA,"no","transferEnv2","(xmin,xmax,ymin,ymax)",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","transfer","environment2","extentRule","character","no",NA,"no","transferEnv2","Buffered all points by 500km and joined the resulting polygons;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"data","transfer","environment2","resolution","numeric","no",NA,"no","transferEnv2",NA,"The spatial resolution of the environmental raster.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "data",NA,NA,"dataNotes","character","kinda",NA,"no",NA,NA,"User specified",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "dataPrep","errors","duplicateRemoval","rule","character","no","environmental duplicates; coordinate duplicates; not needed; NA;","kinda",NA,"environmental duplicates; coordinate duplicates; not needed; NA;","If duplicate records were removed, what criteria were used for removal?",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "dataPrep","errors","duplicateRemoval","notes","character","no",NA,"no",NA,"Duplicate removal performed on species with more than 10 occurrences;","User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
@@ -38,18 +50,18 @@
 "dataPrep","environmental","environmentalOutlierRemoval","notes","character","no",NA,"no",NA,NA,"User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "dataPrep","environmental",NA,"notes","character","no",NA,"no",NA,NA,"User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "dataPrep",NA,NA,"dataPrepNotes","character vector","kinda",NA,"no",NA,NA,"User specified",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"model",NA,NA,"occurrenceTreatedAs","character","no","point; cell; transect; polygon;","kinda",NA,"point; cell; transect; polygon;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"model",NA,NA,"rangeType","character",NA,"potential;suitableArea;fundamental;realized;occupied",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"model",NA,NA,"invasion","character",NA,"native;invasive;naturalized;colonized",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"model",NA,NA,"transfer","character",NA,"space; time; both; no",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"model",NA,NA,"populationType","character vector",NA,"breeding;wintering;migratory;resident",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"model",NA,NA,"multispecies","character",NA,"yes; no",NA,NA,NA,"indicate whether taxon",NA,NA,NA,NA,NA,NA,NA,NA
-"model",NA,NA,"covariateScaling","character","no","untransformed;  z-score; unit interval;","kinda",NA,"untransformed;  z-score; unit interval;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"model",NA,NA,"occurrenceSubsampling","character","no","5-fold cross validation; none;","kinda",NA,"5-fold cross validation; none;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"model",NA,NA,"offset","character","no",NA,"no",NA,"description;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "model",NA,NA,"algorithm","character vector","kinda","generalized linear model; generalized additive model; boosted regression trees; maxent; bioclim;  Poisson point process; range bagging; all biomod2 models;","kinda",NA,"generalized linear model; generalized additive model; boosted regression trees; maxent; bioclim;  Poisson point process; range bagging; all biomod2 models;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "model",NA,NA,"algorithmCitation","character vector","no",NA,"no",NA,"@article{phillips2006maximum,title={Maximum entropy modeling of species geographic distributions},author={Phillips, Steven J and Anderson, Robert P and Schapire, Robert E},journal={Ecological modelling},volume={190},number={3},pages={231--259},year={2006},publisher={Elsevier}}",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model",NA,NA,"multispecies","character",NA,"yes; no",NA,NA,NA,"indicate whether taxon",NA,NA,NA,NA,NA,NA,NA,NA
+"model",NA,NA,"covariateScaling","character","no","untransformed;  z-score; unit interval;","kinda",NA,"untransformed;  z-score; unit interval;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model",NA,NA,"occurrenceTreatedAs","character","no","point; cell; transect; polygon;","kinda",NA,"point; cell; transect; polygon;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model",NA,NA,"covariateScaling","character","no","untransformed;  z-score; unit interval;","kinda",NA,"untransformed;  z-score; unit interval;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "model",NA,NA,"notes","character","no",NA,"no",NA,NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
+"model","objective",NA,"rangeType","character",NA,"potential;suitableArea;fundamental;realized;occupied",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"model","objective",NA,"invasion","character",NA,"native;invasive;naturalized;colonized",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"model","objective",NA,"transfer","character",NA,"space; time; both; no",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"model","objective",NA,"populationType","character vector",NA,"breeding;wintering;migratory;resident",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"model","partition",NA,"occurrenceSubsampling","character","no","5-fold cross validation; none;","kinda",NA,"5-fold cross validation; none;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "model","partition",NA,"numberFolds","numeric","no",NA,NA,NA,"4","Number of folds used in kfold cross validation",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "model","partition",NA,"partitionSet","character","no",NA,NA,NA,"spatial blocks","Partitioning method",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "model","partition",NA,"partitionRule","character","no",NA,NA,NA,"spatial blocks defined by kmeans clustering","User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
@@ -62,40 +74,45 @@
 "model","maxent",NA,"backgroundSizeSet","numeric vector","kinda",NA,"no","maxent",NA,"See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "model","maxent",NA,"backgroundSizeRule","character","no",NA,"no","maxent","increased until gain plateau","See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "model","maxent",NA,"samplingBiasRule","character","no","target group; offset; none;","kinda",NA,"target group; offset; none;","See maxent manual",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"model","maxent",NA,"targetGroupSampleSize","numeric vector","kinda",NA,"no",NA,NA,"See: Phillips, S., M. Dudik, J. Elith, C. Graham, A. Lehmann, J. Leathwick, and S. Ferrier. 2009. Sample selection bias and presence-only distribution models: implications for background and pseudo-absence data. Ecological Applications 19:181–197.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"model","maxent",NA,"expertMapProbSet","numeric vector","kinda",NA,"no","maxentExpertMap",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"model","maxent",NA,"expertMapProbRule","character","no",NA,"no","maxentExpertMap","Based on proportion of presences correctly classified","See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"model","maxent",NA,"expertMapRateSet","numeric vector","kinda",NA,"no","maxentExpertMap",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"model","maxent",NA,"expertMapRateRule","character","no",NA,"no","maxentExpertMap",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"model","maxent",NA,"expertMapSkewSet","numeric vector","kinda",NA,"no","maxentExpertMap",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"model","maxent",NA,"expertMapSkewRule","character","no",NA,"no","maxentExpertMap",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"model","maxent",NA,"expertMapShiftSet","numeric vector","kinda",NA,"no","maxentExpertMap",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"model","maxent",NA,"expertMapShiftRule","character","no",NA,"no","maxentExpertMap",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243–258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","maxent",NA,"targetGroupSampleSize","numeric vector","kinda",NA,"no",NA,NA,"See: Phillips, S., M. Dudik, J. Elith, C. Graham, A. Lehmann, J. Leathwick, and S. Ferrier. 2009. Sample selection bias and presence-only distribution models: implications for background and pseudo-absence data. Ecological Applications 19:181â€“197.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","maxent",NA,"offsetSet","character","no",NA,"no",NA,"description;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","maxent",NA,"offsetRule","character","no",NA,"no",NA,"description;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","maxent",NA,"expertMapProbSet","numeric vector","kinda",NA,"no","maxentExpertMap",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243â€“258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","maxent",NA,"expertMapProbRule","character","no",NA,"no","maxentExpertMap","Based on proportion of presences correctly classified","See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243â€“258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","maxent",NA,"expertMapRateSet","numeric vector","kinda",NA,"no","maxentExpertMap",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243â€“258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","maxent",NA,"expertMapRateRule","character","no",NA,"no","maxentExpertMap",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243â€“258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","maxent",NA,"expertMapSkewSet","numeric vector","kinda",NA,"no","maxentExpertMap",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243â€“258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","maxent",NA,"expertMapSkewRule","character","no",NA,"no","maxentExpertMap",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243â€“258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","maxent",NA,"expertMapShiftSet","numeric vector","kinda",NA,"no","maxentExpertMap",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243â€“258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"model","maxent",NA,"expertMapShiftRule","character","no",NA,"no","maxentExpertMap",NA,"See: Merow, C., A. M. Wilson, and W. Jetz. 2017. Integrating occurrence data and expert maps for improved species range predictions. Global Ecology and Biogeography 26:243â€“258.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "model","maxent",NA,"notes","character vector","kinda",NA,"no",NA,NA,"User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"model","ensemble",NA,"notes",NA,NA,NA,NA,"ensemble",NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
-"model","glm",NA,"notes",NA,NA,NA,NA,"glm",NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
-"model","mars",NA,"notes",NA,NA,NA,NA,"mars",NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
-"model","brt",NA,"notes",NA,NA,NA,NA,"brt",NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
-"model","bioclim",NA,"notes",NA,NA,NA,NA,"bioclim",NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
-"model","randomForest",NA,"notes",NA,NA,NA,NA,"randomForest",NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
-"model","rangeBagging",NA,"notes",NA,NA,NA,NA,"rangeBagging",NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
+"model","ensemble",NA,"notes","character vector","kinda",NA,"no","ensemble",NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
+"model","glm",NA,"notes","character vector","kinda",NA,"no","glm",NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
+"model","mars",NA,"notes","character vector","kinda",NA,"no","mars",NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
+"model","brt",NA,"notes","character vector","kinda",NA,"no","brt",NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
+"model","bioclim",NA,"notes","character vector","kinda",NA,"no","bioclim",NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
+"model","randomForest",NA,"notes","character vector","kinda",NA,"no","randomForest",NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
+"model","rangeBagging",NA,"notes","character vector","kinda",NA,"no","rangeBagging",NA,"User specified",NA,NA,NA,NA,NA,NA,NA,NA
+"model",NA,NA,"references","character vector","no",NA,"no",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 "output","prediction",NA,"units","character","no","absolute probability;  relative occurrence rate;","kinda",NA,"absolute probability;  relative occurrence rate;",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "output","prediction",NA,"minVal","numeric vector","kinda",NA,"no",NA,NA,NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "output","prediction",NA,"maxVal","numeric vector","kinda",NA,"no",NA,NA,NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"output","prediction",NA,"threshold","numeric vector","kinda",NA,"no",NA,NA,"only if binary/trinary",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","prediction",NA,"thresholdSet","numeric vector","kinda",NA,"no",NA,NA,"only if binary/trinary",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","prediction",NA,"thresholdRule","numeric vector","kinda",NA,"no",NA,NA,"only if binary/trinary",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "output","prediction",NA,"notes","character vector","kinda",NA,"no",NA,NA,"User specified",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"output","transfer","environment1","yearMin","integer","no",NA,"no","transferEnv1",NA,"additional environments can be addded as environment2, environments3, etc.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"output","transfer","environment1","yearMax","integer","no",NA,"no","transferEnv1",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"output","transfer","environment1","sources","character vector","no",NA,"no","transferEnv1",NA,"A single bibtex format citation or a vector of bibtex format citations.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"output","transfer","environment1","extentSet","numeric vector","no",NA,"no","transferEnv1","(xmin,xmax,ymin,ymax)",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL","this is already a vector; what if it differs by specie?"
-"output","transfer","environment1","extentRule","character","no",NA,"no","transferEnv1","Buffered all points by 500km and joined the resulting polygons;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"output","transfer","environment1","resolution","numeric","no",NA,"no","transferEnv1",NA,"A single bibtex format citation or a vector of bibtex format citations.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"output","transfer","environment2","yearMin","integer","no",NA,"no","transferEnv2",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"output","transfer","environment2","yearMax","integer","no",NA,"no","transferEnv2",NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"output","transfer","environment2","sources","character vector","no",NA,"no","transferEnv2",NA,"A single bibtex format citation or a vector of bibtex format citations.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"output","transfer","environment2","extentSet","numeric vector","no",NA,"no","transferEnv2","(xmin,xmax,ymin,ymax)",NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"output","transfer","environment2","extentRule","character","no",NA,"no","transferEnv2","Buffered all points by 500km and joined the resulting polygons;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"output","transfer","environment2","resolution","numeric","no",NA,"no","transferEnv2",NA,"The spatial resolution of the environmental raster.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","prediction",NA,"extrapolation","character","no","clamping; extrapolate function","kinda",NA,"clamping; extrapolate function","In Example 2, 'extrapolate function' indicates that the fitted functional form was not modified beyond the range of the data.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment1","units","character","no","absolute probability;  relative occurrence rate;","kinda",NA,"absolute probability;  relative occurrence rate;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment1","minVal","numeric vector","kinda",NA,"no",NA,NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment1","maxVal","numeric vector","kinda",NA,"no",NA,NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment1","thresholdSet","numeric vector","kinda",NA,"no",NA,NA,"only if binary/trinary",0,"NULL","NULL","NULL","NULL","NULL","NULL","this is already a vector; what if it differs by specie?"
+"output","transfer","environment1","thresholdRule","numeric vector","kinda",NA,"no",NA,NA,"only if binary/trinary",0,"NULL","NULL","NULL","NULL","NULL","NULL","this is already a vector; what if it differs by specie?"
+"output","transfer","environment1","notes","character vector","kinda",NA,"no",NA,NA,"User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment2","units","character","no","absolute probability;  relative occurrence rate;","kinda",NA,"absolute probability;  relative occurrence rate;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment2","minVal","numeric vector","kinda",NA,"no",NA,NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment2","maxVal","numeric vector","kinda",NA,"no",NA,NA,NA,1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment2","thresholdSet","numeric vector","kinda",NA,"no",NA,NA,"only if binary/trinary",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment2","thresholdRule","numeric vector","kinda",NA,"no",NA,NA,"only if binary/trinary",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"output","transfer","environment2","notes","character vector","kinda",NA,"no",NA,NA,"User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "output","transfer",NA,"notes","character vector","kinda",NA,"no",NA,NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "output","transfer",NA,"extrapolation","character","no","clamping; extrapolate function","kinda",NA,"clamping; extrapolate function","In Example 2, 'extrapolate function' indicates that the fitted functional form was not modified beyond the range of the data.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "output",NA,NA,"ensembleRule","character vector","kinda",NA,"no",NA,"Models weighted by AUC scores on test data;",NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
@@ -137,7 +154,8 @@
 "performance","evaluationDataStats",NA,"falsePositiveRate","numeric vector","kinda",NA,"no",NA,NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "performance","evaluationDataStats",NA,"falseNegativeRate","numeric vector","kinda",NA,"no",NA,NA,"See R package ROCR",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "performance","evaluationDataStats",NA,"Boyce","numeric vector","kinda",NA,"no",NA,NA,"See R package ecospat",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"performance",NA,NA,"performanceNotes","character vector","kinda",NA,"no",NA,NA,"User specified",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"performance",NA,NA,"references","character vector","no",NA,"no",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"performance",NA,NA,"notes","character vector","kinda",NA,"no",NA,NA,"User specified",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "authorship",NA,NA,"names","character vector","no",NA,"no",NA,"Merow, Cory; Maitner, Brian","The names of those who created this model.",1,"NULL","NULL","NULL","NULL","NULL","NULL","already a vectore, but not species specific"
 "authorship",NA,NA,"ownership","character","no",NA,"no",NA,"Merow, Cory;","The names of the person(s) who own this model.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "authorship",NA,NA,"license","character","no","CC; CC BY; CC BY-SA; CC BY-ND; CC BY-NC; CC BY-NC-SA; CC BY-NC-ND","kinda",NA,"CC; CC BY; CC BY-SA; CC BY-ND; CC BY-NC; CC BY-NC-SA; CC BY-NC-ND","The license this model has been produced under.  See https://creativecommons.org/licenses/ for common options.",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
@@ -148,6 +166,8 @@
 "code",NA,NA,"wallaceSettings",NA,"no",NA,"no",NA,NA,"If using Wallace",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "code","software",NA,"platform","character vector","no",NA,"no",NA,"@Manual{,title = {R: A Language and Environment for Statistical Computing},author = {{R Core Team}},organization = {R Foundation for Statistical Computing},address = {Vienna, Austria},year = {2017},url = {https://www.R-project.org/},}","A single bibtex format citation or a vector of bibtex format citations.  Should contain the platform (or platflorms) used in the analysis,",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "code","software",NA,"packages","character vector","no",NA,"no",NA,"@Manual{,title = {dismo: Species Distribution Modeling},author = {Robert J. Hijmans and Steven Phillips and John Leathwick and Jane Elith},year = {2017}, note = {R package version 1.1-4},url = {https://CRAN.R-project.org/package=dismo},}","A single bibtex format citation or a vector of bibtex format citations.  Should contain all packages used in the workflow.",1,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"code",NA,NA,"demoCode","character","no",NA,"no",NA,NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
-"code",NA,NA,"fullCode","character","no",NA,"no",NA,NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"code",NA,NA,"dataLink",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"code",NA,NA,"demoCodeLink","character","no",NA,"no",NA,NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
+"code",NA,NA,"vignetteLink",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"code",NA,NA,"fullCodeLink","character","no",NA,"no",NA,NA,NA,0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
 "code",NA,NA,"codeNotes","character","no",NA,"no",NA,NA,"User specified",0,"NULL","NULL","NULL","NULL","NULL","NULL",NA
