@@ -1,5 +1,4 @@
 
-
 #' @title Check field names of a range model metadata list against conventions
 #'
 #' @description Identify nonstandard fields
@@ -9,7 +8,7 @@
 #'
 #' @param rmm a range model metadata list
 #' @param cutoff_distance number of allowed different characters to match standardized names
-#' @param returnData logical
+#' @param returnData logical. If FALSE, the functon will return the (possibly) corrected rmm object.  If TRUE, the function will return a data.frame containing information on incorrect names.
 #' @examples
 #' rmm<-rangeModelMetadataTemplate() # Make an empty template
 #' rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List"
@@ -18,7 +17,7 @@
 #' # Checking the names should identify the new, non-standard field we've added ("taxonomy_source")
 #'
 #'
-#' @return A vector of names that are not found in the range model metadata dictionary.
+#' @return Either an rmm list object (returnData=F) or a data.frame containing information on possible name errores (returnData=T).
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 #' @note Names returned by this check may be either incorrectly named or correctly named but missing from the data dictionary.
 # @seealso
@@ -30,8 +29,7 @@
 #' @import stats
 #' @import utils
 #' @export
-
-rmmCheckName=function(rmm, cutoff_distance = 3, returnData = F ){
+rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
 
 
   list_elements<-capture.output(rmm)
@@ -61,15 +59,14 @@ rmmCheckName=function(rmm, cutoff_distance = 3, returnData = F ){
   }
 
   rm(i,val_i)
+  #i=26,12
 
-
-  name_check_df<-as.data.frame((matrix(ncol=4,nrow = length(list_elements))))
-  colnames(name_check_df)<-c("exact_match","partial_match","partial_match_suggestions","not_matched")
+  name_check_df<-as.data.frame((matrix(ncol=5,nrow = length(list_elements))))
+  colnames(name_check_df)<-c("exact_match","partial_match","partial_match_suggestions","corrected_name","not_matched")
 
   for(i in 1:length(list_elements)){
 
     element_i<-list_elements[i]
-
 
     if(element_i%in%dd_names){
       name_check_df$exact_match[i]<-element_i}else{  #if name is valid, else:
@@ -81,6 +78,30 @@ rmmCheckName=function(rmm, cutoff_distance = 3, returnData = F ){
 
           name_check_df$partial_match[i]<-element_i
           name_check_df$partial_match_suggestions[i]<-dd_names[which.min(adist(x = element_i,y = dd_names))]
+
+          # prompt
+          message("\n\n")
+          message("\n Element name '",element_i,"' not found in data dictionary", "!\n
+                  Did you mean: '",name_check_df$partial_match_suggestions[i],"'? \n  Type 'y' or 'n'." ) # prompt
+          take <- scan(n = 1, quiet = TRUE, what = 'raw')
+
+          if (take == 'y' | take == 'Y') {
+            #rename list element_i to the partial match suggestion
+
+            el_i<-paste("rmm",element_i,sep = "")
+            bad_name<-unlist(strsplit(el_i,"$",fixed = T))[length(unlist(strsplit(el_i,"$",fixed = T)))]
+            parent_i<-paste(unlist(strsplit(el_i,"$",fixed = T))[1:length(unlist(strsplit(el_i,"$",fixed = T)))-1],collapse = "$")
+
+            exp_i<-paste("names(",parent_i,")[",which(names(eval(parse(text = parent_i)))==bad_name),"] <- '",unlist(strsplit(name_check_df$partial_match_suggestions[i],split = "$",fixed = T))[length(unlist(strsplit(name_check_df$partial_match_suggestions[i],split = "$",fixed = T)))],"'",sep = "")
+            eval(parse(text = exp_i))
+            name_check_df$corrected_name[i]<-dd_names[which.min(adist(x = element_i,y = dd_names))]
+
+          }
+
+          #end prompt
+
+
+
         }
 
         if(min_dist>cutoff_distance){
@@ -94,21 +115,29 @@ rmmCheckName=function(rmm, cutoff_distance = 3, returnData = F ){
   if(nrow(name_check_df)>0){
 
     if(length(which(!is.na(name_check_df$exact_match)))>0 ){
-      cat(paste("The following names appear accurate:", sep = ""   ))
+      cat(paste("The following names appear accurate:", sep = "",collapse = ""))
       cat(paste("\n",paste(name_check_df$exact_match[which(!is.na(name_check_df$exact_match))],collapse = ", "), sep = ""   ))
       cat(noquote("\n "))
     }
 
-    if(length(which(!is.na(name_check_df$partial_match)))>0 ){
-      message(paste("The following names are similar to suggested names, please verify: ", sep = ""   ))
-      message(paste("\n",paste(name_check_df$partial_match[which(!is.na(name_check_df$partial_match))],collapse = ", "), sep = ""   ))
-      message(paste("Suggested alternatives include: ",paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions))],collapse = ", "), sep = ""   ))
-      message(paste(paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions))],collapse = ", "), sep = ""   ))
+    if(length(which(!is.na(name_check_df$corrected_name)))>0 ){
+      cat(noquote("\n"))
+      cat(paste("The following names were corrected:", sep = "",collapse = ""   ))
+      cat(paste("\n",paste(name_check_df$partial_match[which(!is.na(name_check_df$corrected_name))],collapse = ", "), sep = ""   ))
       cat(noquote("\n "))
-      }
+    }
+
+
+    if(length(which(!is.na(name_check_df$partial_match) & is.na(name_check_df$corrected_name)))>0 ){
+      message(paste("The following names are similar to suggested names, please verify: ", sep = ""   ))
+      message(paste(paste(name_check_df$partial_match[which(!is.na(name_check_df$partial_match) & is.na(name_check_df$corrected_name) )],collapse = ", "), sep = ""   ))
+      message(paste("\nSuggested alternatives include: \n",paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions) & is.na(name_check_df$corrected_name))],collapse = ", "), sep = ""   ))
+      #message(paste(paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions))],collapse = ", "), sep = ""   ))
+      cat(noquote("\n "))
+    }
 
     if(length(which(!is.na(name_check_df$not_matched)))>0 ){
-      message(paste("The following names are not similar to any suggested names, please verify that these are accurate.", sep = ""   ))
+      message(paste("The following names are not similar to any suggested names, please verify that these are accurate:", sep = ""   ))
       message(paste(paste(name_check_df$not_matched[which(!is.na(name_check_df$not_matched))],collapse = ", "), sep = ""   ))
       cat(noquote("\n "))
     }
@@ -118,9 +147,12 @@ rmmCheckName=function(rmm, cutoff_distance = 3, returnData = F ){
       return(name_check_df)
     }
 
+    if(returnData==F){return(rmm)}
+
+
   }#overall fx
 
-}
+  }
 
 ##############################################################
 
