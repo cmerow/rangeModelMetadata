@@ -30,7 +30,7 @@ rangeModelMetadataTemplate=function(useCase='apAll'){
   # for testing
   # useCase='apObligate'
 
-  if(!(useCase %in% c('apAll','apObligate','apMinimal'))) stop('specifiy a correct useCase')
+  if(!(useCase %in% c('apAll','apObligate','apMinimal'))) stop('Specify a correct useCase.')
 
   dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
 
