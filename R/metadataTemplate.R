@@ -73,7 +73,11 @@ rangeModelMetadataTemplate=function(useCase='apAll'){
     }
   }
 
-  rmm
+  # label as "rmm" class
+  # query for RMM class like this: "RMM" %in% class(rmm)
+  class(rmm) <- append(class(rmm),"RMM")
+
+  return(rmm)
 }
 
 
