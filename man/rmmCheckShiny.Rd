@@ -6,9 +6,6 @@
 \usage{
 rmmCheckShiny()
 }
-\arguments{
-\item{rmm}{a range model metadata list}
-}
 \value{
 None
 }

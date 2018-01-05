@@ -14,7 +14,6 @@
 #' rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List"
 #' # Add a new, non-standard field
 #' rmm.1=rmmCheckName(rmm)
-#' rmm.1$dataPrep$biological$taxonomicHarmonization
 #' # Checking the names should identify the new, non-standard field we've added ("taxonomy_source")
 #'
 #'

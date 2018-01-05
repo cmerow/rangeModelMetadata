@@ -8,7 +8,7 @@
 #' @param csv A character file path to the csv file.
 #' @param useCase character string; 'apAll', 'apObligate', 'apMinimal'
 #'
-#' @examples
+# @examples
 #'
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>, Jamie Kass <jamie.m.kass@@gmail.com>
 # @note

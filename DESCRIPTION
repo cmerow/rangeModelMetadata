@@ -19,10 +19,11 @@ Suggests:
     rmarkdown,
     cmsdm,
     BIENWorkflow,
-    MOLSDM
+    MOLSDM,
+    ENMeval
 Imports:
     raster,
     dismo,
-    ENMeval,
-    utils
+    utils,
+    shiny
 VignetteBuilder: knitr

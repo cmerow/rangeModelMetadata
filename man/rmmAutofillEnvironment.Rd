@@ -24,7 +24,8 @@ See Examples.
 }
 \examples{
 rmm=rangeModelMetadataTemplate(useCase='apAll')
-raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = TRUE)
+raster.dir=system.file("extdata/Env_Demo",package='rangeModelMetadata')
+raster.files=list.files(raster.dir,full.names = TRUE)
 env=raster::stack(raster.files)
 # for fitting environment
 rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
