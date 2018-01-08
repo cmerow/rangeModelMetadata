@@ -8,7 +8,7 @@
 #' @param csv A character file path to the csv file.
 #' @param useCase character string; 'apAll', 'apObligate', 'apMinimal'
 #'
-# @examples
+#' @examples
 #'
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>, Jamie Kass <jamie.m.kass@@gmail.com>
 # @note
@@ -32,45 +32,31 @@ csvToRMM <- function(csv, useCase='apAll') {
   if(!(useCase %in% c('apAll','apObligate','apMinimal'))) stop('Specify a correct useCase.')
 
   # read in csv from path
-  dd <- read.csv(csv, stringsAsFactors=FALSE)
+  dd <- read.csv(csv, stringsAsFactors=FALSE);
 
-  # # convert to old format that worked with other code
-  # dd <- .rmmLeftJustify(dd)
+  #Creating named values from the .csv file
+  values <- mapply(assign, dd$Entity, dd$Value)
 
-  # Level 1 fields
-  field1 <- as.character(unique(dd$field1))
-  rmm <- sapply(field1,function(x) NULL)
+  #Creating a blank rmm rmm to fill from the .csv
+  rmm <- rangeModelMetadatarmm(useCase = useCase)
 
-  # Level 2-5 fields
-  for(i in 1:length(rmm)){
-    if(!useCase == 'apAll'){
-      dd.f2 <- dd[dd$field1 == names(rmm)[i] & dd[,useCase] == 1,]
-    } else {dd.f2 <- subset(dd,field1 == names(rmm)[i])}
-    #paste0(dd.f2[,c('field2','field3','entity')],collapse='$')
-
-    field2 <- as.character(unique(dd.f2$field2))
-    field2 <- field2[complete.cases(field2)]
-    rmm[[i]] <- sapply(field2,function(x) NULL)
-    for(j in 1:length(field2)){
-      if(!useCase == 'apAll'){
-        dd.f3 <- dd.f2[dd.f2$field2 == names(rmm[[i]])[j] & dd.f2[,useCase] == 1,]
-        #subset(dd.f2,field2 == names(rmm[[i]])[j]  & Obligate == 1)
-      } else { dd.f3 <- subset(dd.f2,field2 == names(rmm[[i]])[j]) }
-      field3 <- as.character(unique(dd.f3$field3))
-      field3 <- field3[complete.cases(field3)]
-      if(!all(is.na(field3) | is.null(field3) | field3 == '')){
-        rmm[[i]][[j]] <- sapply(field3,function(x) NULL)
-        for(k in 1:length(field3)){
-          if(!useCase == 'apAll'){
-            dd.f4 <- dd.f3[dd.f3$field3 == names(rmm[[i]][[j]])[k] & dd.f3[,useCase] == 1,]
-            #subset(dd.f3,field3 == names(rmm[[i]][[j]])[k] & Obligate == 1)
-          } else {  dd.f4 <- subset(dd.f3,field3 == names(rmm[[i]][[j]])[k]) }
-          field4 <- as.character(unique(dd.f4$entity))
-          field4 <- field4[complete.cases(field4)]
-          if(!all(is.na(field4) | is.null(field4) | field4 == '')) rmm[[i]][[j]][[k]] <- sapply(field4,function(x) NULL)
-        }
-      }
+  count <- 1
+  while(count <= nrow(dd)){
+    coords <- dd[count,!is.na(dd[count,])]
+    if (length(coords) == 5){
+      rmm[[coords[[1]]]][[coords[[2]]]][[coords[[3]]]][[coords[[4]]]] <- coords[[5]];
     }
+    else if (length(coords) == 4){
+      rmm[[coords[[1]]]][[coords[[2]]]][[coords[[3]]]] <- coords[[4]];
+    }
+    else if (length(coords) == 3){
+      rmm[[coords[[1]]]][[coords[[2]]]] <- coords[[3]];
+    }
+    else if (length(coords) == 2){
+      rmm[[coords[[1]]]] <- coords[[2]];
+    }
+    count <- count + 1;
   }
+
   return(rmm)
 }
