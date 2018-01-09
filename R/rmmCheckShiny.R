@@ -62,15 +62,15 @@ rmmCheckShiny <- function() {
         )
 
         if (exts[1] == "csv") {
-          return(lapply(input$rmm_in$datapath, read.csv))
+          return(lapply(input$rmm_in$datapath, csvToRMM))
         }
         if (exts[1] == "rds") {
           validate(
             need(length(exts) == 1, "Cannot input more than one .rds file.")
           )
           rds <- readRDS(input$rmm_in$datapath)
-          # dumb way for now to check if we have a list of rmms or just a single one
-          if (!is.null(names(rds))) {
+          # check if we have a list of rmms or just a single one
+          if ("RMM" %in% class(rds)) {
             return(list(rds))
           } else {
             return(rds)

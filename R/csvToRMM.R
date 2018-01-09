@@ -44,19 +44,29 @@ csvToRMM <- function(csv, useCase='apAll') {
   while(count <= nrow(dd)){
     coords <- dd[count,!is.na(dd[count,])]
     if (length(coords) == 5){
-      rmm[[coords[[1]]]][[coords[[2]]]][[coords[[3]]]][[coords[[4]]]] <- coords[[5]];
+      if(coords[[5]] != "NULL") {
+        rmm[[coords[[1]]]][[coords[[2]]]][[coords[[3]]]][[coords[[4]]]] <- coords[[5]]
+      }
     }
     else if (length(coords) == 4){
-      rmm[[coords[[1]]]][[coords[[2]]]][[coords[[3]]]] <- coords[[4]];
+      if(coords[[4]] != "NULL") {
+        rmm[[coords[[1]]]][[coords[[2]]]][[coords[[3]]]] <- coords[[4]]
+      }
     }
     else if (length(coords) == 3){
-      rmm[[coords[[1]]]][[coords[[2]]]] <- coords[[3]];
+      if(coords[[3]] != "NULL") {
+        rmm[[coords[[1]]]][[coords[[2]]]] <- coords[[3]]
+      }
     }
     else if (length(coords) == 2){
-      rmm[[coords[[1]]]] <- coords[[2]];
+      if(coords[[2]] != "NULL") {
+        rmm[[coords[[1]]]] <- coords[[2]]
+      }
     }
-    count <- count + 1;
+    count <- count + 1
   }
+
+
 
   return(rmm)
 }
