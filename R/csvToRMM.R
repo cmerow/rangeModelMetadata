@@ -26,47 +26,44 @@
 
 csvToRMM <- function(csv, useCase='apAll') {
 
-  # for testing
-  # useCase='apObligate'
-
   if(!(useCase %in% c('apAll','apObligate','apMinimal'))) stop('Specify a correct useCase.')
 
   # read in csv from path
   dd <- read.csv(csv, stringsAsFactors=FALSE)
 
   #Creating named values from the .csv file
+
   values <- mapply(assign, dd$entity, dd$value)
 
-  #Creating a blank rmm rmm to fill from the .csv
+  # create a blank rmm to fill from the values in csv
   rmm <- rangeModelMetadataTemplate(useCase = useCase)
 
-  count <- 1
-  while(count <= nrow(dd)){
-    coords <- dd[count,!is.na(dd[count,])]
-    if (length(coords) == 5){
-      if(coords[[5]] != "NULL") {
-        rmm[[coords[[1]]]][[coords[[2]]]][[coords[[3]]]][[coords[[4]]]] <- coords[[5]]
+  # loop over all rows, determine how many fields are not NA,
+  # then fill in the value from csv to the slot in the rmm list
+  # NOTE: all values are split to vectors by ";" by default
+  for(i in 1:nrow(dd)) {
+    curRow <- dd[i,!is.na(dd[i,])]
+    if (length(curRow) == 5){
+      if(curRow[[5]] != "NULL") {
+        rmm[[curRow[[1]]]][[curRow[[2]]]][[curRow[[3]]]][[curRow[[4]]]] <- strsplit(curRow[[5]], "; ")[[1]]
       }
     }
-    else if (length(coords) == 4){
-      if(coords[[4]] != "NULL") {
-        rmm[[coords[[1]]]][[coords[[2]]]][[coords[[3]]]] <- coords[[4]]
+    else if (length(curRow) == 4){
+      if(curRow[[4]] != "NULL") {
+        rmm[[curRow[[1]]]][[curRow[[2]]]][[curRow[[3]]]] <- strsplit(curRow[[4]], "; ")[[1]]
       }
     }
-    else if (length(coords) == 3){
-      if(coords[[3]] != "NULL") {
-        rmm[[coords[[1]]]][[coords[[2]]]] <- coords[[3]]
+    else if (length(curRow) == 3){
+      if(curRow[[3]] != "NULL") {
+        rmm[[curRow[[1]]]][[curRow[[2]]]] <- strsplit(curRow[[3]], "; ")[[1]]
       }
     }
-    else if (length(coords) == 2){
-      if(coords[[2]] != "NULL") {
-        rmm[[coords[[1]]]] <- coords[[2]]
+    else if (length(curRow) == 2){
+      if(curRow[[2]] != "NULL") {
+        rmm[[curRow[[1]]]] <- strsplit(curRow[[2]], "; ")[[1]]
       }
     }
-    count <- count + 1
   }
-
-
 
   return(rmm)
 }
