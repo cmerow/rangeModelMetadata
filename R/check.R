@@ -168,6 +168,7 @@ rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
 #' @param rmm a range model metadata list
 #' @param cutoff_distance The maximum allowable similarity (Levenshtein (edit) distance) for use in fuzzy matching.
 #' @param returnData Should a dataframe containing information on matched and unmatched values be returned?  Default is FALSE
+#'
 #' @examples
 #' rmm<-rangeModelMetadataTemplate() #First, we create an empty rmm template
 #' rmm$data$environment$variableNames<- c("bio1", "bio 2", "bio3", "cromulent")
@@ -178,7 +179,8 @@ rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
 #' #while 'bio 2' is flagged as a partial match with a suggested value of 'bio2',
 #' # and cromulent is flagged as not matched at all.
 #' #If we'd like to return a dataframe containing this information in a perhaps more useful format:
-#' rmmCheckValue_output<-rmmCheckValue(rmm = rmm,returnData = T)
+#' rmmCheckValue_output<-rmmCheckValue(rmm = rmm,returnData = TRUE)
+#'
 #' @return Text describing identical, similar and non-matched values for rmm entities with suggested values.  If returnData = T, a dataframe is returned containing 5 columns: field (the rmm entity), exact_match (values that appear correct), partial_match (values that are partial_match to common values), not_matched( values that are dissimilar from accepted values), partial_match_suggestions (suggested values for partial_match values).
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 #' @note Names returned by this check may be either incorrectly named or correctly named but missing from the data dictionary.
@@ -516,9 +518,9 @@ rmmCheckEmpty<-function(rmm, useCase="apObligate"){
 #' @export
 rmmCheckFinalize<-function(rmm,useCase="apObligate"){
 
-  names<-rmmCheckName(rmm,returnData = T)
+  names<-rmmCheckName(rmm,returnData = TRUE)
 
-  values<-rmmCheckValue(rmm = rmm,returnData = T)
+  values<-rmmCheckValue(rmm = rmm,returnData = TRUE)
 
   missing_names<-rmmCheckMissingNames(rmm,useCase = useCase)
 

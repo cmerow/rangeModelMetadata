@@ -22,7 +22,7 @@
 # line.
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
 #' @export
-#'
+
 cleanForCSV <- function(x = NULL){
   y <- unlist(x[1]);
   z <- unlist(x)

@@ -19,7 +19,18 @@ See Examples.
 This function launches a shiny app in the default web browser
 }
 \examples{
-rmmCheckShiny(rmm)
+rmm1=rangeModelMetadataTemplate(useCase='apAll')
+rmm1=rmmAutofillPackageCitation(rmm1,c('raster','sp'))
+r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
+raster.files=list.files(r.f,full.names = TRUE)
+env=raster::stack(raster.files)
+# for fitting environment
+rmm1=rmmAutofillEnvironment(rmm1,env,transfer=0)
+# for transfer environment 1 (assuming different than for fitting)
+rmm1=rmmAutofillEnvironment(rmm1,env,transfer=1)
+# for transfer environment 2 (assuming different than 1)
+rmm1=rmmAutofillEnvironment(rmm1,env,transfer=2)
+\dontrun{ rmmCheckShiny(rmm1) }
 
 }
 \author{

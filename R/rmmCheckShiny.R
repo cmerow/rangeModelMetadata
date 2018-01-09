@@ -6,7 +6,19 @@
 #' See Examples.
 #'
 #' @examples
-#' rmmCheckShiny(rmm)
+#' rmm1=rangeModelMetadataTemplate(useCase='apAll')
+#' rmm1=rmmAutofillPackageCitation(rmm1,c('raster','sp'))
+# rmm1AutoFillData(rmm1,species=) # not used yet
+#' r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
+#' raster.files=list.files(r.f,full.names = TRUE)
+#' env=raster::stack(raster.files)
+#' # for fitting environment
+#' rmm1=rmmAutofillEnvironment(rmm1,env,transfer=0)
+#' # for transfer environment 1 (assuming different than for fitting)
+#' rmm1=rmmAutofillEnvironment(rmm1,env,transfer=1)
+#' # for transfer environment 2 (assuming different than 1)
+#' rmm1=rmmAutofillEnvironment(rmm1,env,transfer=2)
+#' \dontrun{ rmmCheckShiny(rmm1) }
 #'
 #' @return None
 #' @author Jamie Kass <jamie.m.kass@@gmail.com>
@@ -14,19 +26,21 @@
 #' @export
 
 rmmCheckShiny <- function() {
-  require(shiny)
+  # require(shiny) # CM: cran wants you to namespace the functions rather than use require
   shiny::shinyApp(
     ui = shiny::fluidPage(
 
       # app title
-      shiny::titlePanel("RMM Check"),
+      shiny::titlePanel("Range Model Metadata (RMM) Check"),
 
       # sidebar with controls
       shiny::sidebarLayout(
         shiny::sidebarPanel(
           shiny::fileInput("rmm_in", label = "Load RMMs", accept = c("csv", "rds"), multiple = TRUE),
+          # CM: for flexibility, can we also accept .rdata or .rda? This should be no issue now that we have an rmm class, right?
           shiny::helpText("Note: RMMs can be loaded as either a list of RMMs saved as
-                   .rds or one or more .csv files."),
+                   .rds, a single RMM per .rds file, or one or more .csv files. Up to 4 RMMs can be compared at once."),
+          # CM: how many can be compared at once now?
           shiny::strong("Compare RMMs"),
           shiny::br(), shiny::br(),
           shiny::actionButton("rmm_compare", "Go"),
@@ -57,6 +71,7 @@ rmmCheckShiny <- function() {
         sameExtTest <- rep(exts[1], length(exts))
         identicalTest <- identical(exts, sameExtTest)
 
+        # CM: can we change this so that mutliple types are allowed, to enable different studies that might've used different outputs? this just amounts to using rmmToCSV or vice versa, right?
         shiny::validate(
           shiny::need(identicalTest == TRUE, "Please make sure all the input files are of the same type.")
         )
@@ -65,8 +80,8 @@ rmmCheckShiny <- function() {
           return(lapply(input$rmm_in$datapath, csvToRMM))
         }
         if (exts[1] == "rds") {
-          validate(
-            need(length(exts) == 1, "Cannot input more than one .rds file.")
+          shiny::validate(
+            shiny::need(length(exts) == 1, "Cannot input more than one .rds file.")
           )
           rds <- readRDS(input$rmm_in$datapath)
           # check if we have a list of rmms or just a single one

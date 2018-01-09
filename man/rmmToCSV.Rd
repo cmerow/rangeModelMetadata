@@ -19,7 +19,8 @@ See Examples.
 }
 \examples{
 rmm=rangeModelMetadataTemplate(useCase='apAll')
-raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
+r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
+raster.files=list.files(r.f,full.names = TRUE)
 env=raster::stack(raster.files)
 # for fitting environment
 rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
@@ -27,7 +28,9 @@ rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
 rmm=rmmAutofillEnvironment(rmm,env,transfer=1)
 # for the second environment that you're transfering to, etc.
 rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
-
+\dontrun{
+rmmToCSV(rmm,file='somePathOnYourMachine/rmm_example.csv')
+}
 }
 \author{
 Hannah Owens <hannah.owens@gmail.com>, Cory Merow <cory.merow@gmail.com>

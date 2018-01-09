@@ -35,7 +35,8 @@ rmmCheckValue(rmm = rmm)
 #while 'bio 2' is flagged as a partial match with a suggested value of 'bio2',
 # and cromulent is flagged as not matched at all.
 #If we'd like to return a dataframe containing this information in a perhaps more useful format:
-rmmCheckValue_output<-rmmCheckValue(rmm = rmm,returnData = T)
+rmmCheckValue_output<-rmmCheckValue(rmm = rmm,returnData = TRUE)
+
 }
 \seealso{
 Other check: \code{\link{rmmCheckEmpty}},

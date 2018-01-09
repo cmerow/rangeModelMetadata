@@ -20,7 +20,8 @@ See Examples.
 }
 \examples{
 rmm=rangeModelMetadataTemplate(useCase='apAll')
-raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = T)
+r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
+raster.files=list.files(r.f,full.names = TRUE)
 env=raster::stack(raster.files)
 rmm=rmmAutofillEnvironment(rmm,env,transfer=0) # for fitting environment
 rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))

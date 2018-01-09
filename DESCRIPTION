@@ -17,9 +17,6 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    cmsdm,
-    BIENWorkflow,
-    MOLSDM,
     ENMeval
 Imports:
     raster,
