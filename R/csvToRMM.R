@@ -10,7 +10,7 @@
 #'
 #' @examples
 #'
-#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>, Jamie Kass <jamie.m.kass@@gmail.com>
+#' @author Hannah Owens <hannah.owens@@gmail.com>
 # @note
 # @seealso
 # @references
@@ -32,13 +32,13 @@ csvToRMM <- function(csv, useCase='apAll') {
   if(!(useCase %in% c('apAll','apObligate','apMinimal'))) stop('Specify a correct useCase.')
 
   # read in csv from path
-  dd <- read.csv(csv, stringsAsFactors=FALSE);
+  dd <- read.csv(csv, stringsAsFactors=FALSE)
 
   #Creating named values from the .csv file
-  values <- mapply(assign, dd$Entity, dd$Value)
+  values <- mapply(assign, dd$entity, dd$value)
 
   #Creating a blank rmm rmm to fill from the .csv
-  rmm <- rangeModelMetadatarmm(useCase = useCase)
+  rmm <- rangeModelMetadataTemplate(useCase = useCase)
 
   count <- 1
   while(count <= nrow(dd)){
