@@ -97,9 +97,6 @@ rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NU
 
   #Assign header row
   csvTable <- csvTable[-1,]
-  colnames(csvTable) <- csvTable[1,]
-  csvTable <- csvTable[-1,]
-  names(csvTable) <- c("field1", "field2", "field3", "entity", "value")
 
   #Write to csv
   if(!is.null(filename)) utils::write.csv(csvTable, filename, row.names = F)
