@@ -5,7 +5,8 @@
 #' @details
 #' See Examples.
 #'
-#' @param useCase character string; 'apAll', 'apObligate', 'apMinimal'
+#' @param useCase character string; specifies an application profile (use case) that has been predefined. Currently supported are: 'apAll', 'apObligate', 'apMinimal'. Superceeds
+#' @param families character vector; an alternative to specifying `useCase`. Provide a vector of family names to include all entities in a family in the template. Use `rmmFamilyNames` to see supported values.
 #' @export
 #'
 #' @examples

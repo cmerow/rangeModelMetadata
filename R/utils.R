@@ -18,3 +18,31 @@
   packageStartupMessage('Type vignette("rmm_vignette") or vignette("rmm_directory") to get started')
 }
 ###############
+#' @title Print supported family names for rmm objects
+#'
+#' @description Used to see options to for specifying an rmm object template
+#'
+#' @examples
+#' rmmFamilyNames()
+#' @export
+#'
+rmmFamilyNames=function(){
+  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  unique(dd$family)
+}
+
+
+###############
+#' @title Open range model metadata dictionary.
+#'
+#' @description For viewing only
+#'
+#' @examples
+#' dd=rmmDataDictionary()
+#' @export
+#'
+rmmDataDictionary=function(excel=F){
+  ddFile=system.file("extdata/dataDictionary.csv",package='rangeModelMetadata')
+  if(!excel) {dd=utils::read.csv(ddFile,stringsAsFactors=F); return(dd)}
+  if(excel) {system(paste0('open ', ddFile, ' -a "Microsoft Excel"')) }
+}
