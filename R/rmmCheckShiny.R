@@ -27,7 +27,7 @@
 
 rmmCheckShiny <- function() {
   # require(shiny) # CM: cran wants you to namespace the functions rather than use require
-  shiny::shinyApp(
+  shiny::shinyApp(options = list(launch.browser = TRUE),
     ui = shiny::fluidPage(
 
       # app title
@@ -36,14 +36,10 @@ rmmCheckShiny <- function() {
       # sidebar with controls
       shiny::sidebarLayout(
         shiny::sidebarPanel(
-          shiny::fileInput("rmm_in", label = "Load RMMs", accept = c("csv", "rds"), multiple = TRUE),
+          shiny::fileInput("rmm1", label = "Load RMM 1", accept = c("csv", "rds")),
+          shiny::fileInput("rmm2", label = "Load RMM 2", accept = c("csv", "rds")),
           # CM: for flexibility, can we also accept .rdata or .rda? This should be no issue now that we have an rmm class, right?
-          shiny::helpText("Note: RMMs can be loaded as either a list of RMMs saved as
-                   .rds, a single RMM per .rds file, or one or more .csv files. Up to 4 RMMs can be compared at once."),
-          # CM: how many can be compared at once now?
-          shiny::strong("Compare RMMs"),
-          shiny::br(), shiny::br(),
-          shiny::actionButton("rmm_compare", "Go"),
+          shiny::helpText("Note: Single RMMs can be loaded as .rds or .csv files."),
           shiny::helpText("Note: TBD.")
         ),
 
@@ -53,7 +49,7 @@ rmmCheckShiny <- function() {
         # section.
         shiny::mainPanel(
           shiny::h4("Check Summary"),
-          shiny::verbatimTextOutput("rmmCheckOut")
+          shiny::verbatimTextOutput("rmmCheck")
 
           # h4("Observations"),
           # tableOutput("view")
@@ -65,49 +61,34 @@ rmmCheckShiny <- function() {
 
       # reactive function to read the input file(s), error if they are
       # not the same type, and
-      readRMM <- shiny::reactive({
-        getExt <- function(x) strsplit(basename(x), "\\.")[[1]][2]
-        exts <- unname(sapply(input$rmm_in$datapath, getExt))
-        sameExtTest <- rep(exts[1], length(exts))
-        identicalTest <- identical(exts, sameExtTest)
+      readRMM <- function(rmm_in) {
+        ext <- strsplit(basename(rmm_in$datapath), "\\.")[[1]][2]
 
-        # CM: can we change this so that mutliple types are allowed, to enable different studies that might've used different outputs? this just amounts to using rmmToCSV or vice versa, right?
-        shiny::validate(
-          shiny::need(identicalTest == TRUE, "Please make sure all the input files are of the same type.")
-        )
-
-        if (exts[1] == "csv") {
-          return(lapply(input$rmm_in$datapath, csvToRMM))
+        if (ext == "csv") {
+          return(csvToRMM(rmm_in$datapath))
         }
-        if (exts[1] == "rds") {
-          shiny::validate(
-            shiny::need(length(exts) == 1, "Cannot input more than one .rds file.")
-          )
-          rds <- readRDS(input$rmm_in$datapath)
-          # check if we have a list of rmms or just a single one
-          if ("RMM" %in% class(rds)) {
-            return(list(rds))
-          } else {
-            return(rds)
-          }
+        if (ext == "rds") {
+          return(readRDS(rmm_in$datapath))
         }
-      })
+      }
 
-      output$rmmCheckOut <- shiny::renderPrint({
-        if (!is.null(readRMM())) {
+      checkRMM <- function(rmm_read, i) {
+        cat(paste("Performing all checks on RMM", i, "..."))
+        cat("\n")
+        rmmCheckFinalize(rmm_read)
+        cat("All checks complete.")
+        cat("\n")
+        cat("-------------------------------")
+        cat("\n")
+      }
+
+      output$rmmCheck <- shiny::renderPrint({
+        if (!is.null(input$rmm1) & !is.null(input$rmm2)) {
           cat("-------------------------------")
           cat("\n")
-          for (i in 1:length(readRMM())) {
-            cat(paste("Performing all checks on RMM", i, "..."))
-            cat("\n")
-            rmmCheckFinalize(readRMM()[[i]])
-            cat("All checks complete.")
-            cat("\n")
-            cat("-------------------------------")
-            cat("\n")
-          }
+          checkRMM(readRMM(input$rmm1), 1)
+          checkRMM(readRMM(input$rmm2), 2)
         }
-
       })
     }
   )
