@@ -9,7 +9,7 @@
 #' @param packages a vector of quoted package names
 #'
 #' @examples
-#' rmm=rangeModelMetadataTemplate(useCase='apAll')
+#' rmm=rmmTemplate(useCase='apAll')
 #' rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 #'
 #' @return a range model metadata list
@@ -56,7 +56,7 @@ rmmAutofillPackageCitation=function(rmm,packages){
 #' @param transfer 0 if not transfer, 1:n for n environments that you're transferring to
 #'
 #' @examples
-#' rmm=rangeModelMetadataTemplate(useCase='apAll')
+#' rmm=rmmTemplate(useCase='apAll')
 #' raster.dir=system.file("extdata/Env_Demo",package='rangeModelMetadata')
 #' raster.files=list.files(raster.dir,full.names = TRUE)
 #' env=raster::stack(raster.files)

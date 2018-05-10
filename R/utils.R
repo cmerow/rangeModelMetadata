@@ -23,10 +23,10 @@
 #' @description Used to see options to for specifying an rmm object template
 #'
 #' @examples
-#' rmmFamilyNames()
+#' rmmFamilies()
 #' @export
 #'
-rmmFamilyNames=function(){
+rmmFamilies=function(){
   dd=utils::read.csv(system.file("extdata/dataDictionary.csv",
                                  package='rangeModelMetadata'),
                      stringsAsFactors=F)

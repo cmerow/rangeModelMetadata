@@ -21,7 +21,7 @@ Check an rmm object for non-standard and missing values and fields
 See Examples.
 }
 \examples{
-rmm<-rangeModelMetadataTemplate() # Make an empty template
+rmm<-rmmTemplate() # Make an empty template
 rmmCheckFinalize(rmm)
 
 

@@ -26,7 +26,7 @@ See Examples.
 Names returned by this check may be either incorrectly named or correctly named but missing from the data dictionary.
 }
 \examples{
-rmm<-rangeModelMetadataTemplate() #First, we create an empty rmm template
+rmm<-rmmTemplate() #First, we create an empty rmm template
 rmm$data$environment$variableNames<- c("bio1", "bio 2", "bio3", "cromulent")
 #We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2,
 # and a word that is clearly not a climate layer, 'cromulent'.

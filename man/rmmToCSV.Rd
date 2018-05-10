@@ -4,7 +4,7 @@
 \alias{rmmToCSV}
 \title{Create .csv File From rangeModelMetaData Object}
 \usage{
-rmmToCSV(x = rangeModelMetadataTemplate(useCase = "apAll"), filename = NULL)
+rmmToCSV(x = rmmTemplate(useCase = "apAll"), filename = NULL)
 }
 \arguments{
 \item{x}{An object of class \code{rmm} that the user wishes transposed into a .csv file.}
@@ -18,7 +18,7 @@ Takes user-input rangeModelMetaData object and from it generates a .csv file tha
 See Examples.
 }
 \examples{
-rmm=rangeModelMetadataTemplate(useCase='apAll')
+rmm=rmmTemplate(useCase='apAll')
 r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
 raster.files=list.files(r.f,full.names = TRUE)
 env=raster::stack(raster.files)

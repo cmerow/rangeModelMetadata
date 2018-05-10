@@ -36,7 +36,7 @@ csvToRMM <- function(csv, useCase='apAll') {
   values <- mapply(assign, dd$entity, dd$value)
 
   # create a blank rmm to fill from the values in csv
-  rmm <- rangeModelMetadataTemplate(useCase = useCase)
+  rmm <- rmmTemplate(useCase = useCase)
 
   # loop over all rows, determine how many fields are not NA,
   # then fill in the value from csv to the slot in the rmm list

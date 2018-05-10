@@ -23,11 +23,9 @@ For full information on each function, see the associated help file.
 * `rmmCheck` functions check for common errors in rmm objects.
 
 ###Primary functions
-* `rangeModelMetadataTemplate` Creates an empty `rmm` object that can then be populated by the user.
-* `cleanForCSV` Helper function that facilitates converting `rmm` objects to csv if they contain objects that aren't easily coerced to characters.
+* `rmmTemplate` Creates an empty `rmm` object that can then be populated by the user.
 * `rmmPrintFull` Prints only the rmm fields that have been populated.
 * `rmmPrintEmpty` Checks for empty values in the rmm object.
-* `rmmToCSV` Converts the rmm object to a CSV file.
 * `rmmSuggest` Provides suggested values for rmm object fields.
 
 
@@ -40,7 +38,11 @@ For full information on each function, see the associated help file.
 * `rmmCheckName` Identifies non-standard name fields in an rmm object.
 * `rmmCheckValue` Checks a subset of rmm values against commonly used values and returns information on possible errors.
 
-
+###rmm Utilities
+* `rmmFamilies` View entity family names
+* `rmmDataDictionary` View the data dictionary
+* `rmmToCSV` Converts the `rmm` object to a CSV file.
+* `cleanForCSV` Helper function that facilitates converting `rmm` objects to csv if they contain objects that aren't easily coerced to characters.
 
 
 

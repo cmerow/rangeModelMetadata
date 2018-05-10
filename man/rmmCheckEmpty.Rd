@@ -22,7 +22,7 @@ See Examples.
 }
 \examples{
 #First, make an empty rmm object:
-rmm<-rangeModelMetadataTemplate()
+rmm<-rmmTemplate()
 #Next, we check for emtpy fields:
 empties1<-rmmCheckEmpty(rmm = rmm)
 #If looks like there are quite a few empty obligate fields.  Let's populate a few:

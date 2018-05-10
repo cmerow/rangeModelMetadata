@@ -10,8 +10,8 @@
 #' @export
 #'
 #' @examples
-#' rmm1=rangeModelMetadataTemplate()
-#' rmm2=rangeModelMetadataTemplate(useCase="apObligate")
+#' rmm1=rmmTemplate()
+#' rmm2=rmmTemplate(useCase="apObligate")
 #' str(rmm2)
 #'
 #' @return a range model metadata list
@@ -26,7 +26,7 @@
 
 # change obligateOnly to a column name in the data dictionary for a particular template
 
-rangeModelMetadataTemplate=function(useCase='apAll'){
+rmmTemplate=function(useCase='apAll'){
 
   # for testing
   # useCase='apObligate'

@@ -10,14 +10,14 @@
 #' @param cutoff_distance number of allowed different characters to match standardized names
 #' @param returnData logical. If FALSE, the functon will return the (possibly) corrected rmm object.  If TRUE, the function will return a data.frame containing information on incorrect names.
 #' @examples
-#' rmm<-rangeModelMetadataTemplate() # Make an empty template
+#' rmm<-rmmTemplate() # Make an empty template
 #' rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List"
 #' # Add a new, non-standard field
 #' rmm.1=rmmCheckName(rmm)
 #' # Checking the names should identify the new, non-standard field we've added ("taxonomy_source")
 #'
 #'
-#' @return Either an rmm list object (returnData=F) or a data.frame containing information on possible name errores (returnData=T).
+#' @return Either an rmm list object (returnData=F) or a data.frame containing information on possible name errors (returnData=T).
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 #' @note Names returned by this check may be either incorrectly named or correctly named but missing from the data dictionary.
 # @seealso
@@ -29,6 +29,7 @@
 #' @import stats
 #' @import utils
 #' @export
+
 rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
 
 
@@ -42,7 +43,11 @@ rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
 
   terminal<-lapply(X = list_elements,FUN = function(x){
 
-    if(length(grep(pattern = x,x = unique(list_elements),fixed = T))>1){output<-FALSE}else{output<-TRUE}
+    if(length(grep(pattern = x,x = unique(list_elements),fixed = T))>1){
+      output<-FALSE
+    }else{
+      output<-TRUE
+    }
     return(output)
   })
   terminal<-unlist(terminal)
@@ -62,7 +67,8 @@ rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
   #i=26,12
 
   name_check_df<-as.data.frame((matrix(ncol=5,nrow = length(list_elements))))
-  colnames(name_check_df)<-c("exact_match","partial_match","partial_match_suggestions","corrected_name","not_matched")
+  colnames(name_check_df)<-c("exact_match","partial_match",
+                             "partial_match_suggestions","corrected_name","not_matched")
 
   for(i in 1:length(list_elements)){
 
@@ -170,7 +176,7 @@ rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
 #' @param returnData Should a dataframe containing information on matched and unmatched values be returned?  Default is FALSE
 #'
 #' @examples
-#' rmm<-rangeModelMetadataTemplate() #First, we create an empty rmm template
+#' rmm<-rmmTemplate() #First, we create an empty rmm template
 #' rmm$data$environment$variableNames<- c("bio1", "bio 2", "bio3", "cromulent")
 #' #We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2,
 #' # and a word that is clearly not a climate layer, 'cromulent'.
@@ -191,8 +197,11 @@ rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
 # line.
 #' @family check
 #' @export
+
 rmmCheckValue <- function( rmm, cutoff_distance = 3, returnData = F ){
-  dd<-utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+
+  dd<-utils::read.csv(system.file("extdata/dataDictionary.csv",
+                                  package='rangeModelMetadata'),stringsAsFactors=F)
 
   dd_constrained<-dd[which(dd$valuesConstrained!="no"),]
 
@@ -204,7 +213,8 @@ rmmCheckValue <- function( rmm, cutoff_distance = 3, returnData = F ){
 
 
   value_check_df<-as.data.frame((matrix(ncol=5,nrow = nrow(dd_constrained))))
-  colnames(value_check_df)<-c("field","exact_match","partial_match","partial_match_suggestions","not_matched")
+  colnames(value_check_df)<-c("field","exact_match","partial_match",
+                              "partial_match_suggestions","not_matched")
 
   for(i in 1:nrow(dd_constrained)){
 
@@ -319,7 +329,7 @@ rmmCheckValue <- function( rmm, cutoff_distance = 3, returnData = F ){
 #' @param useCase The rmm useCase to check the rmm against
 #'
 #' @examples
-#' rmm<-rangeModelMetadataTemplate() # Make an empty template
+#' rmm<-rmmTemplate() # Make an empty template
 #'
 #'
 #' @return A vector of names that are missing from the rmm object.
@@ -333,6 +343,7 @@ rmmCheckValue <- function( rmm, cutoff_distance = 3, returnData = F ){
 #' @import stats
 #' @import utils
 #' @export
+
 rmmCheckMissingNames<-function(rmm,useCase="apObligate"){
 
   list_elements<-capture.output(rmm)
@@ -345,7 +356,11 @@ rmmCheckMissingNames<-function(rmm,useCase="apObligate"){
 
   terminal<-lapply(X = list_elements,FUN = function(x){
 
-    if(length(grep(pattern = x,x = unique(list_elements),fixed = T))>1){output<-FALSE}else{output<-TRUE}
+    if(length(grep(pattern = x,x = unique(list_elements),fixed = T))>1){
+      output<-FALSE
+    }else{
+      output<-TRUE
+    }
     return(output)
   })
   terminal<-unlist(terminal)
@@ -387,7 +402,7 @@ rmmCheckMissingNames<-function(rmm,useCase="apObligate"){
 #'
 #' @examples
 #' #First, make an empty rmm object:
-#' rmm<-rangeModelMetadataTemplate()
+#' rmm<-rmmTemplate()
 #' #Next, we check for emtpy fields:
 #' empties1<-rmmCheckEmpty(rmm = rmm)
 #' #If looks like there are quite a few empty obligate fields.  Let's populate a few:
@@ -501,7 +516,7 @@ rmmCheckEmpty<-function(rmm, useCase="apObligate"){
 #' @param useCase The rmm useCase to check the rmm against
 #'
 #' @examples
-#' rmm<-rangeModelMetadataTemplate() # Make an empty template
+#' rmm<-rmmTemplate() # Make an empty template
 #' rmmCheckFinalize(rmm)
 #'
 #'

@@ -14,7 +14,7 @@ rmmCheckName(rmm, cutoff_distance = 3, returnData = F)
 \item{returnData}{logical. If FALSE, the functon will return the (possibly) corrected rmm object.  If TRUE, the function will return a data.frame containing information on incorrect names.}
 }
 \value{
-Either an rmm list object (returnData=F) or a data.frame containing information on possible name errores (returnData=T).
+Either an rmm list object (returnData=F) or a data.frame containing information on possible name errors (returnData=T).
 }
 \description{
 Identify nonstandard fields
@@ -26,7 +26,7 @@ See Examples.
 Names returned by this check may be either incorrectly named or correctly named but missing from the data dictionary.
 }
 \examples{
-rmm<-rangeModelMetadataTemplate() # Make an empty template
+rmm<-rmmTemplate() # Make an empty template
 rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List"
 # Add a new, non-standard field
 rmm.1=rmmCheckName(rmm)

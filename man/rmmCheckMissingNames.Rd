@@ -21,7 +21,7 @@ Identify obligate fields that are missing
 See Examples.
 }
 \examples{
-rmm<-rangeModelMetadataTemplate() # Make an empty template
+rmm<-rmmTemplate() # Make an empty template
 
 
 }
