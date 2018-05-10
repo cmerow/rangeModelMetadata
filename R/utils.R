@@ -27,7 +27,9 @@
 #' @export
 #'
 rmmFamilyNames=function(){
-  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",
+                                 package='rangeModelMetadata'),
+                     stringsAsFactors=F)
   unique(dd$family)
 }
 
