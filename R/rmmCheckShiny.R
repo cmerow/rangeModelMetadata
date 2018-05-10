@@ -49,6 +49,7 @@ rmmCheckShiny <- function() {
         # section.
         shiny::mainPanel(
           shiny::h4("Check Summary"),
+          # tags$style(type='text/css', '#rmmCheck {background-color: rgba(255,255,0,0.40); color: green;}'),
           shiny::verbatimTextOutput("rmmCheck")
 
           # h4("Observations"),
