@@ -10,7 +10,7 @@
 #' @param filename The name of the transcription .csv file.
 #'
 #' @examples
-#' rmm=rangeModelMetadataTemplate(useCase='apAll')
+#' rmm=rmmTemplate(useCase='apAll')
 #' r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
 #' raster.files=list.files(r.f,full.names = TRUE)
 #' env=raster::stack(raster.files)
@@ -34,7 +34,7 @@
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
 #' @export
 
-rmmToCSV=function(x = rangeModelMetadataTemplate(useCase='apAll'), filename = NULL){
+rmmToCSV=function(x = rmmTemplate(useCase='apAll'), filename = NULL){
   #Verify user has passed the function an rmm object
   if (!any(class(x) == "list")){
     warning("Target input invalid. Input must be of class 'list'.\n");

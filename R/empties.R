@@ -9,7 +9,7 @@
 #' @param obligateOnly logical; only show empty obligat fields
 #'
 #' @examples
-#' rmm=rangeModelMetadataTemplate(useCase='apAll')
+#' rmm=rmmTemplate(useCase='apAll')
 #' r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
 #' raster.files=list.files(r.f,full.names = TRUE)
 #' env=raster::stack(raster.files)
@@ -70,7 +70,7 @@ rmmPrintEmpty=function(rmm,obligateOnly=FALSE){
   #      nametree(X[[i]], paste0(prefix, ""))
   #    }
 
-  # rmm=rangeModelMetadataTemplate()
+  # rmm=rmmTemplate()
   # rmm1=rmm
   # is.NullOb <- function(x) is.null(x) | all(sapply(x, is.null))
   #
@@ -125,7 +125,7 @@ rmmPrintEmpty=function(rmm,obligateOnly=FALSE){
 #' @param rmm a range model metadata list
 #'
 #' @examples
-#' rmm=rangeModelMetadataTemplate(useCase='apAll')
+#' rmm=rmmTemplate(useCase='apAll')
 #' r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
 #' raster.files=list.files(r.f,full.names = TRUE)
 #' env=raster::stack(raster.files)

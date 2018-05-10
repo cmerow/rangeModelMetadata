@@ -19,7 +19,7 @@ Check if fields are full in a range model metadata list
 See Examples.
 }
 \examples{
-rmm=rangeModelMetadataTemplate(useCase='apAll')
+rmm=rmmTemplate(useCase='apAll')
 r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
 raster.files=list.files(r.f,full.names = TRUE)
 env=raster::stack(raster.files)

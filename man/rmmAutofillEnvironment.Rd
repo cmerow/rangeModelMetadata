@@ -23,7 +23,7 @@ This can be used with environmental layers used for fitting or transferring
 See Examples.
 }
 \examples{
-rmm=rangeModelMetadataTemplate(useCase='apAll')
+rmm=rmmTemplate(useCase='apAll')
 raster.dir=system.file("extdata/Env_Demo",package='rangeModelMetadata')
 raster.files=list.files(raster.dir,full.names = TRUE)
 env=raster::stack(raster.files)

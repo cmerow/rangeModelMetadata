@@ -7,7 +7,7 @@
 # if(Sys.info()['user']=='musasabi')  myInstDir=NULL
 
 # rmm1 object 1
-rmm1=rangeModelMetadataTemplate(useCase='apAll')
+rmm1=rmmTemplate(useCase='apAll')
 rmm1=rmmAutofillPackageCitation(rmm1,c('raster','sp'))
 # rmm1AutoFillData(rmm1,species=)
 raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = TRUE)
