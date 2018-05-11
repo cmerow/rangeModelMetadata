@@ -32,7 +32,6 @@
 
 rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
 
-
   list_elements<-capture.output(rmm)
   list_elements<-list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
 
@@ -86,8 +85,8 @@ rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
           name_check_df$partial_match_suggestions[i]<-dd_names[which.min(adist(x = element_i,y = dd_names))]
 
           # prompt
-          message("\n\n")
-          message("\n Element name '",element_i,"' not found in data dictionary", "!\n
+          cat("\n\n")
+          cat("\n Element name '",element_i,"' not found in data dictionary", "!\n
                   Did you mean: '",name_check_df$partial_match_suggestions[i],"'? \n  Type 'y' or 'n'." ) # prompt
           take <- scan(n = 1, quiet = TRUE, what = 'raw')
 
@@ -106,8 +105,6 @@ rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
 
           #end prompt
 
-
-
         }
 
         if(min_dist>cutoff_distance){
@@ -120,41 +117,38 @@ rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
 
   if(nrow(name_check_df)>0){
 
-    if(length(which(!is.na(name_check_df$exact_match)))>0 ){
-      cat(paste("The following names appear accurate:", sep = "",collapse = ""))
-      cat(paste("\n",paste(name_check_df$exact_match[which(!is.na(name_check_df$exact_match))],collapse = ", "), sep = ""   ))
-      cat(noquote("\n "))
-    }
+    # if(length(which(!is.na(name_check_df$exact_match)))>0 ){
+    #   cat(paste("The following names appear accurate:", sep = "",collapse = "\n"))
+    #   cat(paste("\n",paste(name_check_df$exact_match[which(!is.na(name_check_df$exact_match))],collapse = "\n"), sep = ""   ))
+    #   cat(noquote("\n "))
+    # }
 
     if(length(which(!is.na(name_check_df$corrected_name)))>0 ){
       cat(noquote("\n"))
-      cat(paste("The following names were corrected:", sep = "",collapse = ""   ))
-      cat(paste("\n",paste(name_check_df$partial_match[which(!is.na(name_check_df$corrected_name))],collapse = ", "), sep = ""   ))
+      cat("The following names were corrected:\n")
+      cat(paste("\n",paste(name_check_df$partial_match[which(!is.na(name_check_df$corrected_name))],collapse = "\n"), sep = ""   ))
       cat(noquote("\n "))
     }
 
-
     if(length(which(!is.na(name_check_df$partial_match) & is.na(name_check_df$corrected_name)))>0 ){
-      message(paste("The following names are similar to suggested names, please verify: ", sep = ""   ))
-      message(paste(paste(name_check_df$partial_match[which(!is.na(name_check_df$partial_match) & is.na(name_check_df$corrected_name) )],collapse = ", "), sep = ""   ))
-      message(paste("\nSuggested alternatives include: \n",paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions) & is.na(name_check_df$corrected_name))],collapse = ", "), sep = ""   ))
-      #message(paste(paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions))],collapse = ", "), sep = ""   ))
+      cat("The following names are similar to suggested names, please verify:\n")
+      cat(paste(paste(name_check_df$partial_match[which(!is.na(name_check_df$partial_match) & is.na(name_check_df$corrected_name) )],collapse = "\n"), sep = ""   ))
+      cat(paste("\nSuggested alternatives include: \n",paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions) & is.na(name_check_df$corrected_name))],collapse = "\n"), sep = ""   ))
+      #cat(paste(paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions))],collapse = "\n"), sep = ""   ))
       cat(noquote("\n "))
     }
 
     if(length(which(!is.na(name_check_df$not_matched)))>0 ){
-      message(paste("The following names are not similar to any suggested names, please verify that these are accurate:", sep = ""   ))
-      message(paste(paste(name_check_df$not_matched[which(!is.na(name_check_df$not_matched))],collapse = ", "), sep = ""   ))
+      cat(paste("The following names are not similar to any suggested names, please verify that these are accurate:\n", sep = ""   ))
+      cat(paste(paste(name_check_df$not_matched[which(!is.na(name_check_df$not_matched))],collapse = "\n"), sep = ""   ))
       cat(noquote("\n "))
     }
-
 
     if(returnData==T){
       return(name_check_df)
     }
 
     if(returnData==F){return(rmm)}
-
 
   }#overall fx
 
@@ -236,7 +230,7 @@ rmmCheckValue <- function( rmm, cutoff_distance = 3, returnData = F ){
 
         element_j<-eval(parse(text=dd_i))[j]
 
-        if(element_j%in%constrained_values){
+        if(element_j %in% constrained_values){
           value_check_df$exact_match[i]<-paste(na.omit(c(value_check_df$exact_match[i],element_j)),sep = "; ",collapse = "; ")}else{
 
             #get the distance between the value and the potential values.
@@ -278,31 +272,31 @@ rmmCheckValue <- function( rmm, cutoff_distance = 3, returnData = F ){
   if(nrow(value_check_df)>0){
 
     for(r in 1:nrow(value_check_df)){
-      cat(noquote(paste("For the field ",value_check_df$field[r],":",collapse = "",sep = ""))  )
+      cat(noquote(paste("For the field ",value_check_df$field[r],":",collapse = "\n",sep = ""))  )
       cat(noquote("\n "))
 
       if(!is.na(value_check_df$exact_match[r])){
-        cat(noquote(paste("   The following entries appear accurate:"   )))
+        cat(noquote(paste("   The following entries appear accurate:\n"   )))
         cat(noquote(paste("\n",value_check_df$exact_match[r])))
         cat(noquote("\n "))
         }
       if(!is.na(value_check_df$partial_match[r])){
-        message(noquote(paste("   The following entries are similar to suggested values, please verify:" )))
-        message(noquote(paste(value_check_df$partial_match[r])))
-        message(noquote(paste( "Suggested alternatives include: ", value_check_df$partial_match_suggestions[r]  )))
+        cat(noquote(paste("   The following entries are similar to suggested values, please verify:\n" )))
+        cat(noquote(paste(value_check_df$partial_match[r])))
+        cat(noquote(paste( "Suggested alternatives include: ", value_check_df$partial_match_suggestions[r]  )))
         cat(noquote("\n "))
         }
 
       if(!is.na(value_check_df$not_matched[r])){
-        message(noquote(paste("   The following entries are not similar to any suggested values, please verify that these are accurate:"   )))
-        message(noquote(paste(value_check_df$not_matched[r])))
+        cat(noquote(paste("   The following entries are not similar to any suggested values, please verify that these are accurate:\n"   )))
+        cat(noquote(paste(value_check_df$not_matched[r])))
         cat(noquote("\n "))
         }
     }
 
   }else{  #if there are values to check
 
-    message(noquote("The are no suggested fields to verify in this rmm object"))
+    cat(noquote("There are no suggested fields to verify in this rmm object."))
     cat(noquote("\n "))
 
   } #if there are no values to check
@@ -382,7 +376,7 @@ rmmCheckMissingNames<-function(rmm,useCase="apObligate"){
   missing_names<-obligate_names[which(!obligate_names%in%list_elements)]
   #list_elements[which(!list_elements%in%obligate_names)]
 
-  if(length(missing_names)==0){cat("All obligate field names are present")}
+  if(length(missing_names)==0){cat("All obligate field names are present.")}
 
   return(missing_names)
 
@@ -478,8 +472,8 @@ rmmCheckEmpty<-function(rmm, useCase="apObligate"){
 
   #If there are missing obligate values, warn the user
   if(sum(na.omit(output_data$Obligate))>0){
-    message(paste("There are ",sum(na.omit(output_data$Obligate)), "empty obligate fields:" ))
-    message(paste(output_data$Empty_field[which(output_data$Obligate==1)],sep = ", ",collapse = ", "))
+    cat(paste("There are ",sum(na.omit(output_data$Obligate)), "empty obligate fields:" ))
+    cat(paste(output_data$Empty_field[which(output_data$Obligate==1)],sep = ", ",collapse = "\n"))
     cat("\n")
   }
 
