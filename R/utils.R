@@ -40,6 +40,7 @@ rmmFamilies=function(){
 #'
 #' @description For viewing only
 #'
+#' @param excel logical; open in excel?
 #' @examples
 #' dd=rmmDataDictionary()
 #' @export

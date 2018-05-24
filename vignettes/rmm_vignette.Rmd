@@ -60,7 +60,7 @@ rmmSuggest('$model$maxent$featureSet')
 To make it easier to fill some `rmm` fields, we provide autofill functions that extract relevant information from common R objects used in the 
 
 ```{r}
-rmm=rmmTemplate(useCase='apAll')
+rmm=rmmTemplate(useCase=NULL)
 rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 # rmmAutoFillData(rmm,species=)
 raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = TRUE)
@@ -96,10 +96,12 @@ To check the field values in your rmm object, use the function `rmmValueCheck`
 ```{r}
 rmm<-rmmTemplate() #First, we create an empty rmm template
 rmm$data$environment$variableNames<- c("bio1", "bio 2", "bio3", "cromulent") #We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2, and a word that is clearly not a climate layer, 'cromulent'.
-rmmCheckValue(rmm = rmm) #Now, when we check the values, we see that bio1 and bio2 are reported as exact matches, while 'bio 2' is flagged as a partial match with a suggested value of 'bio2', and 'cromulent' is flagged as not matched at all.
+# TO FIX after chaging the usecase isssue
+#rmmCheckValue(rmm = rmm) #Now, when we check the values, we see that bio1 and bio2 are reported as exact matches, while 'bio 2' is flagged as a partial match with a suggested value of 'bio2', and 'cromulent' is flagged as not matched at all.
 
 #If we'd like to return a dataframe containing this information in a perhaps more useful format:
-rmmCheckValue_output<-rmmCheckValue(rmm = rmm,returnData = TRUE)
+# TO FIX after chaging the usecase isssue
+#rmmCheckValue_output<-rmmCheckValue(rmm = rmm,returnData = TRUE)
 ```
 
   <!-- names<-rmmCheckName(rmm,returnData = T) -->
@@ -119,7 +121,7 @@ These 'check' functions work by comparing the values or names within an rmm obje
 To make `rmm` objects portable to other interfaces, they are readily written to csv format.
 ```{r,eval=F}
 outFile='~/Desktop/demo_rmmToCSV.csv'
-rmmObj=rmmTemplate('apAll')
+rmmObj=rmmTemplate()
 rmmToCSV(rmmObj,filename=outFile)
 system(paste0('open ', outFile, ' -a "Microsoft Excel"'))
 ```

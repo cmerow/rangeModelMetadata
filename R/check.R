@@ -464,9 +464,11 @@ rmmCheckEmpty<-function(rmm, useCase="apObligate"){
   rm(i,val_i)
 
 
-
-  output_data$Obligate[which(output_data$Empty_field%in%dd_names[which(dd[useCase]==1)])]<-1
-  output_data$Optional[which(output_data$Empty_field%in%dd_names[which(dd[useCase]==0)])]<-1
+  #CM: check the use case issue
+  output_data$Obligate[which(output_data$Empty_field%in%
+                               dd_names[which(dd[useCase]==1)])]<-1
+  output_data$Optional[which(output_data$Empty_field%in%
+                               dd_names[which(dd[useCase]==0)])]<-1
   #output_data$Suggested[which(output_data$Empty_field%in%dd_names[which(dd[useCase]==2)])]<-1 Add this once we figure out how to label suggested fields
 
 
