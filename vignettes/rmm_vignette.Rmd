@@ -1,6 +1,6 @@
 ---
 title: "An overview of making rangeModelMetadata objects"
-author: "Cory Merow, Brian Maitner, Hannah Owens"
+author: "Cory Merow, Brian Maitner, Hannah Owens, Jamie Kass, Rob Guralnick"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
@@ -60,7 +60,7 @@ rmmSuggest('$model$maxent$featureSet')
 To make it easier to fill some `rmm` fields, we provide autofill functions that extract relevant information from common R objects used in the 
 
 ```{r}
-rmm=rmmTemplate(useCase=NULL)
+rmm=rmmTemplate()
 rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 # rmmAutoFillData(rmm,species=)
 raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = TRUE)
