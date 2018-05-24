@@ -25,13 +25,13 @@ library(rangeModelMetadata)
 
 A simple `rmm` object is a list object that is structured to contain metadata pertaining to species range models.
 ```{r}
-rmm1=rmmTemplate(useCase='apObligate') #  Make an empty rmm object containing only the obligate set of fields.
+rmm1=rmmTemplate(useCase=c('obligate')) #  Make an empty rmm object containing only the obligate set of fields.
 str(rmm1)
 ```
 
 A more complex `rmm` object with all predefined fields.
 ```{r}
-rmm2=rmmTemplate(useCase='apAll')
+rmm2=rmmTemplate(useCase=NULL)
 str(rmm2)
 ```
 
