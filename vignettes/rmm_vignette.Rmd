@@ -70,7 +70,7 @@ rmm=rmmAutofillEnvironment(rmm,env,transfer=1) # for transfer environment 1 (ass
 rmm=rmmAutofillEnvironment(rmm,env,transfer=2) # for transfer environment 2 (assuming different than for fitting)
 # rmmAutoFillMaxent(rmm,species=)
 # rmmAutoFillPrediction(rmm,species=,layer=1)
-rmmPrintFull(rmm) #print just the non-NULL fields
+rmmCheckFull(rmm) #print just the non-NULL fields
 ```
 
 To see what fields you might've missed...

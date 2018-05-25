@@ -6,7 +6,7 @@
 #' See Examples.
 #'
 #' @examples
-#' rmm1=rmmTemplate(useCase='apAll')
+#' rmm1=rmmTemplate()
 #' rmm1=rmmAutofillPackageCitation(rmm1,c('raster','sp'))
 # rmm1AutoFillData(rmm1,species=) # not used yet
 #' r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')

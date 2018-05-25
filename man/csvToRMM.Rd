@@ -4,12 +4,12 @@
 \alias{csvToRMM}
 \title{Recreate rangeModelMetaData Object From .csv File}
 \usage{
-csvToRMM(csv, useCase = "apAll")
+csvToRMM(csv, useCase = NULL)
 }
 \arguments{
 \item{csv}{A character file path to the csv file.}
 
-\item{useCase}{character string; 'apAll', 'apObligate', 'apMinimal'}
+\item{useCase}{character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use `rmmFamilyNames` to see supported values.}
 }
 \description{
 Takes user-input .csv file and converts it back to a rangeModelMetaData object.

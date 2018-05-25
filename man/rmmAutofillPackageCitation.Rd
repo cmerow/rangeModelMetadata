@@ -21,7 +21,7 @@ Using bibtex citations
 See Examples.
 }
 \examples{
-rmm=rmmTemplate(useCase='apAll')
+rmm=rmmTemplate()
 rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 
 }

@@ -6,6 +6,9 @@
 \usage{
 rmmDataDictionary(excel = F)
 }
+\arguments{
+\item{excel}{logical; open in excel?}
+}
 \description{
 For viewing only
 }

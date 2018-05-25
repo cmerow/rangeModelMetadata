@@ -16,7 +16,7 @@ Cleans up metadata instances that get messy if one tries to write them directly 
 See Examples.
 }
 \examples{
-rmm=rmmTemplate(useCase='apAll')
+rmm=rmmTemplate()
 rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 cleanForCSV(rmm$data$environment$extent)
 

@@ -9,7 +9,7 @@
 #' @param x An \code{rmm} entry that will be entered into an \code{rmmToCSV} function.
 #'
 #' @examples
-#' rmm=rmmTemplate(useCase='apAll')
+#' rmm=rmmTemplate()
 #' rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 #' cleanForCSV(rmm$data$environment$extent)
 #'
@@ -54,7 +54,8 @@ cleanForCSV <- function(x = NULL){
 #' See Examples.
 #'
 #' @param csv A character file path to the csv file.
-#' @param useCase character string; 'apAll', 'apObligate', 'apMinimal'
+#' @param useCase character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use `rmmFamilyNames` to see supported values.
+# @param families character vector; an alternative to specifying `useCase`. Provide a vector of family names to include all entities in a family in the template. Use `rmmFamilyNames` to see supported values.
 #'
 # @examples
 #'
@@ -72,9 +73,7 @@ cleanForCSV <- function(x = NULL){
 ## NOT FUNCTIONAL
 
 
-csvToRMM <- function(csv, useCase='apAll') {
-
-  if(!(useCase %in% c('apAll','apObligate','apMinimal'))) stop('Specify a correct useCase.')
+csvToRMM <- function(csv, useCase=NULL) {
 
   # read in csv from path
   dd <- read.csv(csv, stringsAsFactors=FALSE)
@@ -133,7 +132,7 @@ csvToRMM <- function(csv, useCase='apAll') {
 #' @param filename The name of the transcription .csv file.
 #'
 #' @examples
-#' rmm=rmmTemplate(useCase='apAll')
+#' rmm=rmmTemplate()
 #' r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
 #' raster.files=list.files(r.f,full.names = TRUE)
 #' env=raster::stack(raster.files)
@@ -157,7 +156,7 @@ csvToRMM <- function(csv, useCase='apAll') {
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
 #' @export
 
-rmmToCSV=function(x = rmmTemplate(useCase='apAll'), filename = NULL){
+rmmToCSV=function(x = rmmTemplate(useCase=NULL), filename = NULL){
   #Verify user has passed the function an rmm object
   if (!any(class(x) == "list")){
     warning("Target input invalid. Input must be of class 'list'.\n");
