@@ -4,14 +4,14 @@
 #' @description Cleans up metadata instances that get messy if one tries to write them directly to csv tables (i.e. extent objects, bibtex objects.)
 #'
 #' @details
-#' See Examples.
+#' This is a utility function for use by \code{rmmToCSV}.
 #'
-#' @param x An \code{rmm} entry that will be entered into an \code{rmmToCSV} function.
+#' @param x An \code{rmm} entry that returned to the \code{rmmToCSV} function.
 #'
 # @examples
 #'
-#'
-# @return
+#' @return Reformatted element for use in \code{rmmToCSV} function.
+#' 
 #' @author Hannah Owens <hannah.owens@@gmail.com>, Cory Merow <cory.merow@@gmail.com>
 # @note
 # @seealso
@@ -28,7 +28,7 @@ cleanForCSV <- function(x = NULL){
   if(class(x)=="Extent"){
     temp <- paste("xmin: ", x[1], "; xmax: ", x[2], "; ymin: ", x[3], "; ymax: ", x[4], sep = "")
   }
-  #For vectors with more than one element
+  #For elements composed of vectors
   else if(length(z) > 1){
     temp <- paste(z, collapse = "; ")
   }
@@ -51,11 +51,14 @@ cleanForCSV <- function(x = NULL){
 #' See Examples.
 #'
 #' @param csv A character file path to the csv file.
-#' @param useCase character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use `rmmFamilyNames` to see supported values.
+#' @param useCase character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use \code{rmmFamilies()} to see supported values.
 # @param families character vector; an alternative to specifying `useCase`. Provide a vector of family names to include all entities in a family in the template. Use `rmmFamilyNames` to see supported values.
 #'
 #' @examples
-#'
+#' csv <- "somePathOnYourMachine/rmm_example.csv";
+#' \dontrun{temp <- csvToRMM(csv);}
+#' 
+#' @return An \code{rmm} object that was read from the supplied .csv text file.
 #' @author Hannah Owens <hannah.owens@@gmail.com>
 # @note
 # @seealso
@@ -67,8 +70,6 @@ cleanForCSV <- function(x = NULL){
 #' @export
 #'
 
-## NOT FUNCTIONAL
-
 
 csvToRMM <- function(csv, useCase=NULL) {
 
@@ -76,7 +77,6 @@ csvToRMM <- function(csv, useCase=NULL) {
   dd <- read.csv(csv, stringsAsFactors=FALSE)
 
   #Creating named values from the .csv file
-
   values <- mapply(assign, dd$entity, dd$value)
 
   # create a blank rmm to fill from the values in csv
@@ -140,9 +140,9 @@ csvToRMM <- function(csv, useCase=NULL) {
 #' # for the second environment that you're transfering to, etc.
 #' rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
 #' \dontrun{
-#' rmmToCSV(rmm,file='somePathOnYourMachine/rmm_example.csv')
+#' tmp=rmmToCSV(rmm,file='somePathOnYourMachine/rmm_example.csv')
 #' }
-# @return
+#' @return An data frame containing all the information from an \code{rmm} object.
 #' @author Hannah Owens <hannah.owens@@gmail.com>, Cory Merow <cory.merow@@gmail.com>
 # @note
 # @seealso
