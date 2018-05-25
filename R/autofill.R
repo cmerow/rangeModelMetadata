@@ -225,3 +225,51 @@ rmmAutofillENMeval <- function(rmm, e, i) {
 }
 
 
+
+####################################################################################
+####################################################################################
+####################################################################################
+
+
+#' @title  Add occurrence metadata from a BIEN query to an rmm object
+#'
+#' @description This function populates occurrence field in an rmm object with output from a BIEN_occurrence_... query
+#'
+#' @details
+#' See Examples.
+#'
+#' @param rmm an rmm list
+#' @param occurrences an occurrence data.frame obtained from a BIEN occurrence query
+#' @examples
+#' rmm=rmmTemplate()
+#' library(BIEN)
+#' xs <- BIEN_occurrence_species(species="Xanthium strumarium)
+#' rmmAutofillBIEN(rmm = rmm, occurrences = xs)
+#'
+#' @return a range model metadata list
+#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+# @note
+#' @seealso  \code{\link[BIEN]{BIEN_occurrence_species}}
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @export
+rmmAutofillBIEN <- function(rmm, occurrences){
+
+  rmm$data$occurrence$taxa <- unique(occurrences$scrubbed_species_binomial)
+
+  rmm$data$occurrence$dataType   <- "presence only"
+
+  rmm$data$occurrence$yearMin <- NA
+  rmm$data$occurrence$yearMax <- NA
+
+  rmm$data$occurrence$sources <- BIEN::BIEN_metadata_citation(dataframe = occurrences)$references
+
+  rmm$data$occurrence$presenceSampleSize <- unlist(lapply(X = rmm$data$occurrence$taxa, FUN = function(x){
+    nrow(occurrences[which(occurrences$scrubbed_species_binomial==x),]) }))
+
+  return(rmm)
+
+}
