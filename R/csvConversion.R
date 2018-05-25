@@ -8,10 +8,8 @@
 #'
 #' @param x An \code{rmm} entry that will be entered into an \code{rmmToCSV} function.
 #'
-#' @examples
-#' rmm=rmmTemplate()
-#' rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
-#' cleanForCSV(rmm$data$environment$extent)
+# @examples
+#'
 #'
 # @return
 #' @author Hannah Owens <hannah.owens@@gmail.com>, Cory Merow <cory.merow@@gmail.com>
@@ -38,17 +36,16 @@ cleanForCSV <- function(x = NULL){
   else{
     temp <- z;
   }
-  print(temp);
-  #return(temp);
+  return(temp);
 }
 
 ##############################################################################
 ##############################################################################
 ##############################################################################
 
-#' @title Recreate rangeModelMetaData Object From .csv File
+#' @title Create rangeModelMetaData Object From .csv File
 #'
-#' @description Takes user-input .csv file and converts it back to a rangeModelMetaData object.
+#' @description Takes user-input .csv file and converts it to a rangeModelMetaData object.
 #'
 #' @details
 #' See Examples.
@@ -57,7 +54,7 @@ cleanForCSV <- function(x = NULL){
 #' @param useCase character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use `rmmFamilyNames` to see supported values.
 # @param families character vector; an alternative to specifying `useCase`. Provide a vector of family names to include all entities in a family in the template. Use `rmmFamilyNames` to see supported values.
 #'
-# @examples
+#' @examples
 #'
 #' @author Hannah Owens <hannah.owens@@gmail.com>
 # @note
@@ -176,11 +173,9 @@ rmmToCSV=function(x = rmmTemplate(useCase=NULL), filename = NULL){
       #Check to see if Field 2 is null
       if(!is.list(x[[i]][[j]])){
         if(is.null(unlist(x[[i]][j]))){
-          print(cat(i,'  ',j))
           csvTable <- rbind(csvTable,c(names(x)[i],"NA", "NA", names(x[[i]])[j], "NULL"));
         }
         else{
-          print(cat(i,'  ',j))
           csvTable <- rbind(csvTable,c(names(x)[i],"NA", "NA", names(x[[i]])[j], cleanForCSV(x[[i]][[j]])));
         }
       }
@@ -190,24 +185,18 @@ rmmToCSV=function(x = rmmTemplate(useCase=NULL), filename = NULL){
           #Check to see if Field 3 is null
           if(!is.list(x[[i]][[j]][[k]])){
             if (is.null(unlist(x[[i]][[j]][k]))){
-              print(cat(i,'  ',j,'  ',k))
-
               csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], "NA", names(x[[i]][[j]])[k], "NULL"));
             }
             else{
-              print(cat(i,'  ',j,'  ',k))
               csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], "NA", names(x[[i]][[j]])[k], cleanForCSV(x[[i]][[j]][[k]])));
             }
           }
           else{
             for (l in 1:length(names(x[[i]][[j]][[k]]))){
               if (is.null(unlist(x[[i]][[j]][[k]][l]))){
-                print(cat(i,'  ',j,'  ',k,'  ',l))
-
                 csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], names(x[[i]][[j]][[k]])[l], "NULL"));
               }
               else{
-                print(cat(i,'  ',j,'  ',k,'  ',l))
                 csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], names(x[[i]][[j]][[k]])[l], cleanForCSV(x[[i]][[j]][[k]][[l]])));
               }
             }
@@ -218,11 +207,11 @@ rmmToCSV=function(x = rmmTemplate(useCase=NULL), filename = NULL){
   }
 
   #Assign header row
-  csvTable <- csvTable[-1,]
+  csvTable <- csvTable[-1,];
 
   #Write to csv
-  if(!is.null(filename)) utils::write.csv(csvTable, filename, row.names = F)
+  if(!is.null(filename)) utils::write.csv(csvTable, filename, row.names = F);
 
-  return(csvTable)
+  return(csvTable);
 }
 
