@@ -9,7 +9,7 @@
 #' @param fullFieldDepth print all fields below the current field depth
 #'
 # @examples
-#' rmm1=rmmTemplate('apAll')
+#' rmm1=rmmTemplate()
 #' rmmSuggest('dataPrep',fullFieldDepth=FALSE)
 #' rmmSuggest('dataPrep',fullFieldDepth=TRUE)
 #' rmmSuggest('dataPrep$errors$duplicateRemoval')

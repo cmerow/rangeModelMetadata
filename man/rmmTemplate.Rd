@@ -4,12 +4,10 @@
 \alias{rmmTemplate}
 \title{Range modeling metadata}
 \usage{
-rmmTemplate(useCase = "apAll")
+rmmTemplate(useCase = NULL)
 }
 \arguments{
-\item{useCase}{character string; specifies an application profile (use case) that has been predefined. Currently supported are: 'apAll', 'apObligate', 'apMinimal'. Superceeds}
-
-\item{families}{character vector; an alternative to specifying `useCase`. Provide a vector of family names to include all entities in a family in the template. Use `rmmFamilyNames` to see supported values.}
+\item{useCase}{character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use `rmmFamilyNames` to see supported values.}
 }
 \value{
 a range model metadata list
@@ -22,7 +20,7 @@ See Examples.
 }
 \examples{
 rmm1=rmmTemplate()
-rmm2=rmmTemplate(useCase="apObligate")
+rmm2=rmmTemplate(useCase=c('base','obligate'))
 str(rmm2)
 
 }

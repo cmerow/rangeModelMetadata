@@ -24,8 +24,8 @@ For full information on each function, see the associated help file.
 
 ###Primary functions
 * `rmmTemplate` Creates an empty `rmm` object that can then be populated by the user.
-* `rmmPrintFull` Prints only the rmm fields that have been populated.
-* `rmmPrintEmpty` Checks for empty values in the rmm object.
+* `rmmCheckFull` Prints only the rmm fields that have been populated.
+* `rmmCheckEmpty` Checks for empty values in the rmm object.
 * `rmmSuggest` Provides suggested values for rmm object fields.
 
 

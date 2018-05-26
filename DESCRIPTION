@@ -22,5 +22,6 @@ Imports:
     raster,
     dismo,
     utils,
-    shiny
+    shiny,
+    jsonlite
 VignetteBuilder: knitr

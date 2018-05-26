@@ -4,16 +4,14 @@
 #' @description Cleans up metadata instances that get messy if one tries to write them directly to csv tables (i.e. extent objects, bibtex objects.)
 #'
 #' @details
-#' See Examples.
+#' This is a utility function for use by \code{rmmToCSV}.
 #'
-#' @param x An \code{rmm} entry that will be entered into an \code{rmmToCSV} function.
+#' @param x An \code{rmm} entry that returned to the \code{rmmToCSV} function.
 #'
-#' @examples
-#' rmm=rmmTemplate(useCase='apAll')
-#' rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
-#' cleanForCSV(rmm$data$environment$extent)
+# @examples
 #'
-# @return
+#' @return Reformatted element for use in \code{rmmToCSV} function.
+#' 
 #' @author Hannah Owens <hannah.owens@@gmail.com>, Cory Merow <cory.merow@@gmail.com>
 # @note
 # @seealso
@@ -30,7 +28,7 @@ cleanForCSV <- function(x = NULL){
   if(class(x)=="Extent"){
     temp <- paste("xmin: ", x[1], "; xmax: ", x[2], "; ymin: ", x[3], "; ymax: ", x[4], sep = "")
   }
-  #For vectors with more than one element
+  #For elements composed of vectors
   else if(length(z) > 1){
     temp <- paste(z, collapse = "; ")
   }
@@ -38,26 +36,29 @@ cleanForCSV <- function(x = NULL){
   else{
     temp <- z;
   }
-  print(temp);
-  #return(temp);
+  return(temp);
 }
 
 ##############################################################################
 ##############################################################################
 ##############################################################################
 
-#' @title Recreate rangeModelMetaData Object From .csv File
+#' @title Create rangeModelMetaData Object From .csv File
 #'
-#' @description Takes user-input .csv file and converts it back to a rangeModelMetaData object.
+#' @description Takes user-input .csv file and converts it to a rangeModelMetaData object.
 #'
 #' @details
 #' See Examples.
 #'
 #' @param csv A character file path to the csv file.
-#' @param useCase character string; 'apAll', 'apObligate', 'apMinimal'
+#' @param useCase character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use \code{rmmFamilies()} to see supported values.
+# @param families character vector; an alternative to specifying `useCase`. Provide a vector of family names to include all entities in a family in the template. Use `rmmFamilyNames` to see supported values.
 #'
-# @examples
-#'
+#' @examples
+#' csv <- "somePathOnYourMachine/rmm_example.csv";
+#' \dontrun{temp <- csvToRMM(csv);}
+#' 
+#' @return An \code{rmm} object that was read from the supplied .csv text file.
 #' @author Hannah Owens <hannah.owens@@gmail.com>
 # @note
 # @seealso
@@ -69,18 +70,13 @@ cleanForCSV <- function(x = NULL){
 #' @export
 #'
 
-## NOT FUNCTIONAL
 
-
-csvToRMM <- function(csv, useCase='apAll') {
-
-  if(!(useCase %in% c('apAll','apObligate','apMinimal'))) stop('Specify a correct useCase.')
+csvToRMM <- function(csv, useCase=NULL) {
 
   # read in csv from path
   dd <- read.csv(csv, stringsAsFactors=FALSE)
 
   #Creating named values from the .csv file
-
   values <- mapply(assign, dd$entity, dd$value)
 
   # create a blank rmm to fill from the values in csv
@@ -133,7 +129,7 @@ csvToRMM <- function(csv, useCase='apAll') {
 #' @param filename The name of the transcription .csv file.
 #'
 #' @examples
-#' rmm=rmmTemplate(useCase='apAll')
+#' rmm=rmmTemplate()
 #' r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
 #' raster.files=list.files(r.f,full.names = TRUE)
 #' env=raster::stack(raster.files)
@@ -144,9 +140,9 @@ csvToRMM <- function(csv, useCase='apAll') {
 #' # for the second environment that you're transfering to, etc.
 #' rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
 #' \dontrun{
-#' rmmToCSV(rmm,file='somePathOnYourMachine/rmm_example.csv')
+#' tmp=rmmToCSV(rmm,file='somePathOnYourMachine/rmm_example.csv')
 #' }
-# @return
+#' @return An data frame containing all the information from an \code{rmm} object.
 #' @author Hannah Owens <hannah.owens@@gmail.com>, Cory Merow <cory.merow@@gmail.com>
 # @note
 # @seealso
@@ -157,7 +153,7 @@ csvToRMM <- function(csv, useCase='apAll') {
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
 #' @export
 
-rmmToCSV=function(x = rmmTemplate(useCase='apAll'), filename = NULL){
+rmmToCSV=function(x = rmmTemplate(useCase=NULL), filename = NULL){
   #Verify user has passed the function an rmm object
   if (!any(class(x) == "list")){
     warning("Target input invalid. Input must be of class 'list'.\n");
@@ -177,11 +173,9 @@ rmmToCSV=function(x = rmmTemplate(useCase='apAll'), filename = NULL){
       #Check to see if Field 2 is null
       if(!is.list(x[[i]][[j]])){
         if(is.null(unlist(x[[i]][j]))){
-          print(cat(i,'  ',j))
           csvTable <- rbind(csvTable,c(names(x)[i],"NA", "NA", names(x[[i]])[j], "NULL"));
         }
         else{
-          print(cat(i,'  ',j))
           csvTable <- rbind(csvTable,c(names(x)[i],"NA", "NA", names(x[[i]])[j], cleanForCSV(x[[i]][[j]])));
         }
       }
@@ -191,24 +185,18 @@ rmmToCSV=function(x = rmmTemplate(useCase='apAll'), filename = NULL){
           #Check to see if Field 3 is null
           if(!is.list(x[[i]][[j]][[k]])){
             if (is.null(unlist(x[[i]][[j]][k]))){
-              print(cat(i,'  ',j,'  ',k))
-
               csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], "NA", names(x[[i]][[j]])[k], "NULL"));
             }
             else{
-              print(cat(i,'  ',j,'  ',k))
               csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], "NA", names(x[[i]][[j]])[k], cleanForCSV(x[[i]][[j]][[k]])));
             }
           }
           else{
             for (l in 1:length(names(x[[i]][[j]][[k]]))){
               if (is.null(unlist(x[[i]][[j]][[k]][l]))){
-                print(cat(i,'  ',j,'  ',k,'  ',l))
-
                 csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], names(x[[i]][[j]][[k]])[l], "NULL"));
               }
               else{
-                print(cat(i,'  ',j,'  ',k,'  ',l))
                 csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], names(x[[i]][[j]][[k]])[l], cleanForCSV(x[[i]][[j]][[k]][[l]])));
               }
             }
@@ -219,11 +207,11 @@ rmmToCSV=function(x = rmmTemplate(useCase='apAll'), filename = NULL){
   }
 
   #Assign header row
-  csvTable <- csvTable[-1,]
+  csvTable <- csvTable[-1,];
 
   #Write to csv
-  if(!is.null(filename)) utils::write.csv(csvTable, filename, row.names = F)
+  if(!is.null(filename)) utils::write.csv(csvTable, filename, row.names = F);
 
-  return(csvTable)
+  return(csvTable);
 }
 
