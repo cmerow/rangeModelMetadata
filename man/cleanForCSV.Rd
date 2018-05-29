@@ -7,19 +7,16 @@
 cleanForCSV(x = NULL)
 }
 \arguments{
-\item{x}{An \code{rmm} entry that will be entered into an \code{rmmToCSV} function.}
+\item{x}{An \code{rmm} entry that returned to the \code{rmmToCSV} function.}
+}
+\value{
+Reformatted element for use in \code{rmmToCSV} function.
 }
 \description{
 Cleans up metadata instances that get messy if one tries to write them directly to csv tables (i.e. extent objects, bibtex objects.)
 }
 \details{
-See Examples.
-}
-\examples{
-rmm=rmmTemplate()
-rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
-cleanForCSV(rmm$data$environment$extent)
-
+This is a utility function for use by \code{rmmToCSV}.
 }
 \author{
 Hannah Owens <hannah.owens@gmail.com>, Cory Merow <cory.merow@gmail.com>

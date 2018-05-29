@@ -252,11 +252,12 @@ rmmAutofillENMeval <- function(rmm, e, sr, i) {
 #' See Examples.
 #'
 #' @param rmm an rmm list
+#' 
 #' @param occurrences an occurrence data.frame obtained from a BIEN occurrence query
+#'
 #' @examples
 #' rmm=rmmTemplate()
-#' library(BIEN)
-#' xs <- BIEN_occurrence_species(species="Xanthium strumarium)
+#' xs <- BIEN::BIEN_occurrence_species(species="Xanthium strumarium)
 #' rmmAutofillBIEN(rmm = rmm, occurrences = xs)
 #'
 #' @return a range model metadata list
@@ -302,10 +303,10 @@ rmmAutofillBIEN <- function(rmm, occurrences){
 #'
 #' @param rmm an rmm list
 #' @param occ Output from \code{\link[spocc]{occ}}
+#' 
 #' @examples
 #' rmm=rmmTemplate()
-#' library(spocc)
-#' xs <- occ(species="Xanthium strumarium)
+#' xs <- spocc::occ(species="Xanthium strumarium)
 #' rmmAutofillspocc(rmm = rmm, occ = xs)
 #'
 #' @return a range model metadata list

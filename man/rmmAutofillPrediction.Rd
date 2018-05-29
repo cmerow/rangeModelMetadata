@@ -20,6 +20,14 @@ Add relevant model prediction info to an rmm object
 \details{
 See Examples.
 }
+\seealso{
+Other autofill: \code{\link{rmmAutofillBIEN}},
+  \code{\link{rmmAutofillENMeval}},
+  \code{\link{rmmAutofillEnvironment}},
+  \code{\link{rmmAutofillModelObj}},
+  \code{\link{rmmAutofillPackageCitation}},
+  \code{\link{rmmAutofillspocc}}
+}
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }

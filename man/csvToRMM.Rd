@@ -2,20 +2,28 @@
 % Please edit documentation in R/csvConversion.R
 \name{csvToRMM}
 \alias{csvToRMM}
-\title{Recreate rangeModelMetaData Object From .csv File}
+\title{Create rangeModelMetaData Object From .csv File}
 \usage{
 csvToRMM(csv, useCase = NULL)
 }
 \arguments{
 \item{csv}{A character file path to the csv file.}
 
-\item{useCase}{character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use `rmmFamilyNames` to see supported values.}
+\item{useCase}{character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use \code{rmmFamilies()} to see supported values.}
+}
+\value{
+An \code{rmm} object that was read from the supplied .csv text file.
 }
 \description{
-Takes user-input .csv file and converts it back to a rangeModelMetaData object.
+Takes user-input .csv file and converts it to a rangeModelMetaData object.
 }
 \details{
 See Examples.
+}
+\examples{
+csv <- "somePathOnYourMachine/rmm_example.csv";
+\dontrun{temp <- csvToRMM(csv);}
+
 }
 \author{
 Hannah Owens <hannah.owens@gmail.com>
