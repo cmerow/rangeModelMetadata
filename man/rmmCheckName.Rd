@@ -37,6 +37,7 @@ rmm.1=rmmCheckName(rmm)
 \seealso{
 Other check: \code{\link{rmmCheckEmpty}},
   \code{\link{rmmCheckFinalize}},
+  \code{\link{rmmCheckFull}},
   \code{\link{rmmCheckMissingNames}},
   \code{\link{rmmCheckValue}}
 }

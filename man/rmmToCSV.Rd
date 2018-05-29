@@ -35,6 +35,10 @@ rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
 tmp=rmmToCSV(rmm,file='somePathOnYourMachine/rmm_example.csv')
 }
 }
+\seealso{
+Other csvConversion: \code{\link{cleanForCSV}},
+  \code{\link{csvToRMM}}
+}
 \author{
 Hannah Owens <hannah.owens@gmail.com>, Cory Merow <cory.merow@gmail.com>
 }

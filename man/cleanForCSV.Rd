@@ -18,6 +18,10 @@ Cleans up metadata instances that get messy if one tries to write them directly 
 \details{
 This is a utility function for use by \code{rmmToCSV}.
 }
+\seealso{
+Other csvConversion: \code{\link{csvToRMM}},
+  \code{\link{rmmToCSV}}
+}
 \author{
 Hannah Owens <hannah.owens@gmail.com>, Cory Merow <cory.merow@gmail.com>
 }
