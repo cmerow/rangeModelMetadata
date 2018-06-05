@@ -23,6 +23,14 @@ Fill in relevant rmm fields from an ENMevaluation object.
 \details{
 See Examples.
 }
+\seealso{
+Other autofill: \code{\link{rmmAutofillBIEN}},
+  \code{\link{rmmAutofillEnvironment}},
+  \code{\link{rmmAutofillModelObj}},
+  \code{\link{rmmAutofillPackageCitation}},
+  \code{\link{rmmAutofillPrediction}},
+  \code{\link{rmmAutofillspocc}}
+}
 \author{
 Jamie M. Kass <jamie.m.kass@gmail.com>
 }

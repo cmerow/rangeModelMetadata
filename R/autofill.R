@@ -243,7 +243,7 @@ rmmAutofillENMeval <- function(rmm, e, i) {
 #' @examples
 #' rmm=rmmTemplate()
 #' library(BIEN)
-#' xs <- BIEN_occurrence_species(species="Xanthium strumarium)
+#' xs <- BIEN_occurrence_species(species="Xanthium strumarium")
 #' rmmAutofillBIEN(rmm = rmm, occurrences = xs)
 #'
 #' @return a range model metadata list
@@ -292,7 +292,7 @@ rmmAutofillBIEN <- function(rmm, occurrences){
 #' @examples
 #' rmm=rmmTemplate()
 #' library(spocc)
-#' xs <- occ(species="Xanthium strumarium)
+#' xs <- occ(species="Xanthium strumarium")
 #' rmmAutofillspocc(rmm = rmm, occ = xs)
 #'
 #' @return a range model metadata list

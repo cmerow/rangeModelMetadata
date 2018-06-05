@@ -25,6 +25,14 @@ rmm=rmmTemplate()
 rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 
 }
+\seealso{
+Other autofill: \code{\link{rmmAutofillBIEN}},
+  \code{\link{rmmAutofillENMeval}},
+  \code{\link{rmmAutofillEnvironment}},
+  \code{\link{rmmAutofillModelObj}},
+  \code{\link{rmmAutofillPrediction}},
+  \code{\link{rmmAutofillspocc}}
+}
 \author{
 Brian Maitner <bmaitner@gmail.com>, Cory Merow <cory.merow@gmail.com>
 }

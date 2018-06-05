@@ -35,6 +35,14 @@ rmm=rmmAutofillEnvironment(rmm,env,transfer=1)
 rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
 
 }
+\seealso{
+Other autofill: \code{\link{rmmAutofillBIEN}},
+  \code{\link{rmmAutofillENMeval}},
+  \code{\link{rmmAutofillModelObj}},
+  \code{\link{rmmAutofillPackageCitation}},
+  \code{\link{rmmAutofillPrediction}},
+  \code{\link{rmmAutofillspocc}}
+}
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }

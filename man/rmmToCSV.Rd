@@ -11,6 +11,9 @@ rmmToCSV(x = rmmTemplate(useCase = NULL), filename = NULL)
 
 \item{filename}{The name of the transcription .csv file.}
 }
+\value{
+An data frame containing all the information from an \code{rmm} object.
+}
 \description{
 Takes user-input rangeModelMetaData object and from it generates a .csv file that can be used to document range model metadata for a variety of applications.
 }
@@ -29,7 +32,7 @@ rmm=rmmAutofillEnvironment(rmm,env,transfer=1)
 # for the second environment that you're transfering to, etc.
 rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
 \dontrun{
-rmmToCSV(rmm,file='somePathOnYourMachine/rmm_example.csv')
+tmp=rmmToCSV(rmm,file='somePathOnYourMachine/rmm_example.csv')
 }
 }
 \author{
