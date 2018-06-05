@@ -25,6 +25,10 @@ csv <- "somePathOnYourMachine/rmm_example.csv";
 \dontrun{temp <- csvToRMM(csv);}
 
 }
+\seealso{
+Other csvConversion: \code{\link{cleanForCSV}},
+  \code{\link{rmmToCSV}}
+}
 \author{
 Hannah Owens <hannah.owens@gmail.com>
 }

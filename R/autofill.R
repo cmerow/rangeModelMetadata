@@ -187,7 +187,8 @@ rmmAutofillModelObj=function(rmm,modelObj){
 #'
 #' @param rmm an rmm list
 #' @param e an ENMevaluation object
-#' @param i a numeric index value referring to the chosen model
+#' @param sr a character string indicating the model selection rules used to determine which model to choose
+#' @param i a numeric value indicating the row number of the model chosen by the user
 #' (e.g., if you chose the model corresponding to row 5 in the results table, this number would be 5)
 #'
 # @examples
@@ -204,24 +205,36 @@ rmmAutofillModelObj=function(rmm,modelObj){
 #' @family autofill
 #' @export
 
-rmmAutofillENMeval <- function(rmm, e, i) {
-  rmm$model$algorithm <- e@algorithm
-  rmm$model$maxent$backgroundSizeSet <- nrow(e@bg.pts)
-  rmm$model$partition$partitionSet <- unname(e@partition.method[1])
+rmmAutofillENMeval <- function(rmm, e, sr, i) {
+  # NOTES: still need to include clamping, aggregation factors for checkerboard partitions
+  p <- e@partition.method
+  k <- length(unique(e@occ.grp))
 
-  if ("block" %in% e@partition.method | "checkerboard2" %in% e@partition.method) k <- 4
-  else if ("checkerboard1" %in% e@partition.method) k <- 2
-  else if ("randomkfold" %in% e@partition.method | "user" %in% e@partition.method) k <- as.numeric(e@partition.method[2])
+  rmm$data$occurrence$backgroundSampleSizeSet <- nrow(e@bg.pts)
+  rmm$model$partition$occurrenceSubsampling <- "k-fold cross validation"
+  rmm$model$partition$partitionSet <- p
+  rmm$model$partition$notes <- "background points also partitioned"
+
   rmm$model$partition$numberFolds <- k
+  e@results$settings <- as.character(e@results$settings)
 
-  if (grepl("maxnet", e@algorithm) == TRUE | grepl("maxent", e@algorithm) == TRUE) {
-    rmm$model$maxent$featureSet <- as.character(e@results[i, "features"])
-    rmm$model$maxent$regularizationMultiplierSet <- e@results[i, "rm"]
-  }
+  rmm$model$maxent$featureSet <- as.character(e@results[, "features"])
+  rmm$model$maxent$regularizationMultiplierSet <- e@results[, "rm"]
+
+  if(p == "block") rmm$model$partition$partitionRule <- "spatial blocks defined by longitude and latitude lines"
+  if(p == "checkerboard1") rmm$model$partition$partitionRule <- "binary checkerboard with user-defined aggregation factor"
+  if(p == "checkerboard2") rmm$model$partition$partitionRule <- "nested binary checkerboard with user-defined aggregation factor"
+
+  rmm$model$selectionRules <- sr
+  rmm$model$finalModelSettings <- e@results[i, "settings"]
+  rmm$performance$trainingDataStats$AUC <- e@results[i, "full.AUC"]
+  rmm$performance$trainingDataStats$AIC <- e@results[i, "AICc"]
+
+  rmm$performance$testingDataStats$AUC <- e@results[i, "mean.AUC"]
+  rmm$performance$testingDataStats$omissionRate <- c(e@results[i, "Mean.ORmin"], e@results[i, "Mean.OR10"])
+  rmm$performance$testingDataStats$notes <- "omission rate thresholds are 1) minimum training presence, 2) 10% training presence"
 
   return(rmm)
-
-
 }
 
 
@@ -239,11 +252,12 @@ rmmAutofillENMeval <- function(rmm, e, i) {
 #' See Examples.
 #'
 #' @param rmm an rmm list
+#'
 #' @param occurrences an occurrence data.frame obtained from a BIEN occurrence query
+#'
 #' @examples
 #' rmm=rmmTemplate()
-#' library(BIEN)
-#' xs <- BIEN_occurrence_species(species="Xanthium strumarium")
+#' xs <- BIEN::BIEN_occurrence_species(species="Xanthium strumarium)
 #' rmmAutofillBIEN(rmm = rmm, occurrences = xs)
 #'
 #' @return a range model metadata list
@@ -289,10 +303,10 @@ rmmAutofillBIEN <- function(rmm, occurrences){
 #'
 #' @param rmm an rmm list
 #' @param occ Output from \code{\link[spocc]{occ}}
+#'
 #' @examples
 #' rmm=rmmTemplate()
-#' library(spocc)
-#' xs <- occ(species="Xanthium strumarium")
+#' xs <- spocc::occ(species="Xanthium strumarium)
 #' rmmAutofillspocc(rmm = rmm, occ = xs)
 #'
 #' @return a range model metadata list
@@ -331,4 +345,5 @@ rmmAutofillspocc <- function(rmm, occ){
   return(rmm)
 
 }
+
 

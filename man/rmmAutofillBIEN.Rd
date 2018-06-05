@@ -20,13 +20,6 @@ This function populates occurrence field in an rmm object with output from a BIE
 \details{
 See Examples.
 }
-\examples{
-rmm=rmmTemplate()
-library(BIEN)
-xs <- BIEN_occurrence_species(species="Xanthium strumarium")
-rmmAutofillBIEN(rmm = rmm, occurrences = xs)
-
-}
 \seealso{
 \code{\link[BIEN]{BIEN_occurrence_species}}
 
