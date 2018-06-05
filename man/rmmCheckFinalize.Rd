@@ -28,6 +28,7 @@ rmmCheckFinalize(rmm)
 }
 \seealso{
 Other check: \code{\link{rmmCheckEmpty}},
+  \code{\link{rmmCheckFull}},
   \code{\link{rmmCheckMissingNames}},
   \code{\link{rmmCheckName}}, \code{\link{rmmCheckValue}}
 }

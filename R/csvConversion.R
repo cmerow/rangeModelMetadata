@@ -19,7 +19,7 @@
 # @aliases - a list of additional topic names that will be mapped to
 # this documentation when the user looks them up from the command
 # line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @family csvConversion
 #' @export
 
 cleanForCSV <- function(x = NULL){
@@ -66,7 +66,7 @@ cleanForCSV <- function(x = NULL){
 # @aliases - a list of additional topic names that will be mapped to
 # this documentation when the user looks them up from the command
 # line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @family csvConversion
 #' @export
 #'
 
@@ -150,7 +150,7 @@ csvToRMM <- function(csv, useCase=NULL) {
 # @aliases - a list of additional topic names that will be mapped to
 # this documentation when the user looks them up from the command
 # line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @family csvConversion
 #' @export
 
 rmmToCSV=function(x = rmmTemplate(useCase=NULL), filename = NULL){

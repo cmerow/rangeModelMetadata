@@ -529,7 +529,7 @@ rmmCheckEmpty<-function(rmm, useCase=c('base','obligate')){
 # @aliases - a list of additional topic names that will be mapped to
 # this documentation when the user looks them up from the command
 # line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @family check
 #' @export
 
 # would better if this didn't have the quotes in the names, but this is fine for viewing

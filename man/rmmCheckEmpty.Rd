@@ -35,6 +35,7 @@ empties2<-rmmCheckEmpty(rmm = rmm)
 }
 \seealso{
 Other check: \code{\link{rmmCheckFinalize}},
+  \code{\link{rmmCheckFull}},
   \code{\link{rmmCheckMissingNames}},
   \code{\link{rmmCheckName}}, \code{\link{rmmCheckValue}}
 }
