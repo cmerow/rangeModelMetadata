@@ -192,6 +192,7 @@ rmmAutofillModelObj=function(rmm,modelObj){
 #' (e.g., if you chose the model corresponding to row 5 in the results table, this number would be 5)
 #'
 #' @examples
+#' rmm <- rmmTemplate()
 #' e <- ENMevaluate(occs, envs, ...)
 #' rmmAutofillENMeval(rmm, e, "first lowest 10% omission rate, then highest test AUC", 5)
 #'
@@ -237,17 +238,17 @@ rmmAutofillENMeval <- function(rmm, e, selectionCriteria, optimalModelIndex) {
   }
 
   if (grepl("maxnet", e@algorithm) == TRUE | grepl("Maxent", e@algorithm) == TRUE) {
-    rmm$model$maxent$featureSet <- as.character(e@results[i, "features"])
-    rmm$model$maxent$regularizationMultiplierSet <- e@results[i, "rm"]
+    rmm$model$maxent$featureSet <- as.character(e@results[optimalModelIndex, "features"])
+    rmm$model$maxent$regularizationMultiplierSet <- e@results[optimalModelIndex, "rm"]
   }
 
-  rmm$model$selectionRules <- sr
-  rmm$model$finalModelSettings <- e@results[i, "settings"]
-  rmm$performance$trainingDataStats$AUC <- e@results[i, "full.AUC"]
-  rmm$performance$trainingDataStats$AIC <- e@results[i, "AICc"]
+  rmm$model$selectionRules <- selectionCriteria
+  rmm$model$finalModelSettings <- e@results[optimalModelIndex, "settings"]
+  rmm$performance$trainingDataStats$AUC <- e@results[optimalModelIndex, "full.AUC"]
+  rmm$performance$trainingDataStats$AIC <- e@results[optimalModelIndex, "AICc"]
 
-  rmm$performance$testingDataStats$AUC <- e@results[i, "mean.AUC"]
-  rmm$performance$testingDataStats$omissionRate <- c(e@results[i, "Mean.ORmin"], e@results[i, "Mean.OR10"])
+  rmm$performance$testingDataStats$AUC <- e@results[optimalModelIndex, "mean.AUC"]
+  rmm$performance$testingDataStats$omissionRate <- c(e@results[optimalModelIndex, "Mean.ORmin"], e@results[optimalModelIndex, "Mean.OR10"])
   rmm$performance$testingDataStats$notes <- "omission rate thresholds are 1) minimum training presence, 2) 10% training presence"
 
   return(rmm)
@@ -272,8 +273,8 @@ rmmAutofillENMeval <- function(rmm, e, selectionCriteria, optimalModelIndex) {
 #' @param occurrences an occurrence data.frame obtained from a BIEN occurrence query
 #'
 #' @examples
-#' rmm=rmmTemplate()
-#' xs <- BIEN::BIEN_occurrence_species(species="Xanthium strumarium)
+#' rmm <- rmmTemplate()
+#' xs <- BIEN::BIEN_occurrence_species(species="Xanthium strumarium")
 #' rmmAutofillBIEN(rmm = rmm, occurrences = xs)
 #'
 #' @return a range model metadata list
@@ -322,7 +323,7 @@ rmmAutofillBIEN <- function(rmm, occurrences){
 #'
 #' @examples
 #' rmm=rmmTemplate()
-#' xs <- spocc::occ(species="Xanthium strumarium)
+#' xs <- spocc::occ(species="Xanthium strumarium")
 #' rmmAutofillspocc(rmm = rmm, occ = xs)
 #'
 #' @return a range model metadata list
@@ -359,8 +360,6 @@ rmmAutofillspocc <- function(rmm, occ){
     nrow(occ[which(occ$name==x),]) }))
 
   return(rmm)
-
->>>>>>> 97e1f2c5b390c2d4458f396ccfdf4f1758fa9da9
 }
 
 

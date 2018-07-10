@@ -20,6 +20,12 @@ This function populates occurrence field in an rmm object with output from a spo
 \details{
 See Examples.
 }
+\examples{
+rmm=rmmTemplate()
+xs <- spocc::occ(species="Xanthium strumarium")
+rmmAutofillspocc(rmm = rmm, occ = xs)
+
+}
 \seealso{
 \code{\link[spocc]{occ}}
 

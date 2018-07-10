@@ -4,16 +4,16 @@
 \alias{rmmAutofillENMeval}
 \title{Fill in relevant rmm fields from an ENMevaluation object.}
 \usage{
-rmmAutofillENMeval(rmm, e, sr, i)
+rmmAutofillENMeval(rmm, e, selectionCriteria, optimalModelIndex)
 }
 \arguments{
 \item{rmm}{an rmm list}
 
 \item{e}{an ENMevaluation object}
 
-\item{sr}{a character string indicating the model selection rules used to determine which model to choose}
+\item{selectionCriteria}{a character string indicating the model selection rules used to determine which model to choose}
 
-\item{i}{a numeric value indicating the row number of the model chosen by the user
+\item{optimalModelIndex}{a numeric value indicating the row number of the model chosen by the user
 (e.g., if you chose the model corresponding to row 5 in the results table, this number would be 5)}
 }
 \value{
@@ -24,6 +24,12 @@ Fill in relevant rmm fields from an ENMevaluation object.
 }
 \details{
 See Examples.
+}
+\examples{
+rmm <- rmmTemplate()
+e <- ENMevaluate(occs, envs, ...)
+rmmAutofillENMeval(rmm, e, "first lowest 10\% omission rate, then highest test AUC", 5)
+
 }
 \seealso{
 Other autofill: \code{\link{rmmAutofillBIEN}},
