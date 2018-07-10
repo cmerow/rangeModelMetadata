@@ -243,21 +243,37 @@ rmmAutofillModelObj=function(rmm,modelObj){
 rmmAutofillENMeval <- function(rmm, e, i) {
   rmm$model$algorithm <- e@algorithm
   rmm$model$maxent$backgroundSizeSet <- nrow(e@bg.pts)
-  rmm$model$partition$partitionSet <- unname(e@partition.method[1])
-
-  if ("block" %in% e@partition.method | "checkerboard2" %in% e@partition.method) k <- 4
-  else if ("checkerboard1" %in% e@partition.method) k <- 2
-  else if ("randomkfold" %in% e@partition.method | "user" %in% e@partition.method) k <- as.numeric(e@partition.method[2])
+  k <- length(unique(e@occ.grp))
   rmm$model$partition$numberFolds <- k
 
-  if (grepl("maxnet", e@algorithm) == TRUE | grepl("maxent", e@algorithm) == TRUE) {
+  if (e@partition.method == "randomkfold") {
+    rmm$model$partition$partitionSet <- "random"
+    rmm$model$partition$partitionRule <- "user-specified random partitions"
+  }
+  if (e@partition.method == "jackknife") {
+    rmm$model$partition$partitionSet <- "jackknife"
+    rmm$model$partition$partitionRule <- "leave-one-out partitions (each occurrence locality receives its own bin)"
+  }
+  if (e@partition.method == "block") {
+    rmm$model$partition$partitionSet <- "spatial blocks"
+    rmm$model$partition$partitionRule <- "4 spatial partitions defined by latitude/longitude lines that ensure a balanced number of occurrence localities in each bin"
+  }
+
+  if (e@partition.method == "checkerboard1") {
+    rmm$model$partition$partitionSet <- "checkerboard blocks"
+    rmm$model$partition$partitionRule <- "2 spatial partitions in a checkerboard formation that subdivide geographic space equally but do not ensure a balanced number of occurrence localities in each bin"
+  }
+  if (e@partition.method == "checkerboard2") {
+    rmm$model$partition$partitionSet <- "spatial blocks"
+    rmm$model$partition$partitionRule <- "4 spatial partitions with two levels of spatial aggregation in a checkerboard formation that subdivide geographic space equally but do not ensure a balanced number of occurrence localities in each bin"
+  }
+
+  if (grepl("maxnet", e@algorithm) == TRUE | grepl("Maxent", e@algorithm) == TRUE) {
     rmm$model$maxent$featureSet <- as.character(e@results[i, "features"])
     rmm$model$maxent$regularizationMultiplierSet <- e@results[i, "rm"]
   }
 
   return(rmm)
-
-
 }
 
 
