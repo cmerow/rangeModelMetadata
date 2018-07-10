@@ -30,7 +30,8 @@ rmmFamilies=function(){
   dd=utils::read.csv(system.file("extdata/dataDictionary.csv",
                                  package='rangeModelMetadata'),
                      stringsAsFactors=F)
-  unique(dd$family)
+  tmp=unique(dd$family)
+  unique(unlist(lapply(tmp,function(x) strsplit(x,', '))))
 }
 
 
@@ -39,6 +40,7 @@ rmmFamilies=function(){
 #'
 #' @description For viewing only
 #'
+#' @param excel logical; open in excel?
 #' @examples
 #' dd=rmmDataDictionary()
 #' @export

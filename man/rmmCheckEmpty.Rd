@@ -4,7 +4,7 @@
 \alias{rmmCheckEmpty}
 \title{Check an rmm object for empty fields}
 \usage{
-rmmCheckEmpty(rmm, useCase = "apObligate")
+rmmCheckEmpty(rmm, useCase = c("base", "obligate"))
 }
 \arguments{
 \item{rmm}{a range model metadata list}
@@ -35,6 +35,7 @@ empties2<-rmmCheckEmpty(rmm = rmm)
 }
 \seealso{
 Other check: \code{\link{rmmCheckFinalize}},
+  \code{\link{rmmCheckFull}},
   \code{\link{rmmCheckMissingNames}},
   \code{\link{rmmCheckName}}, \code{\link{rmmCheckValue}}
 }

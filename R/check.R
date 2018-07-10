@@ -415,7 +415,8 @@ rmmCheckMissingNames<-function(rmm,useCase="apObligate"){
 # line.
 #' @family check
 #' @export
-rmmCheckEmpty<-function(rmm, useCase="apObligate"){
+
+rmmCheckEmpty<-function(rmm, useCase=c('base','obligate')){
 
   list_elements<-capture.output(rmm)
   list_elements<-list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
@@ -464,9 +465,11 @@ rmmCheckEmpty<-function(rmm, useCase="apObligate"){
   rm(i,val_i)
 
 
-
-  output_data$Obligate[which(output_data$Empty_field%in%dd_names[which(dd[useCase]==1)])]<-1
-  output_data$Optional[which(output_data$Empty_field%in%dd_names[which(dd[useCase]==0)])]<-1
+  #CM: check the use case issue
+  output_data$Obligate[which(output_data$Empty_field%in%
+                               dd_names[which(dd[useCase]==1)])]<-1
+  output_data$Optional[which(output_data$Empty_field%in%
+                               dd_names[which(dd[useCase]==0)])]<-1
   #output_data$Suggested[which(output_data$Empty_field%in%dd_names[which(dd[useCase]==2)])]<-1 Add this once we figure out how to label suggested fields
 
 
@@ -496,6 +499,47 @@ rmmCheckEmpty<-function(rmm, useCase="apObligate"){
   return(output_data)
 
 }
+
+##################################################################################
+##################################################################################
+##################################################################################
+#' @title Check if fields are non-NULL in a range model metadata list
+#'
+#' @description Check if fields are full in a range model metadata list
+#'
+#' @details
+#' See Examples.
+#'
+#' @param rmm a range model metadata list
+#'
+#' @examples
+#' rmm=rmmTemplate()
+#' r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
+#' raster.files=list.files(r.f,full.names = TRUE)
+#' env=raster::stack(raster.files)
+#' rmm=rmmAutofillEnvironment(rmm,env,transfer=0) # for fitting environment
+#' rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
+#' rmmCheckFull(rmm)
+#'
+#' @return printout to the console
+#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+# @note
+# @seealso
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+#' @family check
+#' @export
+
+# would better if this didn't have the quotes in the names, but this is fine for viewing
+
+rmmCheckFull=function(rmm){
+  out=unlist(rmm)
+  names(out)=gsub('.','$',names(out),fixed=T)
+  out
+}
+
 
 ##################################
 

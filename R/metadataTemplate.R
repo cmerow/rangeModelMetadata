@@ -5,13 +5,13 @@
 #' @details
 #' See Examples.
 #'
-#' @param useCase character string; specifies an application profile (use case) that has been predefined. Currently supported are: 'apAll', 'apObligate', 'apMinimal'. Superceeds
-#' @param families character vector; an alternative to specifying `useCase`. Provide a vector of family names to include all entities in a family in the template. Use `rmmFamilyNames` to see supported values.
+#' @param useCase character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use `rmmFamilyNames` to see supported values.
+# @param families character vector; an alternative to specifying `useCase`. Provide a vector of family names to include all entities in a family in the template. Use `rmmFamilyNames` to see supported values.
 #' @export
 #'
 #' @examples
 #' rmm1=rmmTemplate()
-#' rmm2=rmmTemplate(useCase="apObligate")
+#' rmm2=rmmTemplate(useCase=c('base','obligate'))
 #' str(rmm2)
 #'
 #' @return a range model metadata list
@@ -26,12 +26,13 @@
 
 # change obligateOnly to a column name in the data dictionary for a particular template
 
-rmmTemplate=function(useCase='apAll'){
-
+rmmTemplate=function(useCase=NULL){
   # for testing
-  # useCase='apObligate'
+  # useCase=c('base','obligate')
 
-  if(!(useCase %in% c('apAll','apObligate','apMinimal'))) stop('Specify a correct useCase.')
+
+  # could add a check that valid families are specified
+  #if(!(useCase %in% c('apAll','apObligate'))) stop('Specify a correct useCase.')
 
   dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
 
@@ -41,11 +42,11 @@ rmmTemplate=function(useCase='apAll'){
   #== Level 1 fields
   field1=as.character(unique(dd$field1))
   rmm=sapply(field1,function(x) NULL)
-
   #== Level 2-4 fields
   for(i in 1:length(rmm)){
-    if(!useCase=='apAll'){
-      dd.f2=dd[dd$field1==names(rmm)[i] & dd[,useCase]==1,]
+    if(!is.null(useCase)){
+      dd.f1=dd[dd$field1==names(rmm)[i],]
+      dd.f2=dd.f1[unique(unlist(mapply(function(x) grep(x,dd.f1$family),useCase))),]
     } else {dd.f2=subset(dd,field1==names(rmm)[i])}
   #paste0(dd.f2[,c('field2','field3','entity')],collapse='$')
 
@@ -53,8 +54,10 @@ rmmTemplate=function(useCase='apAll'){
     field2=field2[complete.cases(field2)]
     rmm[[i]]=sapply(field2,function(x) NULL)
     for(j in 1:length(field2)){
-      if(!useCase=='apAll'){
-        dd.f3=dd.f2[dd.f2$field2==names(rmm[[i]])[j] & dd.f2[,useCase]==1,]
+      if(!is.null(useCase)){
+        dd.f3a=dd.f2[dd.f2$field2==names(rmm[[i]])[j],]
+        dd.f3=dd.f3a[unique(unlist(mapply(function(x)
+          grep(x,dd.f3a$family),useCase))),]
           #subset(dd.f2,field2==names(rmm[[i]])[j]  & Obligate==1)
       } else { dd.f3=subset(dd.f2,field2==names(rmm[[i]])[j]) }
       field3=as.character(unique(dd.f3$field3))
@@ -62,8 +65,10 @@ rmmTemplate=function(useCase='apAll'){
       if(!all(is.na(field3) | is.null(field3) | field3=='')){
         rmm[[i]][[j]]=sapply(field3,function(x) NULL)
         for(k in 1:length(field3)){
-          if(!useCase=='apAll'){
-            dd.f4=dd.f3[dd.f3$field3==names(rmm[[i]][[j]])[k] & dd.f3[,useCase]==1,]
+          if(!is.null(useCase)){
+            dd.f4a=dd.f3[dd.f3$field3==names(rmm[[i]][[j]])[k],]
+            dd.f4=dd.f4a[unique(unlist(mapply(function(x)
+              grep(x,dd.f4a$family),useCase))),]
               #subset(dd.f3,field3==names(rmm[[i]][[j]])[k] & Obligate==1)
           } else {  dd.f4=subset(dd.f3,field3==names(rmm[[i]][[j]])[k]) }
           field4=as.character(unique(dd.f4$entity))

@@ -23,7 +23,7 @@ This can be used with environmental layers used for fitting or transferring
 See Examples.
 }
 \examples{
-rmm=rmmTemplate(useCase='apAll')
+rmm=rmmTemplate()
 raster.dir=system.file("extdata/Env_Demo",package='rangeModelMetadata')
 raster.files=list.files(raster.dir,full.names = TRUE)
 env=raster::stack(raster.files)
@@ -34,6 +34,14 @@ rmm=rmmAutofillEnvironment(rmm,env,transfer=1)
 # for the second environment that you're transfering to, etc.
 rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
 
+}
+\seealso{
+Other autofill: \code{\link{rmmAutofillBIEN}},
+  \code{\link{rmmAutofillENMeval}},
+  \code{\link{rmmAutofillModelObj}},
+  \code{\link{rmmAutofillPackageCitation}},
+  \code{\link{rmmAutofillPrediction}},
+  \code{\link{rmmAutofillspocc}}
 }
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,

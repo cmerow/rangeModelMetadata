@@ -1,6 +1,6 @@
 ---
 title: "An overview of making rangeModelMetadata objects"
-author: "Cory Merow, Brian Maitner, Hannah Owens"
+author: "Cory Merow, Brian Maitner, Hannah Owens, Jamie Kass, Rob Guralnick"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
@@ -25,13 +25,13 @@ library(rangeModelMetadata)
 
 A simple `rmm` object is a list object that is structured to contain metadata pertaining to species range models.
 ```{r}
-rmm1=rmmTemplate(useCase='apObligate') #  Make an empty rmm object containing only the obligate set of fields.
+rmm1=rmmTemplate(useCase=c('obligate')) #  Make an empty rmm object containing only the obligate set of fields.
 str(rmm1)
 ```
 
 A more complex `rmm` object with all predefined fields.
 ```{r}
-rmm2=rmmTemplate(useCase='apAll')
+rmm2=rmmTemplate(useCase=NULL)
 str(rmm2)
 ```
 
@@ -60,7 +60,7 @@ rmmSuggest('$model$maxent$featureSet')
 To make it easier to fill some `rmm` fields, we provide autofill functions that extract relevant information from common R objects used in the 
 
 ```{r}
-rmm=rmmTemplate(useCase='apAll')
+rmm=rmmTemplate()
 rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 # rmmAutoFillData(rmm,species=)
 raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = TRUE)
@@ -70,7 +70,7 @@ rmm=rmmAutofillEnvironment(rmm,env,transfer=1) # for transfer environment 1 (ass
 rmm=rmmAutofillEnvironment(rmm,env,transfer=2) # for transfer environment 2 (assuming different than for fitting)
 # rmmAutoFillMaxent(rmm,species=)
 # rmmAutoFillPrediction(rmm,species=,layer=1)
-rmmPrintFull(rmm) #print just the non-NULL fields
+rmmCheckFull(rmm) #print just the non-NULL fields
 ```
 
 To see what fields you might've missed...
@@ -96,10 +96,12 @@ To check the field values in your rmm object, use the function `rmmValueCheck`
 ```{r}
 rmm<-rmmTemplate() #First, we create an empty rmm template
 rmm$data$environment$variableNames<- c("bio1", "bio 2", "bio3", "cromulent") #We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2, and a word that is clearly not a climate layer, 'cromulent'.
-rmmCheckValue(rmm = rmm) #Now, when we check the values, we see that bio1 and bio2 are reported as exact matches, while 'bio 2' is flagged as a partial match with a suggested value of 'bio2', and 'cromulent' is flagged as not matched at all.
+# TO FIX after chaging the usecase isssue
+#rmmCheckValue(rmm = rmm) #Now, when we check the values, we see that bio1 and bio2 are reported as exact matches, while 'bio 2' is flagged as a partial match with a suggested value of 'bio2', and 'cromulent' is flagged as not matched at all.
 
 #If we'd like to return a dataframe containing this information in a perhaps more useful format:
-rmmCheckValue_output<-rmmCheckValue(rmm = rmm,returnData = TRUE)
+# TO FIX after chaging the usecase isssue
+#rmmCheckValue_output<-rmmCheckValue(rmm = rmm,returnData = TRUE)
 ```
 
   <!-- names<-rmmCheckName(rmm,returnData = T) -->
@@ -119,7 +121,7 @@ These 'check' functions work by comparing the values or names within an rmm obje
 To make `rmm` objects portable to other interfaces, they are readily written to csv format.
 ```{r,eval=F}
 outFile='~/Desktop/demo_rmmToCSV.csv'
-rmmObj=rmmTemplate('apAll')
+rmmObj=rmmTemplate()
 rmmToCSV(rmmObj,filename=outFile)
 system(paste0('open ', outFile, ' -a "Microsoft Excel"'))
 ```

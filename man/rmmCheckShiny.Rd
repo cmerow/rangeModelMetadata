@@ -19,7 +19,7 @@ See Examples.
 This function launches a shiny app in the default web browser
 }
 \examples{
-rmm1=rmmTemplate(useCase='apAll')
+rmm1=rmmTemplate()
 rmm1=rmmAutofillPackageCitation(rmm1,c('raster','sp'))
 r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
 raster.files=list.files(r.f,full.names = TRUE)

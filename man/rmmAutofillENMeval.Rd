@@ -4,14 +4,16 @@
 \alias{rmmAutofillENMeval}
 \title{Fill in relevant rmm fields from an ENMevaluation object.}
 \usage{
-rmmAutofillENMeval(rmm, e, i)
+rmmAutofillENMeval(rmm, e, sr, i)
 }
 \arguments{
 \item{rmm}{an rmm list}
 
 \item{e}{an ENMevaluation object}
 
-\item{i}{a numeric index value referring to the chosen model
+\item{sr}{a character string indicating the model selection rules used to determine which model to choose}
+
+\item{i}{a numeric value indicating the row number of the model chosen by the user
 (e.g., if you chose the model corresponding to row 5 in the results table, this number would be 5)}
 }
 \value{
@@ -22,6 +24,14 @@ Fill in relevant rmm fields from an ENMevaluation object.
 }
 \details{
 See Examples.
+}
+\seealso{
+Other autofill: \code{\link{rmmAutofillBIEN}},
+  \code{\link{rmmAutofillEnvironment}},
+  \code{\link{rmmAutofillModelObj}},
+  \code{\link{rmmAutofillPackageCitation}},
+  \code{\link{rmmAutofillPrediction}},
+  \code{\link{rmmAutofillspocc}}
 }
 \author{
 Jamie M. Kass <jamie.m.kass@gmail.com>

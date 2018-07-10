@@ -9,7 +9,7 @@
 #' @param packages a vector of quoted package names
 #'
 #' @examples
-#' rmm=rmmTemplate(useCase='apAll')
+#' rmm=rmmTemplate()
 #' rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 #'
 #' @return a range model metadata list
@@ -20,7 +20,7 @@
 # @aliases - a list of additional topic names that will be mapped to
 # this documentation when the user looks them up from the command
 # line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @family autofill
 #' @export
 
 rmmAutofillPackageCitation=function(rmm,packages){
@@ -40,9 +40,9 @@ rmmAutofillPackageCitation=function(rmm,packages){
 
 }
 
-##############################################################################################
-##############################################################################################
-##############################################################################################
+####################################################################################
+####################################################################################
+####################################################################################
 
 #' @title  Add relevant environmental data information to an rmm object
 #'
@@ -56,7 +56,7 @@ rmmAutofillPackageCitation=function(rmm,packages){
 #' @param transfer 0 if not transfer, 1:n for n environments that you're transferring to
 #'
 #' @examples
-#' rmm=rmmTemplate(useCase='apAll')
+#' rmm=rmmTemplate()
 #' raster.dir=system.file("extdata/Env_Demo",package='rangeModelMetadata')
 #' raster.files=list.files(raster.dir,full.names = TRUE)
 #' env=raster::stack(raster.files)
@@ -75,7 +75,7 @@ rmmAutofillPackageCitation=function(rmm,packages){
 # @aliases - a list of additional topic names that will be mapped to
 # this documentation when the user looks them up from the command
 # line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @family autofill
 #' @export
 
 rmmAutofillEnvironment=function(rmm,env,transfer){
@@ -109,41 +109,9 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 }
 
 
-##############################################################################################
-##############################################################################################
-##############################################################################################
-#'
-#' #' @title Add relevant model info to an rmm object
-#' #'
-#' #' @description
-#' #'
-#' #' @details
-#' #' See Examples.
-#' #'
-#' #' @param rmm an rmm list
-#' #' @param
-#' #'
-#' # @examples
-#' #'
-#' #'
-#' #' @return a range model metadata list
-#' #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
-#' # @note
-#' # @seealso
-#' # @references
-#' # @aliases - a list of additional topic names that will be mapped to
-#' # this documentation when the user looks them up from the command
-#' # line.
-#' # @family - a family name. All functions that have the same family tag will be linked in the documentation.
-#' #' @export
-#'
-#' rmmAutofillModelObj=function(rmm,modelObj){
-#'
-#' }
-
-##############################################################################################
-##############################################################################################
-##############################################################################################
+####################################################################################
+####################################################################################
+####################################################################################
 
 #' @title Add relevant model prediction info to an rmm object
 #'
@@ -166,16 +134,16 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 # @aliases - a list of additional topic names that will be mapped to
 # this documentation when the user looks them up from the command
 # line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @family autofill
 #' @export
 
 rmmAutofillPrediction=function(rmm,prediction){
   print('not done')
 }
 
-##############################################################################################
-##############################################################################################
-##############################################################################################
+####################################################################################
+####################################################################################
+####################################################################################
 
 #' @title Add relevant model info to an rmm object
 #'
@@ -198,21 +166,17 @@ rmmAutofillPrediction=function(rmm,prediction){
 # @aliases - a list of additional topic names that will be mapped to
 # this documentation when the user looks them up from the command
 # line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @family autofill
 #' @export
 
 rmmAutofillModelObj=function(rmm,modelObj){
   print('not done')
 }
 
-##############################################################################################
-##############################################################################################
-##############################################################################################
 
-
-##############################################################################################
-##############################################################################################
-##############################################################################################
+####################################################################################
+####################################################################################
+####################################################################################
 
 #' @title Fill in relevant rmm fields from an ENMevaluation object.
 #'
@@ -223,11 +187,13 @@ rmmAutofillModelObj=function(rmm,modelObj){
 #'
 #' @param rmm an rmm list
 #' @param e an ENMevaluation object
-#' @param i a numeric index value referring to the chosen model
+#' @param selectionCriteria a character string indicating the model selection rules used to determine which model to choose
+#' @param optimalModelIndex a numeric value indicating the row number of the model chosen by the user
 #' (e.g., if you chose the model corresponding to row 5 in the results table, this number would be 5)
 #'
-# @examples
-#'
+#' @examples
+#' e <- ENMevaluate(occs, envs, ...)
+#' rmmAutofillENMeval(rmm, e, "first lowest 10% omission rate, then highest test AUC", 5)
 #'
 #' @return a range model metadata list
 #' @author Jamie M. Kass <jamie.m.kass@@gmail.com>
@@ -237,12 +203,14 @@ rmmAutofillModelObj=function(rmm,modelObj){
 # @aliases - a list of additional topic names that will be mapped to
 # this documentation when the user looks them up from the command
 # line.
-# @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @family autofill
 #' @export
 
-rmmAutofillENMeval <- function(rmm, e, i) {
+rmmAutofillENMeval <- function(rmm, e, selectionCriteria, optimalModelIndex) {
   rmm$model$algorithm <- e@algorithm
-  rmm$model$maxent$backgroundSizeSet <- nrow(e@bg.pts)
+  rmm$data$occurrence$backgroundSampleSizeSet <- nrow(e@bg.pts)
+  rmm$model$partition$occurrenceSubsampling <- "k-fold cross validation"
+  rmm$model$partition$notes <- "background points also partitioned"
   k <- length(unique(e@occ.grp))
   rmm$model$partition$numberFolds <- k
 
@@ -273,7 +241,126 @@ rmmAutofillENMeval <- function(rmm, e, i) {
     rmm$model$maxent$regularizationMultiplierSet <- e@results[i, "rm"]
   }
 
+  rmm$model$selectionRules <- sr
+  rmm$model$finalModelSettings <- e@results[i, "settings"]
+  rmm$performance$trainingDataStats$AUC <- e@results[i, "full.AUC"]
+  rmm$performance$trainingDataStats$AIC <- e@results[i, "AICc"]
+
+  rmm$performance$testingDataStats$AUC <- e@results[i, "mean.AUC"]
+  rmm$performance$testingDataStats$omissionRate <- c(e@results[i, "Mean.ORmin"], e@results[i, "Mean.OR10"])
+  rmm$performance$testingDataStats$notes <- "omission rate thresholds are 1) minimum training presence, 2) 10% training presence"
+
   return(rmm)
+}
+
+
+
+####################################################################################
+####################################################################################
+####################################################################################
+
+
+#' @title  Add occurrence metadata from a BIEN query to an rmm object
+#'
+#' @description This function populates occurrence field in an rmm object with output from a BIEN_occurrence_... query
+#'
+#' @details
+#' See Examples.
+#'
+#' @param rmm an rmm list
+#'
+#' @param occurrences an occurrence data.frame obtained from a BIEN occurrence query
+#'
+#' @examples
+#' rmm=rmmTemplate()
+#' xs <- BIEN::BIEN_occurrence_species(species="Xanthium strumarium)
+#' rmmAutofillBIEN(rmm = rmm, occurrences = xs)
+#'
+#' @return a range model metadata list
+#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+# @note
+#' @seealso  \code{\link[BIEN]{BIEN_occurrence_species}}
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+#' @family autofill
+#' @export
+rmmAutofillBIEN <- function(rmm, occurrences){
+
+  rmm$data$occurrence$taxa <- unique(occurrences$scrubbed_species_binomial)
+
+  rmm$data$occurrence$dataType   <- "presence only"
+
+  rmm$data$occurrence$yearMin <- NA
+  rmm$data$occurrence$yearMax <- NA
+
+  rmm$data$occurrence$sources <- BIEN::BIEN_metadata_citation(dataframe = occurrences)$references
+
+  rmm$data$occurrence$presenceSampleSize <- unlist(lapply(X = rmm$data$occurrence$taxa, FUN = function(x){
+    nrow(occurrences[which(occurrences$scrubbed_species_binomial==x),]) }))
+
+  return(rmm)
+
+}
+
+
+####################################################################################
+####################################################################################
+####################################################################################
+
+
+#' @title  Add occurrence metadata from a spocc query to an rmm object
+#'
+#' @description This function populates occurrence field in an rmm object with output from a spocc query
+#'
+#' @details
+#' See Examples.
+#'
+#' @param rmm an rmm list
+#' @param occ Output from \code{\link[spocc]{occ}}
+#'
+#' @examples
+#' rmm=rmmTemplate()
+#' xs <- spocc::occ(species="Xanthium strumarium)
+#' rmmAutofillspocc(rmm = rmm, occ = xs)
+#'
+#' @return a range model metadata list
+#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+# @note
+#' @seealso  \code{\link[spocc]{occ}}
+# @references
+# @aliases - a list of additional topic names that will be mapped to
+# this documentation when the user looks them up from the command
+# line.
+#' @family autofill
+#' @export
+rmmAutofillspocc <- function(rmm, occ){
+
+  #If the data are formatted as an "occdat", convert to table
+  if("occdat" %in% class(occ)){occ <- occ2df(occ) }
+
+  #If the data are formatted as a list, take the data
+  if("list" %in% class(occ)){occ <- occ$data }
+
+  #Convert to dataframe
+  occ <- as.data.frame(occ)
+
+  rmm$data$occurrence$taxa <- unique(occ$name)
+
+  rmm$data$occurrence$dataType   <- "presence only"
+
+  rmm$data$occurrence$yearMin <- NA
+  rmm$data$occurrence$yearMax <- NA
+
+  rmm$data$occurrence$sources <- utils::toBibtex(utils::citation(package = "spocc"))
+
+  rmm$data$occurrence$presenceSampleSize <- unlist(lapply(X = rmm$data$occurrence$taxa, FUN = function(x){
+    nrow(occ[which(occ$name==x),]) }))
+
+  return(rmm)
+
+>>>>>>> 97e1f2c5b390c2d4458f396ccfdf4f1758fa9da9
 }
 
 

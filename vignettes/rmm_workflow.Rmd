@@ -1,0 +1,43 @@
+---
+title: "An example workflow for building rangeModelMetadata objects"
+author: "Cory Merow, Brian Maitner, Hannah Owens, Jamie Kass, Rob Guralnick"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    fig_caption: yes
+    toc: true
+    toc_depth: 3
+vignette: >
+  %\VignetteIndexEntry{An overview of making rangeModelMetadata objects}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(rangeModelMetadata)
+```
+
+#Build a range model
+
+Keep this as simple as possible while including many of the relevant fields. Maybe with ENMEval?
+
+#Build an `rmm` object
+To make it easier to fill some `rmm` fields, we provide autofill functions that extract relevant information from common R objects used in the 
+
+```{r}
+rmm=rmmTemplate()
+rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
+# rmmAutoFillData(rmm,species=)
+raster.files=list.files(system.file("extdata/Env_Demo",package='rangeModelMetadata'),full.names = TRUE)
+env=raster::stack(raster.files)
+rmm=rmmAutofillEnvironment(rmm,env,transfer=0) # for fitting environment
+rmm=rmmAutofillEnvironment(rmm,env,transfer=1) # for transfer environment 1 (assuming different than for fitting)
+rmm=rmmAutofillEnvironment(rmm,env,transfer=2) # for transfer environment 2 (assuming different than for fitting)
+# rmmAutoFillMaxent(rmm,species=)
+# rmmAutoFillPrediction(rmm,species=,layer=1)
+rmmCheckFull(rmm) #print just the non-NULL fields
+```
