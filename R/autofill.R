@@ -139,6 +139,7 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 
 rmmAutofillPrediction=function(rmm,prediction){
   print('not done')
+  rmm
 }
 
 ####################################################################################
@@ -339,7 +340,8 @@ rmmAutofillBIEN <- function(rmm, occurrences){
 rmmAutofillspocc <- function(rmm, occ){
 
   #If the data are formatted as an "occdat", convert to table
-  if("occdat" %in% class(occ)){occ <- occ2df(occ) }
+  #CM: 7/11/18: looks like the class is occdatind, but i can't figure out if there are also objects
+  if("occdatind" %in% class(occ)){occ <- occ2df(occ) }
 
   #If the data are formatted as a list, take the data
   if("list" %in% class(occ)){occ <- occ$data }
