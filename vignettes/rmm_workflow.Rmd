@@ -19,7 +19,7 @@ knitr::opts_chunk$set(cache= TRUE)
 
 ```
 
-```{r}
+```{r,results='hide'}
 library(rangeModelMetadata)
 library(spocc)
 library(sp)
@@ -112,8 +112,8 @@ rmm=rmmAutofillEnvironment(rmm,t.ext, transfer=1)
 # autofill for ENMeval
 rmm=rmmAutofillENMeval(rmm,e, selectionCriteria="highest mean test AUC", optimalModelIndex=i) 
 # autofill for model prediction in background extent and transfer extent
-rmm=rmmAutofillPrediction(rmm,transfer=0) 
-rmm=rmmAutofillPrediction(rmm,transfer=1)
+#rmm=rmmAutofillPrediction(rmm,transfer=0) 
+#rmm=rmmAutofillPrediction(rmm,transfer=1)
 
 # print just the non-NULL fields  
 #rmmCheckFull(rmm)
