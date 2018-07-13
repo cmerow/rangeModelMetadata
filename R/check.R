@@ -155,7 +155,6 @@ rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
   }
 
 ##############################################################
-
 ##############################################################
 
 #' @title Check values of a range model metadata list against commonly used values
@@ -192,12 +191,13 @@ rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
 #' @family check
 #' @export
 
-rmmCheckValue <- function( rmm, cutoff_distance = 3, returnData = F ){
+rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
 
   dd<-utils::read.csv(system.file("extdata/dataDictionary.csv",
-                                  package='rangeModelMetadata'),stringsAsFactors=F)
+                                  package='rangeModelMetadata'),
+                      stringsAsFactors=F)
 
-  dd_constrained<-dd[which(dd$valuesConstrained!="no"),]
+  dd_constrained=dd[which(dd$constrainedValues!='NULL'),]
 
   #For all fields with either a kinda or yes in the valuesConstrained field, check values against those in datadictionary
 
@@ -220,7 +220,7 @@ rmmCheckValue <- function( rmm, cutoff_distance = 3, returnData = F ){
 
     value_check_df[i,1]<-dd_i<-paste("rmm",dd_i,sep = "$")
 
-    constrained_values<-dd_constrained$values[i]
+    constrained_values<-dd_constrained$constrainedValues[i]
     constrained_values<-unlist(strsplit(x = constrained_values,split = "; "))
     value_i<-eval(parse(text=dd_i))
 
@@ -272,23 +272,24 @@ rmmCheckValue <- function( rmm, cutoff_distance = 3, returnData = F ){
   if(nrow(value_check_df)>0){
 
     for(r in 1:nrow(value_check_df)){
-      cat(noquote(paste("For the field ",value_check_df$field[r],":",collapse = "\n",sep = ""))  )
+      cat('\n==========================================\n')
+      cat(noquote(paste("For the field ",value_check_df$field[r],collapse = "\n",sep = ""))  )
       cat(noquote("\n "))
 
       if(!is.na(value_check_df$exact_match[r])){
-        cat(noquote(paste("   The following entries appear accurate:\n"   )))
+        cat(noquote(paste("The following entries appear accurate:\n"   )))
         cat(noquote(paste("\n",value_check_df$exact_match[r])))
         cat(noquote("\n "))
         }
       if(!is.na(value_check_df$partial_match[r])){
-        cat(noquote(paste("   The following entries are similar to suggested values, please verify:\n" )))
+        cat(noquote(paste0("The following entries are similar to suggested values, please verify:\n" )))
         cat(noquote(paste(value_check_df$partial_match[r])))
-        cat(noquote(paste( "Suggested alternatives include: ", value_check_df$partial_match_suggestions[r]  )))
+        cat(noquote(paste0( "\n\nSuggested alternatives include: \n",value_check_df$partial_match_suggestions[r]  )))
         cat(noquote("\n "))
         }
 
       if(!is.na(value_check_df$not_matched[r])){
-        cat(noquote(paste("   The following entries are not similar to any suggested values, please verify that these are accurate:\n"   )))
+        cat(noquote(paste("The following entries are not similar to any suggested values, please verify that these are accurate:\n"   )))
         cat(noquote(paste(value_check_df$not_matched[r])))
         cat(noquote("\n "))
         }
@@ -320,7 +321,7 @@ rmmCheckValue <- function( rmm, cutoff_distance = 3, returnData = F ){
 #' See Examples.
 #'
 #' @param rmm a range model metadata list
-#' @param useCase The rmm useCase to check the rmm against
+#' @param family The rmm family to check the rmm against
 #'
 #' @examples
 #' rmm<-rmmTemplate() # Make an empty template
@@ -338,7 +339,7 @@ rmmCheckValue <- function( rmm, cutoff_distance = 3, returnData = F ){
 #' @import utils
 #' @export
 
-rmmCheckMissingNames<-function(rmm,useCase="apObligate"){
+rmmCheckMissingNames<-function(rmm,family=c("obligate")){
 
   list_elements<-capture.output(rmm)
   list_elements<-list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
@@ -362,7 +363,9 @@ rmmCheckMissingNames<-function(rmm,useCase="apObligate"){
 
 
   dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
-  dd_ob<-dd[which(dd[useCase]==1),]
+
+    keep=unique(unlist(lapply(family,function(fam){grep(fam,dd$family)})))
+  dd_ob<-dd[keep,]
 
   obligate_names<-NULL
   for(i in 1:nrow(dd_ob)){
@@ -392,7 +395,7 @@ rmmCheckMissingNames<-function(rmm,useCase="apObligate"){
 #' See Examples.
 #'
 #' @param rmm a range model metadata list
-#' @param useCase an rmm useCase, "apObligate" by default
+#' @param family an rmm family, "apObligate" by default
 #'
 #' @examples
 #' #First, make an empty rmm object:
@@ -400,7 +403,7 @@ rmmCheckMissingNames<-function(rmm,useCase="apObligate"){
 #' #Next, we check for emtpy fields:
 #' empties1<-rmmCheckEmpty(rmm = rmm)
 #' #If looks like there are quite a few empty obligate fields.  Let's populate a few:
-#' rmm$data$occurrence$taxa<-"Acer rubrum"
+#' rmm$data$occurrence$taxon<-"Acer rubrum"
 #' rmm$data$environment$variableNames<-"Bio1"
 #' #Now, if we run rmmCheckEmpty again, we see there are 2 fewer empty, obligate fields
 #' empties2<-rmmCheckEmpty(rmm = rmm)
@@ -416,7 +419,8 @@ rmmCheckMissingNames<-function(rmm,useCase="apObligate"){
 #' @family check
 #' @export
 
-rmmCheckEmpty<-function(rmm, useCase=c('base','obligate')){
+#CM: 7/11/18: note that I removed the optional and suggested options as we don't have those any more.
+rmmCheckEmpty<-function(rmm, family=c('base','obligate')){
 
   list_elements<-capture.output(rmm)
   list_elements<-list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
@@ -427,8 +431,8 @@ rmmCheckEmpty<-function(rmm, useCase=c('base','obligate')){
   #Any of these will not be terminal element names
 
   terminal<-lapply(X = list_elements,FUN = function(x){
-
-    if(length(grep(pattern = x,x = unique(list_elements),fixed = T))>1){output<-FALSE}else{output<-TRUE}
+    if(length(grep(pattern = x,x = unique(list_elements),fixed = T))>1){
+      output<-FALSE}else{output<-TRUE}
     return(output)
   })
   terminal<-unlist(terminal)
@@ -452,7 +456,6 @@ rmmCheckEmpty<-function(rmm, useCase=c('base','obligate')){
 
   output_data$Empty_field<-empties
 
-
   dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
   dd_names<-NULL
   for(i in 1:nrow(dd)){
@@ -466,46 +469,54 @@ rmmCheckEmpty<-function(rmm, useCase=c('base','obligate')){
 
 
   #CM: check the use case issue
-  output_data$Obligate[which(output_data$Empty_field%in%
-                               dd_names[which(dd[useCase]==1)])]<-1
-  output_data$Optional[which(output_data$Empty_field%in%
-                               dd_names[which(dd[useCase]==0)])]<-1
-  #output_data$Suggested[which(output_data$Empty_field%in%dd_names[which(dd[useCase]==2)])]<-1 Add this once we figure out how to label suggested fields
+  for(fam in family){
+    output_data$Obligate[which(output_data$Empty_field %in%
+                               dd_names[which(dd$family==fam)])]<-1
+  }
+
+  # output_data$Obligate[which(output_data$Empty_field %in%
+  #                              dd_names[which(dd[family]==1)])]<-1
+  # output_data$Optional[which(output_data$Empty_field%in%
+  #                              dd_names[which(dd[family]==0)])]<-1
+  #output_data$Suggested[which(output_data$Empty_field%in%dd_names[which(dd[family]==2)])]<-1 Add this once we figure out how to label suggested fields
 
 
   #If there are missing obligate values, warn the user
   if(sum(na.omit(output_data$Obligate))>0){
-    cat(paste("There are ",sum(na.omit(output_data$Obligate)), "empty obligate fields:" ))
+    cat('===================================\n')
+    cat(paste("There are ",sum(na.omit(output_data$Obligate)), "empty obligate fields:\n" ))
     cat(paste(output_data$Empty_field[which(output_data$Obligate==1)],sep = ", ",collapse = "\n"))
     cat("\n")
   }
-
+  cat('===================================\n')
   if(sum(na.omit(output_data$Suggested))>0){
     cat(paste("There are ",sum(na.omit(output_data$Suggested)), "empty suggested fields." ))
     cat("\n")
   }
-
+  cat('===================================\n')
   if(sum(na.omit(output_data$Optional))>0){
     cat(paste("There are ",sum(na.omit(output_data$Optional)), "empty optional fields." ))
     cat("\n")
   }
 
   if(nrow(output_data)==0){
-    cat("All fields are populated, groovy.")
+    cat("All fields are populated.")
     cat("\n")
 
   }
 
+  # CM 7/12/18 temporarily toss suggested and optional until/if we use
+  output_data=output_data[,1:2]
   return(output_data)
 
 }
 
-##################################################################################
-##################################################################################
-##################################################################################
-#' @title Check if fields are non-NULL in a range model metadata list
+#############################################################################
+#############################################################################
+#############################################################################
+#' @title Remove NULL entries range model metadata list
 #'
-#' @description Check if fields are full in a range model metadata list
+#' @description Check if fields are NULL in a range model metadata list and toss
 #'
 #' @details
 #' See Examples.
@@ -513,14 +524,7 @@ rmmCheckEmpty<-function(rmm, useCase=c('base','obligate')){
 #' @param rmm a range model metadata list
 #'
 #' @examples
-#' rmm=rmmTemplate()
-#' r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
-#' raster.files=list.files(r.f,full.names = TRUE)
-#' env=raster::stack(raster.files)
-#' rmm=rmmAutofillEnvironment(rmm,env,transfer=0) # for fitting environment
-#' rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
-#' rmmCheckFull(rmm)
-#'
+#' # see vignette('rmm_vignette')
 #' @return printout to the console
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 # @note
@@ -534,13 +538,17 @@ rmmCheckEmpty<-function(rmm, useCase=c('base','obligate')){
 
 # would better if this didn't have the quotes in the names, but this is fine for viewing
 
-rmmCheckFull=function(rmm){
-  out=unlist(rmm)
-  names(out)=gsub('.','$',names(out),fixed=T)
-  out
+rmmCleanNULLs=function(rmm){
+  # from https://stackoverflow.com/questions/26539441/remove-null-elements-from-list-of-lists/26540063
+  is.NullOb <- function(x) is.null(x) | all(sapply(x, is.null))
+
+  ## Recursively step down into list, removing all such objects
+  rmNullObs <- function(x) {
+    x <- Filter(Negate(is.NullOb), x)
+    lapply(x, function(x) if (is.list(x)) rmNullObs(x) else x)
+  }
+  rmNullObs(rmm)
 }
-
-
 ##################################
 
 #' @title Run a final check of an rmm object
@@ -551,7 +559,7 @@ rmmCheckFull=function(rmm){
 #' See Examples.
 #'
 #' @param rmm a range model metadata list
-#' @param useCase The rmm useCase to check the rmm against
+#' @param family The rmm family to check the rmm against
 #'
 #' @examples
 #' rmm<-rmmTemplate() # Make an empty template
@@ -569,15 +577,16 @@ rmmCheckFull=function(rmm){
 #' @import stats
 #' @import utils
 #' @export
-rmmCheckFinalize<-function(rmm,useCase="apObligate"){
+
+rmmCheckFinalize<-function(rmm,family=c('base','obligate')){
 
   names<-rmmCheckName(rmm,returnData = TRUE)
 
   values<-rmmCheckValue(rmm = rmm,returnData = TRUE)
 
-  missing_names<-rmmCheckMissingNames(rmm,useCase = useCase)
+  missing_names<-rmmCheckMissingNames(rmm,family = family)
 
-  empty_values<-rmmCheckEmpty(rmm = rmm,useCase = useCase)
+  empty_values<-rmmCheckEmpty(rmm = rmm,family = family)
 
   if(length(na.omit(values$partial_match))==0 & length(na.omit(values$not_matched))==0 & #All values are exactly matched
      length(missing_names)==0 & #No names are missing

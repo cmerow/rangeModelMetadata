@@ -4,12 +4,12 @@
 \alias{csvToRMM}
 \title{Create rangeModelMetaData Object From .csv File}
 \usage{
-csvToRMM(csv, useCase = NULL)
+csvToRMM(csv, family = NULL)
 }
 \arguments{
 \item{csv}{A character file path to the csv file.}
 
-\item{useCase}{character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use \code{rmmFamilies()} to see supported values.}
+\item{family}{character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use \code{rmmFamilies()} to see supported values.}
 }
 \value{
 An \code{rmm} object that was read from the supplied .csv text file.

@@ -26,17 +26,13 @@ Fill in relevant rmm fields from an ENMevaluation object.
 See Examples.
 }
 \examples{
-rmm <- rmmTemplate()
-e <- ENMevaluate(occs, envs, ...)
-rmmAutofillENMeval(rmm, e, "first lowest 10\% omission rate, then highest test AUC", 5)
+#see vignette('rmm_workflow')
 
 }
 \seealso{
 Other autofill: \code{\link{rmmAutofillBIEN}},
   \code{\link{rmmAutofillEnvironment}},
-  \code{\link{rmmAutofillModelObj}},
   \code{\link{rmmAutofillPackageCitation}},
-  \code{\link{rmmAutofillPrediction}},
   \code{\link{rmmAutofillspocc}}
 }
 \author{

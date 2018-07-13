@@ -23,24 +23,24 @@ This can be used with environmental layers used for fitting or transferring
 See Examples.
 }
 \examples{
+\dontrun{
 rmm=rmmTemplate()
-raster.dir=system.file("extdata/Env_Demo",package='rangeModelMetadata')
-raster.files=list.files(raster.dir,full.names = TRUE)
-env=raster::stack(raster.files)
+rasterFiles=list.files(path=paste(system.file(package='dismo'), '/ex', sep=''),
+                       pattern='grd', full.names=TRUE)
+#make a stack of the rasters
+env=raster::stack(rasterFiles)
 # for fitting environment
 rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
 # for the first environment that you're transfering to
 rmm=rmmAutofillEnvironment(rmm,env,transfer=1)
 # for the second environment that you're transfering to, etc.
 rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
-
+}
 }
 \seealso{
 Other autofill: \code{\link{rmmAutofillBIEN}},
   \code{\link{rmmAutofillENMeval}},
-  \code{\link{rmmAutofillModelObj}},
   \code{\link{rmmAutofillPackageCitation}},
-  \code{\link{rmmAutofillPrediction}},
   \code{\link{rmmAutofillspocc}}
 }
 \author{

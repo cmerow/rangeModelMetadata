@@ -4,10 +4,10 @@
 \alias{rmmTemplate}
 \title{Range modeling metadata}
 \usage{
-rmmTemplate(useCase = NULL)
+rmmTemplate(family = NULL)
 }
 \arguments{
-\item{useCase}{character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use `rmmFamilyNames` to see supported values.}
+\item{family}{character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use `rmmFamilyNames` to see supported values.}
 }
 \value{
 a range model metadata list
@@ -20,7 +20,7 @@ See Examples.
 }
 \examples{
 rmm1=rmmTemplate()
-rmm2=rmmTemplate(useCase=c('base','obligate'))
+rmm2=rmmTemplate(family=c('base','obligate'))
 str(rmm2)
 
 }

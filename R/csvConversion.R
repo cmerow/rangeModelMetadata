@@ -11,7 +11,7 @@
 # @examples
 #'
 #' @return Reformatted element for use in \code{rmmToCSV} function.
-#' 
+#'
 #' @author Hannah Owens <hannah.owens@@gmail.com>, Cory Merow <cory.merow@@gmail.com>
 # @note
 # @seealso
@@ -51,13 +51,13 @@ cleanForCSV <- function(x = NULL){
 #' See Examples.
 #'
 #' @param csv A character file path to the csv file.
-#' @param useCase character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use \code{rmmFamilies()} to see supported values.
-# @param families character vector; an alternative to specifying `useCase`. Provide a vector of family names to include all entities in a family in the template. Use `rmmFamilyNames` to see supported values.
+#' @param family character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use \code{rmmFamilies()} to see supported values.
+# @param families character vector; an alternative to specifying `family`. Provide a vector of family names to include all entities in a family in the template. Use `rmmFamilyNames` to see supported values.
 #'
 #' @examples
 #' csv <- "somePathOnYourMachine/rmm_example.csv";
 #' \dontrun{temp <- csvToRMM(csv);}
-#' 
+#'
 #' @return An \code{rmm} object that was read from the supplied .csv text file.
 #' @author Hannah Owens <hannah.owens@@gmail.com>
 # @note
@@ -71,7 +71,7 @@ cleanForCSV <- function(x = NULL){
 #'
 
 
-csvToRMM <- function(csv, useCase=NULL) {
+csvToRMM <- function(csv, family=NULL) {
 
   # read in csv from path
   dd <- read.csv(csv, stringsAsFactors=FALSE)
@@ -80,7 +80,7 @@ csvToRMM <- function(csv, useCase=NULL) {
   values <- mapply(assign, dd$entity, dd$value)
 
   # create a blank rmm to fill from the values in csv
-  rmm <- rmmTemplate(useCase = useCase)
+  rmm <- rmmTemplate(family = family)
 
   # loop over all rows, determine how many fields are not NA,
   # then fill in the value from csv to the slot in the rmm list
@@ -130,9 +130,10 @@ csvToRMM <- function(csv, useCase=NULL) {
 #'
 #' @examples
 #' rmm=rmmTemplate()
-#' r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
-#' raster.files=list.files(r.f,full.names = TRUE)
-#' env=raster::stack(raster.files)
+#' rasterFiles=list.files(path=paste(system.file(package='dismo'), '/ex', sep=''),
+#'                        pattern='grd', full.names=TRUE)
+#' #make a stack of the rasters
+#' env=raster::stack(rasterFiles)
 #' # for fitting environment
 #' rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
 #' # for the first environment that you're transfering to
@@ -153,7 +154,7 @@ csvToRMM <- function(csv, useCase=NULL) {
 #' @family csvConversion
 #' @export
 
-rmmToCSV=function(x = rmmTemplate(useCase=NULL), filename = NULL){
+rmmToCSV=function(x = rmmTemplate(family=NULL), filename = NULL){
   #Verify user has passed the function an rmm object
   if (!any(class(x) == "list")){
     warning("Target input invalid. Input must be of class 'list'.\n");

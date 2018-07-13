@@ -4,12 +4,12 @@
 \alias{rmmCheckMissingNames}
 \title{Check for missing fields}
 \usage{
-rmmCheckMissingNames(rmm, useCase = "apObligate")
+rmmCheckMissingNames(rmm, family = c("obligate"))
 }
 \arguments{
 \item{rmm}{a range model metadata list}
 
-\item{useCase}{The rmm useCase to check the rmm against}
+\item{family}{The rmm family to check the rmm against}
 }
 \value{
 A vector of names that are missing from the rmm object.
@@ -28,8 +28,8 @@ rmm<-rmmTemplate() # Make an empty template
 \seealso{
 Other check: \code{\link{rmmCheckEmpty}},
   \code{\link{rmmCheckFinalize}},
-  \code{\link{rmmCheckFull}}, \code{\link{rmmCheckName}},
-  \code{\link{rmmCheckValue}}
+  \code{\link{rmmCheckName}}, \code{\link{rmmCheckValue}},
+  \code{\link{rmmCleanNULLs}}
 }
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,

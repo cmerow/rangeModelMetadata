@@ -35,9 +35,10 @@ rmmAutofillPackageCitation=function(rmm,packages){
     out[2:length(out)]<-paste0("@",out[2:length(out)])
     out[1:(length(out))-1]<-paste0(out[1:(length(out))-1], "}" )
   }
+
+  rmm=rmm
   rmm$code$software$packages=out
   return(rmm)
-
 }
 
 ####################################################################################
@@ -56,17 +57,19 @@ rmmAutofillPackageCitation=function(rmm,packages){
 #' @param transfer 0 if not transfer, 1:n for n environments that you're transferring to
 #'
 #' @examples
+#' \dontrun{
 #' rmm=rmmTemplate()
-#' raster.dir=system.file("extdata/Env_Demo",package='rangeModelMetadata')
-#' raster.files=list.files(raster.dir,full.names = TRUE)
-#' env=raster::stack(raster.files)
+#' rasterFiles=list.files(path=paste(system.file(package='dismo'), '/ex', sep=''),
+#'                        pattern='grd', full.names=TRUE)
+#' #make a stack of the rasters
+#' env=raster::stack(rasterFiles)
 #' # for fitting environment
 #' rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
 #' # for the first environment that you're transfering to
 #' rmm=rmmAutofillEnvironment(rmm,env,transfer=1)
 #' # for the second environment that you're transfering to, etc.
 #' rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
-#'
+#' }
 #' @return a range model metadata list
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 # @note
@@ -97,13 +100,14 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
   if(is.null(transfer)) stop('specify whether this environment is used for transfer (>1) or not (0)')
   if(transfer==0){
     rmm$data$environment$resolution=raster::res(env)
-    rmm$data$environment$extent=raster::extent(env)
+    rmm$data$environment$extentSet=raster::extent(env)
     rmm$data$environment$variableNames=names(env)
     rmm=.worldclimFill(env,rmm)
   } else {
-    rmm$output$transfer[paste0('environment',transfer)][[1]]$resolution=raster::res(env)
-    rmm$output$transfer[paste0('environment',transfer)][[1]]$extent=raster::extent(env)
-    rmm$output$transfer[paste0('environment',transfer)][[1]]$variableNames=names(env)
+    rmm$data$transfer[paste0('environment',transfer)][[1]]$resolution=raster::res(env)
+    rmm$data$transfer[paste0('environment',transfer)][[1]]$extentSet=raster::extent(env)
+    # I don't think we need this
+    #rmm$data$transfer[paste0('environment',transfer)][[1]]$variableNames=names(env)
   }
   return(rmm)
 }
@@ -112,67 +116,57 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 ####################################################################################
 ####################################################################################
 ####################################################################################
-
-#' @title Add relevant model prediction info to an rmm object
-#'
-#' @description Add relevant model prediction info to an rmm object
-#'
-#' @details
-#' See Examples.
-#'
-#' @param rmm an rmm list
-#' @param prediction a raster layer or stack
-#'
+# CM: 7/11/18: I'm not sure there's really much to autofill from a prediction, so bailing until someone has a better idea
+# @title Add relevant model prediction info to an rmm object
+# @description Add relevant model prediction info to an rmm object
+# @details
+# See Examples.
+# @param rmm an rmm list
+# @param prediction a raster layer or stack
 # @examples
-#'
-#'
-#' @return a range model metadata list
-#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+#
+# @return a range model metadata list
+# @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 # @note
 # @seealso
 # @references
 # @aliases - a list of additional topic names that will be mapped to
 # this documentation when the user looks them up from the command
 # line.
-#' @family autofill
-#' @export
+# @family autofill
+# @export
 
-rmmAutofillPrediction=function(rmm,prediction){
-  print('not done')
-  rmm
-}
+# rmmAutofillPrediction=function(rmm,prediction){
+#   print('not done')
+#   rmm
+# }
 
 ####################################################################################
 ####################################################################################
 ####################################################################################
 
-#' @title Add relevant model info to an rmm object
-#'
-#' @description Does stuff
-#'
-#' @details
-#' See Examples.
-#'
-#' @param rmm an rmm list
-#' @param modelObj a model object
-#'
+# @title Add relevant model info to an rmm object
+# @description Does stuff
+# @details
+# See Examples.
+# @param rmm an rmm list
+# @param modelObj a model object
 # @examples
-#'
-#'
 # @return
-#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+# @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 # @note
 # @seealso
 # @references
 # @aliases - a list of additional topic names that will be mapped to
 # this documentation when the user looks them up from the command
 # line.
-#' @family autofill
-#' @export
+# @family autofill
+# @export
 
-rmmAutofillModelObj=function(rmm,modelObj){
-  print('not done')
-}
+# rmmAutofillModelObj=function(rmm,modelObj){
+#   print('not done')
+#   rmm
+# }
 
 
 ####################################################################################
@@ -193,9 +187,7 @@ rmmAutofillModelObj=function(rmm,modelObj){
 #' (e.g., if you chose the model corresponding to row 5 in the results table, this number would be 5)
 #'
 #' @examples
-#' rmm <- rmmTemplate()
-#' e <- ENMevaluate(occs, envs, ...)
-#' rmmAutofillENMeval(rmm, e, "first lowest 10% omission rate, then highest test AUC", 5)
+#' #see vignette('rmm_workflow')
 #'
 #' @return a range model metadata list
 #' @author Jamie M. Kass <jamie.m.kass@@gmail.com>
@@ -290,7 +282,7 @@ rmmAutofillENMeval <- function(rmm, e, selectionCriteria, optimalModelIndex) {
 #' @export
 rmmAutofillBIEN <- function(rmm, occurrences){
 
-  rmm$data$occurrence$taxa <- unique(occurrences$scrubbed_species_binomial)
+  rmm$data$occurrence$taxon <- unique(occurrences$scrubbed_species_binomial)
 
   rmm$data$occurrence$dataType   <- "presence only"
 
@@ -323,10 +315,11 @@ rmmAutofillBIEN <- function(rmm, occurrences){
 #' @param occ Output from \code{\link[spocc]{occ}}
 #'
 #' @examples
+#' \dontrun{
 #' rmm=rmmTemplate()
-#' xs <- spocc::occ(species="Xanthium strumarium")
+#' xs <- spocc::occ("Xanthium strumarium")
 #' rmmAutofillspocc(rmm = rmm, occ = xs)
-#'
+#' }
 #' @return a range model metadata list
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 # @note
@@ -341,7 +334,7 @@ rmmAutofillspocc <- function(rmm, occ){
 
   #If the data are formatted as an "occdat", convert to table
   #CM: 7/11/18: looks like the class is occdatind, but i can't figure out if there are also objects
-  if("occdatind" %in% class(occ)){occ <- occ2df(occ) }
+  if("occdatind" %in% class(occ)){occ <- spocc::occ2df(occ) }
 
   #If the data are formatted as a list, take the data
   if("list" %in% class(occ)){occ <- occ$data }
@@ -349,7 +342,7 @@ rmmAutofillspocc <- function(rmm, occ){
   #Convert to dataframe
   occ <- as.data.frame(occ)
 
-  rmm$data$occurrence$taxa <- unique(occ$name)
+  rmm$data$occurrence$taxon <- unique(occ$name)
 
   rmm$data$occurrence$dataType   <- "presence only"
 
@@ -358,7 +351,7 @@ rmmAutofillspocc <- function(rmm, occ){
 
   rmm$data$occurrence$sources <- utils::toBibtex(utils::citation(package = "spocc"))
 
-  rmm$data$occurrence$presenceSampleSize <- unlist(lapply(X = rmm$data$occurrence$taxa, FUN = function(x){
+  rmm$data$occurrence$presenceSampleSize <- unlist(lapply(X = rmm$data$occurrence$taxon, FUN = function(x){
     nrow(occ[which(occ$name==x),]) }))
 
   return(rmm)

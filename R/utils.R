@@ -15,7 +15,7 @@
 
 #############
 .onAttach <- function(libname,pkgname) {
-  packageStartupMessage('Type vignette("rmm_vignette") or vignette("rmm_directory") to get started')
+  packageStartupMessage('Type, vignette("rmm_workflow)",  vignette("rmm_vignette"), or vignette("rmm_directory") to get started')
 }
 ###############
 #' @title Print supported family names for rmm objects

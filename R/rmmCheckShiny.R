@@ -6,18 +6,21 @@
 #' See Examples.
 #'
 #' @examples
+#' \dontrun{
 #' rmm1=rmmTemplate()
 #' rmm1=rmmAutofillPackageCitation(rmm1,c('raster','sp'))
 # rmm1AutoFillData(rmm1,species=) # not used yet
-#' r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
-#' raster.files=list.files(r.f,full.names = TRUE)
-#' env=raster::stack(raster.files)
+#' rasterFiles=list.files(path=paste(system.file(package='dismo'), '/ex', sep=''),
+#'                        pattern='grd', full.names=TRUE)
+#' make a stack of the rasters
+#' env=raster::stack(rasterFiles)
 #' # for fitting environment
 #' rmm1=rmmAutofillEnvironment(rmm1,env,transfer=0)
 #' # for transfer environment 1 (assuming different than for fitting)
 #' rmm1=rmmAutofillEnvironment(rmm1,env,transfer=1)
 #' # for transfer environment 2 (assuming different than 1)
 #' rmm1=rmmAutofillEnvironment(rmm1,env,transfer=2)
+#' }
 #' \dontrun{ rmmCheckShiny(rmm1) }
 #'
 #' @return None

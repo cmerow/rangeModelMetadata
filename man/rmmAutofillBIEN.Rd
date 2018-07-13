@@ -31,9 +31,7 @@ rmmAutofillBIEN(rmm = rmm, occurrences = xs)
 
 Other autofill: \code{\link{rmmAutofillENMeval}},
   \code{\link{rmmAutofillEnvironment}},
-  \code{\link{rmmAutofillModelObj}},
   \code{\link{rmmAutofillPackageCitation}},
-  \code{\link{rmmAutofillPrediction}},
   \code{\link{rmmAutofillspocc}}
 }
 \author{

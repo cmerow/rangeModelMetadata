@@ -4,7 +4,7 @@
 \alias{rmmToCSV}
 \title{Create .csv File From rangeModelMetaData Object}
 \usage{
-rmmToCSV(x = rmmTemplate(useCase = NULL), filename = NULL)
+rmmToCSV(x = rmmTemplate(family = NULL), filename = NULL)
 }
 \arguments{
 \item{x}{An object of class \code{rmm} that the user wishes transposed into a .csv file.}
@@ -22,9 +22,10 @@ See Examples.
 }
 \examples{
 rmm=rmmTemplate()
-r.f=system.file("extdata/Env_Demo",package='rangeModelMetadata')
-raster.files=list.files(r.f,full.names = TRUE)
-env=raster::stack(raster.files)
+rasterFiles=list.files(path=paste(system.file(package='dismo'), '/ex', sep=''),
+                       pattern='grd', full.names=TRUE)
+#make a stack of the rasters
+env=raster::stack(rasterFiles)
 # for fitting environment
 rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
 # for the first environment that you're transfering to

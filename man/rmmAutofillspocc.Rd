@@ -21,10 +21,11 @@ This function populates occurrence field in an rmm object with output from a spo
 See Examples.
 }
 \examples{
+\dontrun{
 rmm=rmmTemplate()
-xs <- spocc::occ(species="Xanthium strumarium")
+xs <- spocc::occ("Xanthium strumarium")
 rmmAutofillspocc(rmm = rmm, occ = xs)
-
+}
 }
 \seealso{
 \code{\link[spocc]{occ}}
@@ -32,9 +33,7 @@ rmmAutofillspocc(rmm = rmm, occ = xs)
 Other autofill: \code{\link{rmmAutofillBIEN}},
   \code{\link{rmmAutofillENMeval}},
   \code{\link{rmmAutofillEnvironment}},
-  \code{\link{rmmAutofillModelObj}},
-  \code{\link{rmmAutofillPackageCitation}},
-  \code{\link{rmmAutofillPrediction}}
+  \code{\link{rmmAutofillPackageCitation}}
 }
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
