@@ -1,6 +1,6 @@
 ---
 title: "An overview of making rangeModelMetadata objects"
-author: "Cory Merow, Brian Maitner, Hannah Owens, Jamie Kass, Rob Guralnick"
+author: "Cory Merow, Brian Maitner, Hannah Owens, Jamie Kass, Brian Enquist, Rob Guralnick"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
@@ -66,7 +66,7 @@ To make it easier to fill some `rmm` fields, we provide autofill functions that 
 rmm=rmmTemplate()
 rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 # search GBIF for occurrence data to demonstrate the autofill function
-bv=occ('Bradypus variegatus', 'gbif', limit=50, has_coords=TRUE)
+bv=spocc::occ('Bradypus variegatus', 'gbif', limit=50, has_coords=TRUE)
 rmm=rmmAutofillspocc(rmm,bv$gbif)
 # get some env layers to demonstrate the autofill function
 rasterFiles=list.files(path=paste(system.file(package='dismo'), '/ex', sep=''),

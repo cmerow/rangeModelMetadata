@@ -43,9 +43,9 @@ cleanForCSV <- function(x = NULL){
 ##############################################################################
 ##############################################################################
 
-#' @title Create rangeModelMetaData Object From .csv File
+#' @title Create rangeModelMetaData (`rmm`) object from a .csv File
 #'
-#' @description Takes user-input .csv file and converts it to a rangeModelMetaData object.
+#' @description Takes user-input .csv file and converts it to a rangeModelMetaData (`rmm`) object.
 #'
 #' @details
 #' See Examples.

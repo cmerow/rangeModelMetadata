@@ -266,10 +266,11 @@ rmmAutofillENMeval <- function(rmm, e, selectionCriteria, optimalModelIndex) {
 #' @param occurrences an occurrence data.frame obtained from a BIEN occurrence query
 #'
 #' @examples
+#' \dontrun{
 #' rmm <- rmmTemplate()
 #' xs <- BIEN::BIEN_occurrence_species(species="Xanthium strumarium")
 #' rmmAutofillBIEN(rmm = rmm, occurrences = xs)
-#'
+#' }
 #' @return a range model metadata list
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 # @note

@@ -15,7 +15,7 @@ rmmCheckEmpty(rmm, family = c("base", "obligate"))
 A dataframe containing empty fields labelled as obligate, optional, or suggested.
 }
 \description{
-Identify empty fields in an rmm object and classify these into obligate, optional and suggested fields.
+Identify empty fields in an rmm object and classify these into obligate and optional fields.
 }
 \details{
 See Examples.

@@ -32,7 +32,7 @@
 
 rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
 
-  list_elements<-capture.output(rmm)
+  list_elements<-utils::capture.output(rmm)
   list_elements<-list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
 
   #Now, we need to purge the non-terminal list elements.
@@ -389,7 +389,7 @@ rmmCheckMissingNames<-function(rmm,family=c("obligate")){
 ##################################
 #' @title Check an rmm object for empty fields
 #'
-#' @description Identify empty fields in an rmm object and classify these into obligate, optional and suggested fields.
+#' @description Identify empty fields in an rmm object and classify these into obligate and optional fields.
 #'
 #' @details
 #' See Examples.

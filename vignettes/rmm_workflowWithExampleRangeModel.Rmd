@@ -1,6 +1,6 @@
 ---
 title: "An example workflow for building rangeModelMetadata objects"
-author: "Cory Merow, Brian Maitner, Hannah Owens, Jamie Kass, Rob Guralnick"
+author: "Jamie Kass, Cory Merow, Brian Maitner, Hannah Owens, Brian Enquist, Rob Guralnick"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
@@ -32,7 +32,7 @@ library(sp)
 # Get data
 ```{r}
 # search GBIF for occurrence data
-bv <- occ('Bradypus variegatus', 'gbif', limit=300, has_coords=TRUE)
+bv <- spocc::occ('Bradypus variegatus', 'gbif', limit=300, has_coords=TRUE)
 # restrict table to coordinates
 occs=dplyr::select(bv$gbif$data$Bradypus_variegatus, longitude, latitude)
 # remove duplicate values
@@ -41,7 +41,7 @@ occs <- occs[!duplicated(occs),]
 files <- list.files(path=paste(system.file(package='dismo'), '/ex',
                                sep=''), pattern='grd', full.names=TRUE)
 # make a stack of the rasters
-envs <- stack(files)
+envs <- raster::stack(files)
 ```
 
 # Prepare data
@@ -50,13 +50,13 @@ envs <- stack(files)
 # make a spatial points object for the occurrences
 occs.sp <- sp::SpatialPoints(occs)
 # get the bounding box
-bb <- bbox(occs.sp)
+bb <- sp::bbox(occs.sp)
 # make extent object and buffer by 5 degrees
-bb.buf <- extent(bb[1]-5, bb[3]+5, bb[2]-5, bb[4]+5)
+bb.buf <- raster::extent(bb[1]-5, bb[3]+5, bb[2]-5, bb[4]+5)
 # crop environmental rasters by the extent to make the background extent
-bg.ext <- crop(envs, bb.buf)
+bg.ext <- raster::crop(envs, bb.buf)
 # generate up to 10,000 random points within the background extent (we'll sample from the "biome" raster as it has more holes)
-bg <-randomPoints(bg.ext[[9]], n=10000)
+bg <-dismo::randomPoints(bg.ext[[9]], n=10000)
 ```
 
 # Modeling
@@ -83,9 +83,9 @@ tmp=predict(m, values(bg.ext)[notNA,], type='link')
 p=bg.ext[[1]]; values(p)=NA; values(p)[notNA]=tmp
 plot(p)
 # further south extent for model transfer
-t.bb <- extent(-80,-40,-60,-30)
+t.bb <- raster::extent(-80,-40,-60,-30)
 # crop environmental predictors by transfer extent
-t.ext <- crop(envs, t.bb)
+t.ext <- raster::crop(envs, t.bb)
 ```
 # Transfer model
 ```{r}

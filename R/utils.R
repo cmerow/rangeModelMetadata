@@ -15,8 +15,12 @@
 
 #############
 .onAttach <- function(libname,pkgname) {
-  packageStartupMessage('Type, vignette("rmm_workflow)",  vignette("rmm_vignette"), or vignette("rmm_directory") to get started')
+  packageStartupMessage('Type, vignette("rmm_directory") for an overview of functions\n
+  vignette("rmm_vignette") for using the functions \n
+  vignette("rmm_workflow") for incorporating rmm in a range modeling workflow, or\n
+  vignette("rmm_Multispeices") for including multiple species in a single rmm object')
 }
+
 ###############
 #' @title Print supported family names for rmm objects
 #'

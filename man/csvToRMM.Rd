@@ -2,7 +2,7 @@
 % Please edit documentation in R/csvConversion.R
 \name{csvToRMM}
 \alias{csvToRMM}
-\title{Create rangeModelMetaData Object From .csv File}
+\title{Create rangeModelMetaData (`rmm`) object from a .csv File}
 \usage{
 csvToRMM(csv, family = NULL)
 }
@@ -15,7 +15,7 @@ csvToRMM(csv, family = NULL)
 An \code{rmm} object that was read from the supplied .csv text file.
 }
 \description{
-Takes user-input .csv file and converts it to a rangeModelMetaData object.
+Takes user-input .csv file and converts it to a rangeModelMetaData (`rmm`) object.
 }
 \details{
 See Examples.

@@ -7,7 +7,7 @@ Author: Cory Merow, Brian Maitner, Hannah Owens
 Maintainer: Cory Merow <cory.merow@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: License: MIT + file LICENSE
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
@@ -17,7 +17,7 @@ Suggests:
     knitr,
     rmarkdown,
     ENMeval,
-    BIEN
+    BIEN,
 Imports:
     googlesheets,
     spocc,
@@ -25,5 +25,13 @@ Imports:
     dismo,
     utils,
     shiny,
-    jsonlite
+    jsonlite,
+    dplyr,
+    sp,
+    MASS,
+    biomod2,
+    ecospat,
+    rgdal,
+    rgeos,
+    spatstat
 VignetteBuilder: knitr
