@@ -15,7 +15,6 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    ENMeval,
     BIEN,
 Imports:
     googlesheets,
@@ -32,5 +31,6 @@ Imports:
     ecospat,
     rgdal,
     rgeos,
-    spatstat
+    spatstat,
+    ENMeval
 VignetteBuilder: knitr
