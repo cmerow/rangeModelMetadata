@@ -5,8 +5,7 @@ Title: Provides templates for metadata files associated with species range
 Version: 0.1.0
 Author: Cory Merow, Brian Maitner, Hannah Owens
 Maintainer: Cory Merow <cory.merow@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description:  Range Modeling Metadata Standards (RMMS) address three challenges: they (i) are designed for convenience to encourage use, (ii) accommodate a wide variety of applications, and (iii) are extensible to allow the community of range modelers to steer it as needed. RMMS are based on a data dictionary that specifies a hierarchical structure to catalog different aspects of the range modeling process. The dictionary balances a constrained, minimalist vocabulary to improve standardization with flexibility for users to provide their own values. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
