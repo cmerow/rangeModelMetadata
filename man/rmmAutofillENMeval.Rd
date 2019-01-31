@@ -38,3 +38,4 @@ Other autofill: \code{\link{rmmAutofillBIEN}},
 \author{
 Jamie M. Kass <jamie.m.kass@gmail.com>
 }
+\concept{autofill}

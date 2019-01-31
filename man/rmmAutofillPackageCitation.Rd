@@ -34,3 +34,4 @@ Other autofill: \code{\link{rmmAutofillBIEN}},
 \author{
 Brian Maitner <bmaitner@gmail.com>, Cory Merow <cory.merow@gmail.com>
 }
+\concept{autofill}

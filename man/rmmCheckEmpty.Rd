@@ -42,3 +42,4 @@ Other check: \code{\link{rmmCheckFinalize}},
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
+\concept{check}

@@ -38,3 +38,4 @@ Other autofill: \code{\link{rmmAutofillENMeval}},
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
 }
+\concept{autofill}

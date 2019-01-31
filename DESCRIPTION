@@ -8,7 +8,7 @@ Description: Range Modeling Metadata Standards (RMMS) address three challenges: 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Depends:
 Suggests:
   testthat,
