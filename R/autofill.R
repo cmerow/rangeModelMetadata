@@ -182,9 +182,15 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 #'
 #' @param rmm an rmm list
 #' @param e an ENMevaluation object
-#' @param selectionCriteria a character string indicating the model selection rules used to determine which model to choose
-#' @param optimalModelIndex a numeric value indicating the row number of the model chosen by the user
-#' (e.g., if you chose the model corresponding to row 5 in the results table, this number would be 5)
+#' @param selectionCriteria a character string indicating the model selection
+#' rules used (e.g., "first chose models with lowest MTP omission rate, then
+#' chose the model with highest average test AUC")
+#' @param optimalModelIndex a numeric value indicating the row number of the
+#' model chosen by the user
+#' (e.g., if you chose the model corresponding to row 5 in the results table,
+#' this number would be 5); multiple models
+#' may be selected in theory (for the purposes of model averaging, etc.), but
+#' selecting one is preferable to reduce confusion
 #'
 #' @examples
 #' #see vignette('rmm_workflow')
@@ -230,18 +236,18 @@ rmmAutofillENMeval <- function(rmm, e, selectionCriteria, optimalModelIndex) {
     rmm$model$partition$partitionRule <- "4 spatial partitions with two levels of spatial aggregation in a checkerboard formation that subdivide geographic space equally but do not ensure a balanced number of occurrence localities in each bin"
   }
 
-  if (grepl("maxnet", e@algorithm) == TRUE | grepl("Maxent", e@algorithm) == TRUE) {
+  if (grepl("maxnet", e@algorithm) == TRUE | grepl("maxent.jar", e@algorithm) == TRUE) {
     rmm$model$maxent$featureSet <- as.character(e@results[optimalModelIndex, "features"])
     rmm$model$maxent$regularizationMultiplierSet <- e@results[optimalModelIndex, "rm"]
   }
 
   rmm$model$selectionRules <- selectionCriteria
   rmm$model$finalModelSettings <- e@results[optimalModelIndex, "settings"]
-  rmm$performance$trainingDataStats$AUC <- e@results[optimalModelIndex, "full.AUC"]
+  rmm$performance$trainingDataStats$AUC <- e@results[optimalModelIndex, "auc.train"]
   rmm$performance$trainingDataStats$AIC <- e@results[optimalModelIndex, "AICc"]
 
-  rmm$performance$testingDataStats$AUC <- e@results[optimalModelIndex, "mean.AUC"]
-  rmm$performance$testingDataStats$omissionRate <- c(e@results[optimalModelIndex, "Mean.ORmin"], e@results[optimalModelIndex, "Mean.OR10"])
+  rmm$performance$testingDataStats$AUC <- e@results[optimalModelIndex, "avg.test.AUC"]
+  rmm$performance$testingDataStats$omissionRate <- c(e@results[optimalModelIndex, "avg.test.orMTP"], e@results[optimalModelIndex, "avg.test.or10pct"])
   rmm$performance$testingDataStats$notes <- "omission rate thresholds are 1) minimum training presence, 2) 10% training presence"
 
   return(rmm)
