@@ -4,7 +4,8 @@
 \alias{rmmCheckName}
 \title{Check field names of a range model metadata list against conventions}
 \usage{
-rmmCheckName(rmm, cutoff_distance = 3, returnData = F)
+rmmCheckName(rmm, cutoff_distance = 3, returnData = F,
+  interactiveCorrections = FALSE)
 }
 \arguments{
 \item{rmm}{a range model metadata list}
@@ -12,6 +13,8 @@ rmmCheckName(rmm, cutoff_distance = 3, returnData = F)
 \item{cutoff_distance}{number of allowed different characters to match standardized names}
 
 \item{returnData}{logical. If FALSE, the functon will return the (possibly) corrected rmm object.  If TRUE, the function will return a data.frame containing information on incorrect names.}
+
+\item{interactiveCorrections}{logical. If TRUE, the user will be prompted to indicate whether the proposed correction should be accepted, thereby modifying the `rmm` object. If FALSE, suggestions will just be printed to the screen and users can edit them manually.}
 }
 \value{
 Either an rmm list object (returnData=F) or a data.frame containing information on possible name errors (returnData=T).

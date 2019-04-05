@@ -9,6 +9,7 @@
 #' @param rmm a range model metadata list
 #' @param cutoff_distance number of allowed different characters to match standardized names
 #' @param returnData logical. If FALSE, the functon will return the (possibly) corrected rmm object.  If TRUE, the function will return a data.frame containing information on incorrect names.
+#' @param interactiveCorrections logical. If TRUE, the user will be prompted to indicate whether the proposed correction should be accepted, thereby modifying the `rmm` object. If FALSE, suggestions will just be printed to the screen and users can edit them manually.
 #' @examples
 #' rmm<-rmmTemplate() # Make an empty template
 #' rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List"
@@ -30,7 +31,10 @@
 #' @import utils
 #' @export
 
-rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
+rmmCheckName <- function(rmm,
+                         cutoff_distance = 3,
+                         returnData = F,
+                         interactiveCorrections=FALSE ){
 
   list_elements<-utils::capture.output(rmm)
   list_elements<-list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
@@ -80,31 +84,32 @@ rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
 
         if(min_dist<=cutoff_distance){
 
-
           name_check_df$partial_match[i]<-element_i
-          name_check_df$partial_match_suggestions[i]<-dd_names[which.min(adist(x = element_i,y = dd_names))]
+          name_check_df$partial_match_suggestions[i]<-
+            dd_names[which.min(adist(x = element_i,y = dd_names))]
 
           # prompt
           cat("\n\n")
-          cat("\n Element name '",element_i,"' not found in data dictionary", "!\n
-                  Did you mean: '",name_check_df$partial_match_suggestions[i],"'? \n  Type 'y' or 'n'." ) # prompt
-          take <- scan(n = 1, quiet = TRUE, what = 'raw')
+          cat("\n Element name '",element_i,"' not found in data dictionary", "!\n Did you mean: '",name_check_df$partial_match_suggestions[i],"'? " ) # prompt
+          if(interactiveCorrections){
+            cat("Type 'y' or 'n'.")
 
-          if (take == 'y' | take == 'Y') {
-            #rename list element_i to the partial match suggestion
+            take <- scan(n = 1, quiet = TRUE, what = 'raw')
 
-            el_i<-paste("rmm",element_i,sep = "")
-            bad_name<-unlist(strsplit(el_i,"$",fixed = T))[length(unlist(strsplit(el_i,"$",fixed = T)))]
-            parent_i<-paste(unlist(strsplit(el_i,"$",fixed = T))[1:length(unlist(strsplit(el_i,"$",fixed = T)))-1],collapse = "$")
+            if (take == 'y' | take == 'Y') {
+              #rename list element_i to the partial match suggestion
 
-            exp_i<-paste("names(",parent_i,")[",which(names(eval(parse(text = parent_i)))==bad_name),"] <- '",unlist(strsplit(name_check_df$partial_match_suggestions[i],split = "$",fixed = T))[length(unlist(strsplit(name_check_df$partial_match_suggestions[i],split = "$",fixed = T)))],"'",sep = "")
-            eval(parse(text = exp_i))
-            name_check_df$corrected_name[i]<-dd_names[which.min(adist(x = element_i,y = dd_names))]
+              el_i<-paste("rmm",element_i,sep = "")
+              bad_name<-unlist(strsplit(el_i,"$",fixed = T))[length(unlist(strsplit(el_i,"$",fixed = T)))]
+              parent_i<-paste(unlist(strsplit(el_i,"$",fixed = T))[1:length(unlist(strsplit(el_i,"$",fixed = T)))-1],collapse = "$")
 
-          }
+              exp_i<-paste("names(",parent_i,")[",which(names(eval(parse(text = parent_i)))==bad_name),"] <- '",unlist(strsplit(name_check_df$partial_match_suggestions[i],split = "$",fixed = T))[length(unlist(strsplit(name_check_df$partial_match_suggestions[i],split = "$",fixed = T)))],"'",sep = "")
+              eval(parse(text = exp_i))
+              name_check_df$corrected_name[i]<-dd_names[which.min(adist(x = element_i,y = dd_names))]
 
+            }
+          } # end interactive corrections
           #end prompt
-
         }
 
         if(min_dist>cutoff_distance){
@@ -152,8 +157,9 @@ rmmCheckName <- function(rmm, cutoff_distance = 3, returnData = F ){
 
   }#overall fx
 
-  }
+}
 
+####################################################################
 ##############################################################
 ##############################################################
 
@@ -309,9 +315,9 @@ rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
 
 }#end of fx
 
-#############################
-
-#############################
+####################################################################
+####################################################################
+####################################################################
 
 #' @title Check for missing fields
 #'
@@ -339,7 +345,7 @@ rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
 #' @import utils
 #' @export
 
-rmmCheckMissingNames<-function(rmm,family=c("obligate")){
+rmmCheckMissingNames<-function(rmm,family=c("base")){
 
   list_elements<-capture.output(rmm)
   list_elements<-list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
@@ -386,7 +392,9 @@ rmmCheckMissingNames<-function(rmm,family=c("obligate")){
 }
 
 
-##################################
+####################################################################
+####################################################################
+####################################################################
 #' @title Check an rmm object for empty fields
 #'
 #' @description Identify empty fields in an rmm object and classify these into obligate and optional fields.
@@ -395,7 +403,7 @@ rmmCheckMissingNames<-function(rmm,family=c("obligate")){
 #' See Examples.
 #'
 #' @param rmm a range model metadata list
-#' @param family an rmm family, "apObligate" by default
+#' @param family an rmm family, "base" by default
 #'
 #' @examples
 #' #First, make an empty rmm object:
@@ -420,7 +428,7 @@ rmmCheckMissingNames<-function(rmm,family=c("obligate")){
 #' @export
 
 #CM: 7/11/18: note that I removed the optional and suggested options as we don't have those any more.
-rmmCheckEmpty<-function(rmm, family=c('base','obligate')){
+rmmCheckEmpty<-function(rmm, family=c('base')){
 
   list_elements<-capture.output(rmm)
   list_elements<-list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
@@ -578,7 +586,7 @@ rmmCleanNULLs=function(rmm){
 #' @import utils
 #' @export
 
-rmmCheckFinalize<-function(rmm,family=c('base','obligate')){
+rmmCheckFinalize<-function(rmm,family=c('base')){
 
   names<-rmmCheckName(rmm,returnData = TRUE)
 

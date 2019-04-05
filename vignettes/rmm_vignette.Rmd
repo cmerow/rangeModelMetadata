@@ -28,7 +28,7 @@ library(dplyr)
 
 A simple `rmm` object is a list object that is structured to contain metadata pertaining to species range models. Here we make an empty `rmm` object containing only the obligate set of fields.
 ```{r}
-rmm1=rmmTemplate(family=c('obligate')) 
+rmm1=rmmTemplate(family=c('base')) 
 str(rmm1)
 ```
 
@@ -128,9 +128,9 @@ rmmCheckValueOutput<-rmmCheckValue(rmm = rmm1,returnData = TRUE)
 
 These 'check' functions work by comparing the values or field names within an `rmm` object to those in a data dictionary.  These functions are designed to check for non-standard values and names, and DO NOT necessarily identify correct vs. incorrect values/names.  Non-standard values may be perfectly valid, or they may be erroneous, and the user will have to make this distinction.
 
-To run all the available checks at once, we'll check the object that we filled in a few chunks back. (Note that this is commented out because it's an interactive function that asks the user to input responses.)
+To run all the available checks at once, we'll check the object that we filled in a few chunks back. 
 ```{r}
-# rmmCheckFinalize(rmm, family=c('base','obligate'))
+rmmCheckFinalize(rmm, family='base')
 ```
 
 ##Outputing an `rmm` object

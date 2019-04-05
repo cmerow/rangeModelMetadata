@@ -11,10 +11,16 @@ rmmAutofillENMeval(rmm, e, selectionCriteria, optimalModelIndex)
 
 \item{e}{an ENMevaluation object}
 
-\item{selectionCriteria}{a character string indicating the model selection rules used to determine which model to choose}
+\item{selectionCriteria}{a character string indicating the model selection
+rules used (e.g., "first chose models with lowest MTP omission rate, then
+chose the model with highest average test AUC")}
 
-\item{optimalModelIndex}{a numeric value indicating the row number of the model chosen by the user
-(e.g., if you chose the model corresponding to row 5 in the results table, this number would be 5)}
+\item{optimalModelIndex}{a numeric value indicating the row number of the
+model chosen by the user
+(e.g., if you chose the model corresponding to row 5 in the results table,
+this number would be 5); multiple models
+may be selected in theory (for the purposes of model averaging, etc.), but
+selecting one is preferable to reduce confusion}
 }
 \value{
 a range model metadata list

@@ -1,10 +1,10 @@
 ---
-title: "rangeModelMetadata function directory"
+title: "rangeModelMetadata Function Directory"
 author: "Cory Merow, Brian S. Maitner, Hannah L. Owens, Jamie Kass, Brian Enquist, Rob Guralnick"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{rangeModelMetadata R package}
+  %\VignetteIndexEntry{rangeModelMetadata Function Directory}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

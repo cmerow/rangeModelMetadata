@@ -31,5 +31,6 @@ Imports:
   rgdal,
   rgeos,
   spatstat,
-  ENMeval
+  ENMeval,
+  spThin
 VignetteBuilder: knitr
