@@ -15,7 +15,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_chunk$set(cache= FALSE)
+knitr::opts_chunk$set(cache = FALSE)
 
 ```
 
@@ -35,7 +35,7 @@ library(spThin)
 # search GBIF for occurrence data
 bv <- spocc::occ('Bradypus variegatus', 'gbif', limit=300, has_coords=TRUE)
 # restrict table to coordinates
-occs=dplyr::select(bv$gbif$data$Bradypus_variegatus, longitude, latitude)
+occs <- dplyr::select(bv$gbif$data$Bradypus_variegatus, longitude, latitude)
 # remove duplicate values
 occs <- occs[!duplicated(occs),]
 # get environmental rasters from dismo package folder
@@ -49,7 +49,7 @@ envs <- raster::stack(files)
 
 ```{r}
 # thin points to remove spatial autocorrelation
-occs.thinned <- spThin::thin.algorithm(data.frame(occs), thin.par = 20, reps = 1)
+occs.thinned <- spThin::thin.algorithm(data.frame(occs), thin.par=20, reps=1)
 # make a spatial points object for the occurrences
 occs.sp <- sp::SpatialPoints(occs.thinned[[1]])
 # get the bounding box
@@ -59,7 +59,7 @@ bb.buf <- raster::extent(bb[1]-5, bb[3]+5, bb[2]-5, bb[4]+5)
 # crop environmental rasters by the extent to make the background extent
 bg.ext <- raster::crop(envs, bb.buf)
 # generate up to 10,000 random points within the background extent (we'll sample from the "biome" raster as it has more holes)
-bg <-dismo::randomPoints(bg.ext[[9]], n=10000) 
+bg <- dismo::randomPoints(bg.ext[[9]], n=10000) 
 ```
 
 # Modeling
@@ -81,9 +81,9 @@ m <- e@models[[i]]
 ```{r}
 # create a cloglog prediction and plot
 #p <- predict(m, bg.ext, args=c("outputformat=cloglog"))
-notNA=complete.cases(values(bg.ext))
-tmp=predict(m, values(bg.ext)[notNA,], type='link')
-p=bg.ext[[1]]; values(p)=NA; values(p)[notNA]=tmp
+notNA <- complete.cases(values(bg.ext))
+tmp <- predict(m, values(bg.ext)[notNA,], type='link')
+p <- bg.ext[[1]]; values(p)=NA; values(p)[notNA]=tmp
 plot(p)
 # further south extent for model transfer
 t.bb <- raster::extent(-80,-40,-60,-30)
@@ -93,10 +93,10 @@ t.ext <- raster::crop(envs, t.bb)
 # Transfer model
 ```{r}
 # transfer the model to this new area in cloglog form and plot
-notNA.t=complete.cases(values(t.ext))
+notNA.t <- complete.cases(values(t.ext))
 #p.t <- predict(m, t.ext, args=c("outputformat=cloglog"))
-tmp=predict(m, values(t.ext)[notNA.t,], type='link')
-p.t=t.ext[[1]]; values(p.t)=NA; values(p.t)[notNA.t]=tmp
+tmp <- predict(m, values(t.ext)[notNA.t,], type='link')
+p.t <- t.ext[[1]]; values(p.t)=NA; values(p.t)[notNA.t]=tmp
 plot(p.t)
 ```
 
@@ -104,11 +104,11 @@ plot(p.t)
 We start by filling in some key authorship information.
 ```{r}
 # generate an empty range model metadata template
-rmm=rmmTemplate(family=c('base')) 
-rmm$authorship$rmmName='MerowMaitnerOwensKassEnquistGuralnick_2018_Acer_Maxent_b3'
-rmm$authorship$names='Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob'
-rmm$authorship$contact='cory.merow@gmail.com'
-rmm$authorship$relatedReferences='@article{, title={RMMS: Species’ Range Model Metadata Standards },author={Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob},journal={Unknown},year={2018}, publisher={Unknown}}'
+rmm <- rmmTemplate(family=c('base')) 
+rmm$authorship$rmmName <- 'MerowMaitnerOwensKassEnquistGuralnick_2018_Acer_Maxent_b3'
+rmm$authorship$names <- 'Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob'
+rmm$authorship$contact <- 'cory.merow@gmail.com'
+rmm$authorship$relatedReferences <- '@article{, title={RMMS: Species’ Range Model Metadata Standards },author={Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob},journal={Unknown},year={2018}, publisher={Unknown}}'
 ```
 <!-- Would be nice to show how to make this a formal citation class, but i don't knowhow: -->
 <!-- ref='@article{, title={RMMS: Species’ Range Model Metadata Standards },author={Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob},journal={Unknown},year={2018}, publisher={Unknown}}' -->
@@ -119,23 +119,23 @@ To make it easier to fill some `rmm` fields, we provide autofill functions that 
 
 ```{r}
 # occurrence data
-rmm=rmmAutofillspocc(rmm,bv$gbif) 
+rmm <- rmmAutofillspocc(rmm,bv$gbif) 
 # autofill info for environmental rasters used for model training and transfer
-rmm=rmmAutofillEnvironment(rmm,bg.ext, transfer=0) 
-rmm=rmmAutofillEnvironment(rmm,t.ext, transfer=1)
+rmm <- rmmAutofillEnvironment(rmm,bg.ext, transfer=0) 
+rmm <- rmmAutofillEnvironment(rmm,t.ext, transfer=1)
 # autofill for ENMeval
-rmm=rmmAutofillENMeval(rmm,e, 
+rmm <- rmmAutofillENMeval(rmm,e, 
                        selectionCriteria="highest mean test AUC",
                        optimalModelIndex=i) 
 # R packages used
-rmm=rmmAutofillPackageCitation(rmm=rmm,
+rmm <- rmmAutofillPackageCitation(rmm=rmm,
                               packages=c('spocc','sp','raster','dismo','ENMeval'))
 ```  
 
 Now we need to fill in a few fields manually. 
 
 ```{r}
-rmm$dataPrep$geographic$spatialThin$rule="20km used as max distance between points"
+rmm$dataPrep$geographic$spatialThin$rule <- "20km used as max distance between points"
 # fill in remaining fields for model prediction in background extent
 rmm$output$prediction$units <- "relative occurrence rate"
 rmm$output$prediction$minVal <- cellStats(p, min)
@@ -152,8 +152,8 @@ rmmCleanNULLs(rmm)
 
 Now we'll add in some more key entities that aren't readily autfilled
 ```{r}
-rmm$data$occurrence$yearMin=1970
-rmm$data$occurrence$yearMax=2000
+rmm$data$occurrence$yearMin <- 1970
+rmm$data$occurrence$yearMax <- 2000
 ```
 
 
@@ -162,7 +162,7 @@ Check the final object by printing all the filled fields.
 #print just the non-NULL fields
 rmmCleanNULLs(rmm)
 # you can also use this function to omit the NULLs at the end of your workflow using, so if you're happy with the above...
-rmm=rmmCleanNULLs(rmm)
+rmm <- rmmCleanNULLs(rmm)
 ```
 
 Now run all availables checks to be sure you're ready to go.
