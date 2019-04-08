@@ -47,8 +47,8 @@ Not sure which fields are available or what values to enter? We can suggest opti
 ```{r}
 rmmSuggest('dataPrep',fullFieldDepth=FALSE)
 rmmSuggest('dataPrep',fullFieldDepth=TRUE) # for all fields below the specified one
-rmmSuggest('dataPrep$errors$duplicateRemoval')
-rmmSuggest('dataPrep$errors$duplicateRemoval$rule')
+rmmSuggest('dataPrep$biological$duplicateRemoval')
+rmmSuggest('dataPrep$biological$duplicateRemoval$rule')
 ```
 Here, it may help to learn the two pieces of unavoidable jargon we use:
 * A __field__ describes levels of the hierarchy. E.g., `dataPrep` is field 1, `errors` is field 2 and `duplicateRemoval` is field 3.

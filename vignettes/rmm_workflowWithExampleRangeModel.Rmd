@@ -21,9 +21,9 @@ knitr::opts_chunk$set(cache = FALSE)
 
 ```
 
-```{r,results='hide'}
+```{r,results='hide',message=FALSE}
 library(rangeModelMetadata)
-library(spocc)
+library(rgbif)
 library(raster)
 library(dismo)
 library(ENMeval)
@@ -35,9 +35,9 @@ library(spThin)
 # Get data
 ```{r}
 # search GBIF for occurrence data
-bv <- spocc::occ('Bradypus variegatus', 'gbif', limit=300, has_coords=TRUE)
+bv <- rgbif::occ_search(scientificName ='Bradypus variegatus')
 # restrict table to coordinates
-occs <- dplyr::select(bv$gbif$data$Bradypus_variegatus, longitude, latitude)
+occs=dplyr::select(bv$data, decimalLongitude, decimalLatitude)
 # remove duplicate values
 occs <- occs[!duplicated(occs),]
 # get environmental rasters from dismo package folder
@@ -46,6 +46,15 @@ files <- list.files(path=paste(system.file(package='dismo'), '/ex',
 # make a stack of the rasters
 envs <- raster::stack(files)
 ```
+
+<!-- bv <- spocc::occ('Bradypus variegatus', 'gbif', limit=300, has_coords=TRUE) -->
+<!-- occs=dplyr::select(bv$gbif$data$Bradypus_variegatus, longitude, latitude) -->
+
+<!-- # remove correlated predictors -->
+<!-- (cors=layerStats(envs, 'pearson', na.rm=T)[[1]]) -->
+<!-- envs=envs[[c('bio1','bio7','bio12','bio16')]] -->
+<!-- (cors=layerStats(envs, 'pearson', na.rm=T)[[1]]) -->
+
 
 # Prepare data
 
@@ -61,7 +70,7 @@ bb.buf <- raster::extent(bb[1]-5, bb[3]+5, bb[2]-5, bb[4]+5)
 # crop environmental rasters by the extent to make the background extent
 bg.ext <- raster::crop(envs, bb.buf)
 # generate up to 10,000 random points within the background extent (we'll sample from the "biome" raster as it has more holes)
-bg <- dismo::randomPoints(bg.ext[[9]], n=10000) 
+bg <- dismo::randomPoints(bg.ext[[4]], n=10000) 
 ```
 
 # Modeling
@@ -107,14 +116,34 @@ plot(p.t)
 ```
 
 # Build an `rmm` object
-We start by filling in some key authorship information.
+
+Begin by choosing a few families of fields relevant for this analysis and making a template. This will generate all the recommended fields, although the only fields that you must fill in are in `base`.
 ```{r}
 # generate an empty range model metadata template
-rmm <- rmmTemplate(family=c('base')) 
-rmm$authorship$rmmName <- 'MerowMaitnerOwensKassEnquistGuralnick_2018_Acer_Maxent_b3'
-rmm$authorship$names <- 'Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob'
-rmm$authorship$contact <- 'cory.merow@gmail.com'
-rmm$authorship$relatedReferences <- '@article{, title={RMMS: Species’ Range Model Metadata Standards },author={Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob},journal={Unknown},year={2018}, publisher={Unknown}}'
+rmm=rmmTemplate(family=c('base','dataPrep','maxent','prediction',
+                         'transferEnv1','binaryClassification'))
+```
+
+Note that to see a little bit less detail, it's useful to use 
+
+```{r}
+str(rmm,1)
+```
+or 
+```{r}
+str(rmm,2)
+```
+
+We start by filling in some key authorship information.
+```{r}
+  # in the form Author_Year_Taxa_Model_fw (where the last 2 characters are random)
+rmm$authorship$rmmName='MerowMaitnerOwensKassEnquistGuralnick_2018_BradypusVariegatus_Maxent_b3'
+  # names are distinct from citations (below) in case a citation does not exist 
+rmm$authorship$names='Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob'
+rmm$authorship$contact='cory.merow@gmail.com'
+rmm$authorship$relatedReferences='@article{, title={RMMS: Species’ Range Model Metadata Standards },author={Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob},journal={Global Ecology and Biogeography},year={2018}}'
+rmm$authorship$license='CC'
+rmm$authorship$miscNotes='Funding from NSF grant DBI-1661510 and DBI-1913673.'
 ```
 <!-- Would be nice to show how to make this a formal citation class, but i don't knowhow: -->
 <!-- ref='@article{, title={RMMS: Species’ Range Model Metadata Standards },author={Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob},journal={Unknown},year={2018}, publisher={Unknown}}' -->
@@ -131,17 +160,56 @@ rmm <- rmmAutofillEnvironment(rmm, bg.ext, transfer=0)
 rmm <- rmmAutofillEnvironment(rmm, t.ext, transfer=1)
 # autofill for ENMeval
 rmm <- rmmAutofillENMeval(rmm, e, 
-                       selectionCriteria="highest mean test AUC",
-                       optimalModelIndex=i) 
+                          selectionCriteria="highest mean test AUC",
+                          optimalModelIndex=i) 
 # R packages used
 rmm <- rmmAutofillPackageCitation(rmm=rmm,
-                              packages=c('spocc','sp','raster','dismo','ENMeval'))
+                                  packages= c('rgbif','sp','raster','dismo','ENMeval'))
 ```  
 
 Now we need to fill in a few fields manually. 
 
+
 ```{r}
-rmm$dataPrep$geographic$spatialThin$rule <- "20km used as max distance between points"
+rmm$data$occurrence$sources=lapply(rgbif::gbif_citation(bv),function(x) x$citation$citation)
+rmm$data$occurrence$presenceSampleSize=length(occs.sp)
+rmm$data$occurrence$backgroundSampleSize=nrow(bg)
+rmm$data$occurrence$yearMin=1970
+rmm$data$occurrence$yearMax=2000
+```
+
+```{r}
+rmm$data$environment$yearMin=1970
+rmm$data$environment$yearMin=2000
+rmm$data$environment$sources='
+@ARTICLE{Fick2017-qs,
+  title     = "{WorldClim} 2: new 1‐km spatial resolution climate surfaces for
+               global land areas",
+  author    = "Fick, S E and Hijmans, R J",
+  abstract  = "We created a new dataset of spatially interpolated monthly
+               climate data for global land areas at a very high spatial
+               resolution (approximately 1 km 2). We included monthly
+               temperature (minimum, maximum and average), precipitation, solar
+               radiation, vapour pressure and wind speed, aggregated across a
+               target temporal range of 1970--2000, using data from between
+               9000 and 60 000 weather stations. Weather station data were
+               interpolated using thin-plate splines with covariates including
+               elevation, distance to the coast and three satellite-derived …",
+  journal   = "Int. J. Climatol.",
+  publisher = "Wiley Online Library",
+  year      =  2017
+}
+'
+rmm$data$dataNotes='WorldClim data accessed through dismo v1.1-4'
+```
+
+```{r}
+# duplicated observations removed within the grid cells defined by the environmental layers
+rmm$dataPrep$biological$duplicateRemoval$rule='cell' 
+rmm$dataPrep$geographic$spatialThin$rule= "20km used as max distance between points"
+```
+
+```{r}
 # fill in remaining fields for model prediction in background extent
 rmm$output$prediction$units <- "relative occurrence rate"
 rmm$output$prediction$minVal <- cellStats(p, min)
