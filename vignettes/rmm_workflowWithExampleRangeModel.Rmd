@@ -37,7 +37,7 @@ library(spThin)
 # search GBIF for occurrence data
 bv <- rgbif::occ_search(scientificName ='Bradypus variegatus')
 # restrict table to coordinates
-occs=dplyr::select(bv$data, decimalLongitude, decimalLatitude)
+occs <- dplyr::select(bv$data, decimalLongitude, decimalLatitude)
 # remove duplicate values
 occs <- occs[!duplicated(occs),]
 # get environmental rasters from dismo package folder
@@ -70,7 +70,7 @@ bb.buf <- raster::extent(bb[1]-5, bb[3]+5, bb[2]-5, bb[4]+5)
 # crop environmental rasters by the extent to make the background extent
 bg.ext <- raster::crop(envs, bb.buf)
 # generate up to 10,000 random points within the background extent (we'll sample from the "biome" raster as it has more holes)
-bg <- dismo::randomPoints(bg.ext[[4]], n=10000) 
+bg <- dismo::randomPoints(bg.ext[[9]], n=10000) 
 ```
 
 # Modeling
@@ -90,29 +90,29 @@ m <- e@models[[i]]
 
 # Make predictions
 ```{r}
-# create a cloglog prediction and plot
-#p <- predict(m, bg.ext, args=c("outputformat=cloglog"))
-notNA <- complete.cases(values(bg.ext))
-tmp <- predict(m, values(bg.ext)[notNA,], type='link')
-p <- bg.ext[[1]] 
-values(p) <- NA 
-values(p)[notNA] <- tmp
+# the prediction rasters produced by ENMeval are "raw" values,
+# which correspond to the relative occurrence rate (ROR) per cell --
+# see Merow et al. 2013 (Ecography)
+p <- e@predictions[[i]]
 plot(p)
-# further south extent for model transfer
-t.bb <- raster::extent(-80,-40,-60,-30)
-# crop environmental predictors by transfer extent
-t.ext <- raster::crop(envs, t.bb)
+# alternatively, you could make a prediction transformation
+# bounded by 0-1 -- the choices are "logistic" or "cloglog" 
+# (the default of Maxent 3.4.x -- see Phillips et al. 2017
+# [Ecography])
+p.cloglog <- predict(m, bg.ext, args=c("outputformat=cloglog"))
+plot(p.cloglog)
+
 ```
 # Transfer model
 ```{r}
-# transfer the model to this new area in cloglog form and plot
-notNA.t <- complete.cases(values(t.ext))
-#p.t <- predict(m, t.ext, args=c("outputformat=cloglog"))
-tmp <- predict(m, values(t.ext)[notNA.t,], type='link')
-p.t <- t.ext[[1]] 
-values(p.t) <- NA 
-values(p.t)[notNA.t] <- tmp
-plot(p.t)
+# specify extent further south for model transfer (this region
+# should have different climatic conditions than the region
+# used to train the model)
+pt.bb <- raster::extent(-80,-40,-60,-30)
+# crop environmental predictors by transfer extent
+pt.ext <- raster::crop(envs, t.bb)
+pt <- predict(m, pt.ext, args=c("outputformat=raw"))
+pt.cloglog <- predict(m, pt.ext, args=c("outputformat=cloglog"))
 ```
 
 # Build an `rmm` object
@@ -141,7 +141,7 @@ rmm$authorship$rmmName='MerowMaitnerOwensKassEnquistGuralnick_2018_BradypusVarie
   # names are distinct from citations (below) in case a citation does not exist 
 rmm$authorship$names='Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob'
 rmm$authorship$contact='cory.merow@gmail.com'
-rmm$authorship$relatedReferences='@article{, title={RMMS: Species’ Range Model Metadata Standards },author={Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob},journal={Global Ecology and Biogeography},year={2018}}'
+rmm$authorship$relatedReferences='@article{, title={RMMS: Species’ Range Model Metadata Standards },author={Merow, Cory and Maitner, Brian S. and Owens, Hannah L. and Kass, Jamie M. and Enquist, Brian and Guralnick, Robert},journal={Global Ecology and Biogeography},year={2018}}'
 rmm$authorship$license='CC'
 rmm$authorship$miscNotes='Funding from NSF grant DBI-1661510 and DBI-1913673.'
 ```
