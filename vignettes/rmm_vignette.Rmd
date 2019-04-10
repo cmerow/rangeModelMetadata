@@ -59,9 +59,9 @@ Note above, that when you ask for suggestions for a field (the first three lines
 Another more complex example:
 
 ```{r}
-rmmSuggest('model')
-rmmSuggest('model$maxent')
-rmmSuggest('$model$maxent$featureSet')
+rmmSuggest('modelFit')
+rmmSuggest('modelFit$maxent')
+rmmSuggest('$modelFit$maxent$featureSet')
 ```
 
 
