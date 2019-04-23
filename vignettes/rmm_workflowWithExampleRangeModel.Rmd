@@ -89,6 +89,11 @@ i <- which(e@results$avg.test.AUC  == max(e@results$avg.test.AUC ))
 # extract the optimal model object
 m <- e@models[[i]]
 ```
+Note that the selected model uses linear and quadratic features with a regularization multiplier of 1. 
+```{r}
+kable(e@results[i,])
+```
+
 
 ## Predictions
 ```{r}
@@ -97,29 +102,26 @@ m <- e@models[[i]]
 # see Merow et al. 2013 (Ecography)
 p <- e@predictions[[i]]
 plot(p)
-# alternatively, you could make a prediction transformation
-# bounded by 0-1 -- the choices are "logistic" or "cloglog" 
-# (the default of Maxent 3.4.x -- see Phillips et al. 2017
-# [Ecography])
-p.cloglog <- predict(m, bg.ext, args=c("outputformat=cloglog"))
-plot(p.cloglog)
-
 ```
 
 ## Transfer model
 ```{r}
 # specify extent further south for model transfer (this region
 # should have different climatic conditions than the region
-# used to train the model)
+# used to train the model). This could be useful if no observations 
+# are available in this region, but you're interested in determining 
+# if there is any potentially suitable habitat there.
 pt.bb <- raster::extent(-80,-40,-60,-30)
 # crop environmental predictors by transfer extent
-pt.ext <- raster::crop(envs, t.bb)
+pt.ext <- raster::crop(envs, pt.bb)
 pt <- predict(m, pt.ext, args=c("outputformat=raw"))
-pt.cloglog <- predict(m, pt.ext, args=c("outputformat=cloglog"))
 ```
 
-# Build an `rmm` object
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
 
+# Build an `rmm` object
 Begin by choosing a few families of fields relevant for this analysis and making a template. This will generate all the recommended fields, although the only fields that you must fill in are in `base`.
 ```{r}
 # generate an empty range model metadata template
@@ -146,7 +148,12 @@ rmm$authorship$rmmName='MerowMaitnerOwensKassEnquistGuralnick_2018_BradypusVarie
   # names are distinct from citations (below) in case a citation does not exist 
 rmm$authorship$names='Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob'
 rmm$authorship$contact='cory.merow@gmail.com'
-rmm$authorship$relatedReferences='@article{, title={RMMS: Species’ Range Model Metadata Standards },author={Merow, Cory and Maitner, Brian S. and Owens, Hannah L. and Kass, Jamie M. and Enquist, Brian and Guralnick, Robert},journal={Global Ecology and Biogeography},year={2018}}'
+rmm$authorship$relatedReferences='@article{, 
+  title={RMMS: Species’ Range Model Metadata Standards },
+  author={Merow, Cory and Maitner, Brian S. and Owens, Hannah L. and Kass, 
+          Jamie M. and Enquist, Brian and Guralnick, Robert},
+  journal={Global Ecology and Biogeography},
+  year={2018}}'
 rmm$authorship$license='CC'
 rmm$authorship$miscNotes='Funding from NSF grant DBI-1661510 and DBI-1913673.'
 ```
@@ -163,18 +170,19 @@ To make it easier to fill some `rmm` fields, we provide autofill functions that 
 rmm <- rmmAutofillspocc(rmm, bv$gbif) 
 # autofill info for environmental rasters used for model training and transfer
 rmm <- rmmAutofillEnvironment(rmm, bg.ext, transfer=0) 
-rmm <- rmmAutofillEnvironment(rmm, t.ext, transfer=1)
+rmm <- rmmAutofillEnvironment(rmm, pt.ext, transfer=1)
 # autofill for ENMeval
 rmm <- rmmAutofillENMeval(rmm, e, 
                           selectionCriteria="highest mean test AUC",
                           optimalModelIndex=i) 
 # R packages used
 rmm <- rmmAutofillPackageCitation(rmm=rmm,
-                                  packages= c('rgbif','sp','raster','dismo','ENMeval'))
+                                  packages= 
+                                    c('rgbif','sp','raster','dismo','ENMeval'))
 ```  
 
 ## Data 
-Now we need to fill in a few fields manually. 
+Now we need to fill in some fields manually. 
 
 ```{r}
 rmm$data$occurrence$sources=lapply(rgbif::gbif_citation(bv),function(x) x$citation$citation)
@@ -189,25 +197,13 @@ Note that in the use of `gbif_citation` above, we use a journal formatted style 
 ```{r}
 rmm$data$environment$yearMin=1970
 rmm$data$environment$yearMin=2000
-rmm$data$environment$sources='
-@ARTICLE{Fick2017-qs,
+rmm$data$environment$sources='@ARTICLE{Fick2017-qs,
   title     = "{WorldClim} 2: new 1‐km spatial resolution climate surfaces for
                global land areas",
   author    = "Fick, S E and Hijmans, R J",
-  abstract  = "We created a new dataset of spatially interpolated monthly
-               climate data for global land areas at a very high spatial
-               resolution (approximately 1 km 2). We included monthly
-               temperature (minimum, maximum and average), precipitation, solar
-               radiation, vapour pressure and wind speed, aggregated across a
-               target temporal range of 1970--2000, using data from between
-               9000 and 60 000 weather stations. Weather station data were
-               interpolated using thin-plate splines with covariates including
-               elevation, distance to the coast and three satellite-derived …",
   journal   = "Int. J. Climatol.",
   publisher = "Wiley Online Library",
-  year      =  2017
-}
-'
+  year      =  2017}'
 rmm$data$dataNotes='WorldClim data accessed through dismo v1.1-4'
 ```
 
@@ -240,33 +236,21 @@ Oh yeah, we haven't dealt with the environment to which the model is transferred
 ```{r}
 rmm$data$transfer$environment1$yearMin=1970
 rmm$data$transfer$environment1$yearMin=2000
-rmm$data$transfer$environment1$resolution=paste0(res(t.ext)[1],' degrees')
-rmm$data$transfer$environment1$sources='
-@ARTICLE{Fick2017-qs,
+rmm$data$transfer$environment1$resolution=paste0(res(pt.ext)[1],' degrees')
+rmm$data$transfer$environment1$sources='@ARTICLE{Fick2017-qs,
   title     = "{WorldClim} 2: new 1‐km spatial resolution climate surfaces for
                global land areas",
   author    = "Fick, S E and Hijmans, R J",
-  abstract  = "We created a new dataset of spatially interpolated monthly
-               climate data for global land areas at a very high spatial
-               resolution (approximately 1 km 2). We included monthly
-               temperature (minimum, maximum and average), precipitation, solar
-               radiation, vapour pressure and wind speed, aggregated across a
-               target temporal range of 1970--2000, using data from between
-               9000 and 60 000 weather stations. Weather station data were
-               interpolated using thin-plate splines with covariates including
-               elevation, distance to the coast and three satellite-derived …",
   journal   = "Int. J. Climatol.",
   publisher = "Wiley Online Library",
-  year      =  2017
-}
-'
+  year      =  2017}'
 
-mm=data.frame(rbind(apply(values(t.ext),2,min,na.rm=T),
-                    apply(values(t.ext),2,max,na.rm=T)))
+mm=data.frame(rbind(apply(values(pt.ext),2,min,na.rm=T),
+                    apply(values(pt.ext),2,max,na.rm=T)))
 rmm$data$transfer$environment1$minVal=toJSON(mm[1,])
 (rmm$data$transfer$environment1$maxVal=toJSON(mm[2,])) # printed to show format
 
-(ex=extent(t.ext))
+(ex=extent(pt.ext))
 # make an extent object a data.frame, because that's easy to use with toJSON
 tmp=as.data.frame(lapply(slotNames(ex), function(i) slot(ex, i) )) 
 names(tmp)=slotNames(ex)
@@ -277,36 +261,67 @@ rmm$data$transfer$environment1$extentSet=toJSON(tmp)
 
 ```{r}
 # duplicated observations removed within the grid cells defined by the environmental layers
-rmm$dataPrep$biological$duplicateRemoval$rule='cell' 
-rmm$dataPrep$geographic$spatialThin$rule= "20km used as max distance between points"
+rmm$dataPrep$biological$duplicateRemoval$rule='one observation per cell' 
+rmm$dataPrep$geographic$spatialThin$rule= "20km used as minimum distance between points"
 ```
 
 ## Model Fitting 
 ```{r}
-
+rmm$modelFit$objective$purpose='projection'
+rmm$modelFit$objective$rangeType='potential'
+rmm$modelFit$objective$transfer='detect unoccupied suitable habitat'
 ```
+Note that the first two entities used standardized terms (`'projection'`) but the last one didn't. That's ok; the rules are meant to be flexible!
+
+```{r}
+rmm$modelFit$partition$partitionRule='block cross validation: partitions occurrence localities by finding the latitude and longitude that divide the occurrence localities into four groups of (insofar as possible) equal numbers'
+rmm$modelFit$maxent$featureSet='LQ'
+rmm$modelFit$maxent$regularizationMultiplierSet=1
+rmm$modelFit$maxent$samplingBiasRule='ignored'
+rmm$modelFit$maxent$notes='ENMeval was used to compare models with L and LQ features, each using regularization multipliers of 1,2,3. The best model was selected based on AUC evaluated under cross validation.'
+rmm$modelFit$maxent$numberParameters=e@results[i,]$parameters
+```
+Note that we took the value of `rmm$modelFit$partition$partitionRule` straight from the helpfile of `ENMeval::get.block`; this can be useful for standardizing text. Also note that we demonstrate how to add a field which is not included in the standards metadata dictionary 'rmm$modelFit$maxent$numberParameters` to describe the number of parameters retained in the selected model.
 
 
 ## Prediction
 
 ```{r}
 # fill in remaining fields for model prediction in background extent
-rmm$prediction$continous$units <- "relative occurrence rate"
-rmm$prediction$continous$minVal <- cellStats(p, min)
-rmm$prediction$continous$maxVal <- cellStats(p, max)
+rmm$prediction$continuous$units <- "relative occurrence rate"
+rmm$prediction$continuous$minVal <- cellStats(p, min)
+rmm$prediction$continuous$maxVal <- cellStats(p, max)
+# clamping is the default for predict()
+rmm$prediction$extrapolation <- "clamping"
+```
+
+Analogous fields for transfer
+
+```{r}
+rmm$prediction$transfer$environment1$units <- "relative occurrence rate"
+rmm$prediction$transfer$environment1$minVal <- cellStats(pt, min)
+rmm$prediction$transfer$environment1$maxVal <- cellStats(pt, max)
 # clamping is the default for predict()
 rmm$prediction$extrapolation <- "clamping"
 ```
 
 ## Evaluation
 ```{r}
-
+rmm$evaluation$trainingDataStats$AUC=e@results[i,]$trainAUC
+rmm$evaluation$testingDataStats$AUC=e@results[i,]$avg.test.AUC
 ```
 
 ## Code
 
 ```{r}
-
+rmm$code$software='@Manual{
+  title = {R: A Language and Environment for Statistical Computing},
+  author = {{R Core Team}},
+  organization = {R Foundation for Statistical Computing},
+  address = {Vienna, Austria},
+  year = {2017},
+  url = {https://www.R-project.org/},}'
+rmm$code$vignetteCodeLink='https://github.com/cmerow/rangeModelMetadata/blob/master/vignettes/rmm_workflowWithExampleRangeModel.Rmd'
 ```
 
 
