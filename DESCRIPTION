@@ -1,7 +1,7 @@
 Package: rangeModelMetadata
 Type: Package
 Title: Provides Templates for Metadata Files Associated with Species Range Models
-Version: 0.1.1
+Version: 0.1.2
 Author: Cory Merow, Brian Maitner, Hannah Owens, Jamie Kass, Brian Enquist, Rob Guralnick
 Maintainer: Cory Merow <cory.merow@gmail.com>
 Description: Range Modeling Metadata Standards (RMMS) address three challenges: they (i) are designed for convenience to encourage use, (ii) accommodate a wide variety of applications, and (iii) are extensible to allow the community of range modelers to steer it as needed. RMMS are based on a data dictionary that specifies a hierarchical structure to catalog different aspects of the range modeling process. The dictionary balances a constrained, minimalist vocabulary to improve standardization with flexibility for users to provide their own values. Associated manuscript in review.
@@ -11,26 +11,26 @@ LazyData: true
 RoxygenNote: 6.1.1
 Depends:
 Suggests:
-  testthat,
   knitr,
   rmarkdown,
   BIEN,
 Imports:
-  googlesheets,
-  spocc,
-  raster,
-  dismo,
-  utils,
-  shiny,
-  jsonlite,
-  dplyr,
-  sp,
-  MASS,
   biomod2,
+  dismo,
+  dplyr,
   ecospat,
+  ENMeval,
+  googlesheets,
+  jsonlite,
+  MASS,
+  raster,
+  rgbif,
   rgdal,
   rgeos,
+  shiny,
+  sp,
   spatstat,
-  ENMeval,
-  spThin
+  spocc,
+  spThin,
+  utils
 VignetteBuilder: knitr

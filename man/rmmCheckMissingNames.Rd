@@ -4,7 +4,7 @@
 \alias{rmmCheckMissingNames}
 \title{Check for missing fields}
 \usage{
-rmmCheckMissingNames(rmm, family = c("obligate"))
+rmmCheckMissingNames(rmm, family = c("base"))
 }
 \arguments{
 \item{rmm}{a range model metadata list}

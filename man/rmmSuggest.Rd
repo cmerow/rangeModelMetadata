@@ -17,9 +17,9 @@ rmmSuggest('dataPrep',fullFieldDepth=TRUE)
 rmmSuggest('dataPrep$errors$duplicateRemoval')
 rmmSuggest('dataPrep$errors$duplicateRemoval$rule')
 rmmSuggest('model')
-rmmSuggest('model$algorithmSettings$')
-rmmSuggest('model$algorithmSettings$maxent$')
-rmmSuggest('$model$algorithmSettings$maxent$featureSet')}
+rmmSuggest('modelFit$algorithmSettings$')
+rmmSuggest('modelFit$algorithmSettings$maxent$')
+rmmSuggest('$modelFit$algorithmSettings$maxent$featureSet')}
 }
 \description{
 Supply fields to receive suggested inputs
