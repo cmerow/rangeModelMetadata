@@ -18,7 +18,7 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(cache = FALSE)
-
+knitr::opts_chunk$set(eval = FALSE)
 ```
 
 ```{r,results='hide',message=FALSE}
@@ -161,6 +161,14 @@ rmm$authorship$miscNotes='Funding from NSF grant DBI-1661510 and DBI-1913673.'
 <!-- ref='@article{, title={RMMS: Species’ Range Model Metadata Standards },author={Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob},journal={Unknown},year={2018}, publisher={Unknown}}' -->
 <!-- as(ref,'citation') -->
 
+## Study Objective
+
+```{r}
+rmm$studyObjective$purpose='transfer'
+rmm$studyObjective$rangeType='potential'
+rmm$studyObjective$transfer='detect unoccupied suitable habitat'
+```
+Note that the first two entities used standardized terms (`'projection'`) but the last one didn't. That's ok; the rules are meant to be flexible!
 
 ## Autofill when possible
 To make it easier to fill some `rmm` fields, we provide autofill functions that extract relevant information from common R objects used in the 
@@ -266,12 +274,6 @@ rmm$dataPrep$geographic$spatialThin$rule= "20km used as minimum distance between
 ```
 
 ## Model Fitting 
-```{r}
-rmm$modelFit$objective$purpose='projection'
-rmm$modelFit$objective$rangeType='potential'
-rmm$modelFit$objective$transfer='detect unoccupied suitable habitat'
-```
-Note that the first two entities used standardized terms (`'projection'`) but the last one didn't. That's ok; the rules are meant to be flexible!
 
 ```{r}
 rmm$modelFit$partition$partitionRule='block cross validation: partitions occurrence localities by finding the latitude and longitude that divide the occurrence localities into four groups of (insofar as possible) equal numbers'
