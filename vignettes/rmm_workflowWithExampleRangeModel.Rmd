@@ -18,7 +18,7 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(cache = FALSE)
-knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(eval = T)
 ```
 
 ```{r,results='hide',message=FALSE}
@@ -120,7 +120,7 @@ plot(p)
 pt.bb <- raster::extent(-80,-40,-60,-30)
 # crop environmental predictors by transfer extent
 pt.ext <- raster::crop(envs, pt.bb)
-pt <- ENMeval::maxnet.predictRaster(m, pt.ext, type = "exponential", doClamp = TRUE)
+pt <- ENMeval::maxnet.predictRaster(m, pt.ext, type = "exponential", clamp = TRUE)
 plot(pt)
 ```
 
