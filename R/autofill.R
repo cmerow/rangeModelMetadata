@@ -208,11 +208,14 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 
 rmmAutofillENMeval <- function(rmm, e, selectionCriteria, optimalModelIndex) {
   rmm$modelFit$algorithm <- e@algorithm
-  rmm$data$occurrence$backgroundSampleSizeSet <- nrow(e@bg.pts)
+  rmm$data$occurrence$presenceSampleSize <- nrow(e@occ.pts)
+  rmm$data$occurrence$backgroundSampleSize <- nrow(e@bg.pts)
   rmm$modelFit$partition$occurrenceSubsampling <- "k-fold cross validation"
   rmm$modelFit$partition$notes <- "background points also partitioned"
   k <- length(unique(e@occ.grp))
   rmm$modelFit$partition$numberFolds <- k
+  # for now, we ignore sampling bias -- future versions will include this option
+  rmm$modelFit$maxent$samplingBiasRule <- 'ignored'
 
   if (e@partition.method == "randomkfold") {
     rmm$modelFit$partition$partitionSet <- "random"
@@ -226,7 +229,6 @@ rmmAutofillENMeval <- function(rmm, e, selectionCriteria, optimalModelIndex) {
     rmm$modelFit$partition$partitionSet <- "spatial blocks"
     rmm$modelFit$partition$partitionRule <- "4 spatial partitions defined by latitude/longitude lines that ensure a balanced number of occurrence localities in each bin"
   }
-
   if (e@partition.method == "checkerboard1") {
     rmm$modelFit$partition$partitionSet <- "checkerboard blocks"
     rmm$modelFit$partition$partitionRule <- "2 spatial partitions in a checkerboard formation that subdivide geographic space equally but do not ensure a balanced number of occurrence localities in each bin"
@@ -235,10 +237,10 @@ rmmAutofillENMeval <- function(rmm, e, selectionCriteria, optimalModelIndex) {
     rmm$modelFit$partition$partitionSet <- "spatial blocks"
     rmm$modelFit$partition$partitionRule <- "4 spatial partitions with two levels of spatial aggregation in a checkerboard formation that subdivide geographic space equally but do not ensure a balanced number of occurrence localities in each bin"
   }
-
   if (grepl("maxnet", e@algorithm) == TRUE | grepl("maxent.jar", e@algorithm) == TRUE) {
-    rmm$modelFit$maxent$featureSet <- as.character(e@results[optimalModelIndex, "features"])
+    rmm$modelFit$maxent$featureSet <- as.character(e@results[optimalModelIndex, "fc"])
     rmm$modelFit$maxent$regularizationMultiplierSet <- e@results[optimalModelIndex, "rm"]
+    rmm$modelFit$maxent$numberParameters <- e@results[optimalModelIndex, "nparam"]
   }
 
   rmm$modelFit$selectionRules <- selectionCriteria
