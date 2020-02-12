@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Cory Merow, Brian Maitner, Hannah Owens, Jamie Kass, Brian Enquist, Rob Guralnick" />
+
+<meta name="date" content="2019-04-30" />
+
+<title>An overview of making rangeModelMetadata objects</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">An overview of making rangeModelMetadata objects</h1>
+<h4 class="author"><em>Cory Merow, Brian Maitner, Hannah Owens, Jamie Kass, Brian Enquist, Rob Guralnick</em></h4>
+<h4 class="date"><em>2019-04-30</em></h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#what-is-an-rmm-rangemodelmetadata-object">What is an rmm (rangeModelMetadata) object?</a></li>
+<li><a href="#populating-an-rmm-object">Populating an rmm object</a></li>
+<li><a href="#checking-an-rmm-object">Checking an rmm object</a></li>
+<li><a href="#outputing-an-rmm-object">Outputing an <code>rmm</code> object</a></li>
+<li><a href="#miscellaneous">Miscellaneous</a></li>
+</ul>
+</div>
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rangeModelMetadata)
+<span class="kw">library</span>(sp)
+<span class="kw">library</span>(spocc)
+<span class="kw">library</span>(dplyr)</code></pre></div>
+<div id="what-is-an-rmm-rangemodelmetadata-object" class="section level2">
+<h2>What is an rmm (rangeModelMetadata) object?</h2>
+<p>A simple <code>rmm</code> object is a list object that is structured to contain metadata pertaining to species range models. Here we make an empty <code>rmm</code> object containing only the obligate set of fields.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm1=<span class="kw">rmmTemplate</span>(<span class="dt">family=</span><span class="kw">c</span>(<span class="st">'base'</span>)) 
+<span class="kw">str</span>(rmm1)</code></pre></div>
+<pre><code>## List of 8
+##  $ authorship    :List of 9
+##   ..$ rmmName          : NULL
+##   ..$ names            : NULL
+##   ..$ ownership        : NULL
+##   ..$ license          : NULL
+##   ..$ contact          : NULL
+##   ..$ relatedReferences: NULL
+##   ..$ authorNotes      : NULL
+##   ..$ miscNotes        : NULL
+##   ..$ doi              : NULL
+##  $ studyObjective:List of 4
+##   ..$ purpose  : NULL
+##   ..$ rangeType: NULL
+##   ..$ invasion : NULL
+##   ..$ transfer : NULL
+##  $ data          :List of 4
+##   ..$ occurrence :List of 6
+##   .. ..$ taxon          : NULL
+##   .. ..$ dataType       : NULL
+##   .. ..$ yearMin        : NULL
+##   .. ..$ yearMax        : NULL
+##   .. ..$ sources        : NULL
+##   .. ..$ spatialAccuracy: NULL
+##   ..$ environment:List of 9
+##   .. ..$ variableNames: NULL
+##   .. ..$ yearMin      : NULL
+##   .. ..$ yearMax      : NULL
+##   .. ..$ extentSet    : NULL
+##   .. ..$ extentRule   : NULL
+##   .. ..$ resolution   : NULL
+##   .. ..$ projection   : NULL
+##   .. ..$ sources      : NULL
+##   .. ..$ notes        : NULL
+##   ..$ observation:List of 3
+##   .. ..$ variableNames: NULL
+##   .. ..$ minVal       : NULL
+##   .. ..$ maxVal       : NULL
+##   ..$ dataNotes  : NULL
+##  $ dataPrep      :List of 1
+##   ..$ dataPrepNotes: NULL
+##  $ modelFit      :List of 8
+##   ..$ algorithm         : NULL
+##   ..$ algorithmCitation : NULL
+##   ..$ speciesCount      : NULL
+##   ..$ selectionRules    : NULL
+##   ..$ finalModelSettings: NULL
+##   ..$ notes             : NULL
+##   ..$ partition         :List of 3
+##   .. ..$ partitionSet : NULL
+##   .. ..$ partitionRule: NULL
+##   .. ..$ notes        : NULL
+##   ..$ references        : NULL
+##  $ prediction    :List of 4
+##   ..$ binary       :List of 2
+##   .. ..$ thresholdSet : NULL
+##   .. ..$ thresholdRule: NULL
+##   ..$ extrapolation: NULL
+##   ..$ transfer     :List of 2
+##   .. ..$ environment1:List of 1
+##   .. .. ..$ extrapolation: NULL
+##   .. ..$ notes       : NULL
+##   ..$ uncertainty  :List of 4
+##   .. ..$ units : NULL
+##   .. ..$ minVal: NULL
+##   .. ..$ maxVal: NULL
+##   .. ..$ notes : NULL
+##  $ evaluation    :List of 2
+##   ..$ references: NULL
+##   ..$ notes     : NULL
+##  $ code          :List of 8
+##   ..$ software        :List of 2
+##   .. ..$ platform: NULL
+##   .. ..$ packages: NULL
+##   ..$ demoCodeLink    : NULL
+##   ..$ vignetteCodeLink: NULL
+##   ..$ fullCodeLink    : NULL
+##   ..$ demoDataLink    : NULL
+##   ..$ vignetteDataLink: NULL
+##   ..$ fullDataLink    : NULL
+##   ..$ codeNotes       : NULL
+##  - attr(*, &quot;class&quot;)= chr [1:2] &quot;list&quot; &quot;RMM&quot;</code></pre>
+<p>A more complex <code>rmm</code> object with all predefined fields. It may seem like a lot at first, but we’re trying to keep you all happy, and many of these won’t be needed. For example, you’ll only be using one modeling algorithm, so you’ll only be selecting one of the fields below under <code>$model</code>. Or, you may not use five different methods for cleaning geographic issues with your data under <code>$dataPrep$geographic</code> and so you’ll end up omitting many of those fields. As we explore the hierarchy below, it’ll seem simpler…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm2=<span class="kw">rmmTemplate</span>(<span class="dt">family=</span><span class="ot">NULL</span>)
+<span class="kw">str</span>(rmm2)</code></pre></div>
+<pre><code>## List of 8
+##  $ authorship    :List of 9
+##   ..$ rmmName          : NULL
+##   ..$ names            : NULL
+##   ..$ ownership        : NULL
+##   ..$ license          : NULL
+##   ..$ contact          : NULL
+##   ..$ relatedReferences: NULL
+##   ..$ authorNotes      : NULL
+##   ..$ miscNotes        : NULL
+##   ..$ doi              : NULL
+##  $ studyObjective:List of 4
+##   ..$ purpose  : NULL
+##   ..$ rangeType: NULL
+##   ..$ invasion : NULL
+##   ..$ transfer : NULL
+##  $ data          :List of 5
+##   ..$ occurrence :List of 11
+##   .. ..$ taxon                   : NULL
+##   .. ..$ dataType                : NULL
+##   .. ..$ occurrenceType          : NULL
+##   .. ..$ yearMin                 : NULL
+##   .. ..$ yearMax                 : NULL
+##   .. ..$ sources                 : NULL
+##   .. ..$ presenceSampleSize      : NULL
+##   .. ..$ absenceSampleSize       : NULL
+##   .. ..$ backgroundSampleSizeSet : NULL
+##   .. ..$ backgroundSampleSizeRule: NULL
+##   .. ..$ spatialAccuracy         : NULL
+##   ..$ environment:List of 11
+##   .. ..$ variableNames: NULL
+##   .. ..$ minVal       : NULL
+##   .. ..$ maxVal       : NULL
+##   .. ..$ yearMin      : NULL
+##   .. ..$ yearMax      : NULL
+##   .. ..$ extentSet    : NULL
+##   .. ..$ extentRule   : NULL
+##   .. ..$ resolution   : NULL
+##   .. ..$ projection   : NULL
+##   .. ..$ sources      : NULL
+##   .. ..$ notes        : NULL
+##   ..$ observation:List of 3
+##   .. ..$ variableNames: NULL
+##   .. ..$ minVal       : NULL
+##   .. ..$ maxVal       : NULL
+##   ..$ transfer   :List of 1
+##   .. ..$ environment1:List of 9
+##   .. .. ..$ minVal    : NULL
+##   .. .. ..$ maxVal    : NULL
+##   .. .. ..$ yearMin   : NULL
+##   .. .. ..$ yearMax   : NULL
+##   .. .. ..$ sources   : NULL
+##   .. .. ..$ extentSet : NULL
+##   .. .. ..$ extentRule: NULL
+##   .. .. ..$ resolution: NULL
+##   .. .. ..$ notes     : NULL
+##   ..$ dataNotes  : NULL
+##  $ dataPrep      :List of 4
+##   ..$ geographic   :List of 6
+##   .. ..$ geographicStandardization :List of 2
+##   .. .. ..$ rule : NULL
+##   .. .. ..$ notes: NULL
+##   .. ..$ geographicalOutlierRemoval:List of 2
+##   .. .. ..$ rule : NULL
+##   .. .. ..$ notes: NULL
+##   .. ..$ centroidRemoval           :List of 2
+##   .. .. ..$ rule : NULL
+##   .. .. ..$ notes: NULL
+##   .. ..$ pointInPolygon            :List of 2
+##   .. .. ..$ rule : NULL
+##   .. .. ..$ notes: NULL
+##   .. ..$ altitudeRemoval           :List of 1
+##   .. .. ..$ rule: NULL
+##   .. ..$ spatialThin               :List of 2
+##   .. .. ..$ rule : NULL
+##   .. .. ..$ notes: NULL
+##   ..$ biological   :List of 5
+##   .. ..$ duplicateRemoval        :List of 2
+##   .. .. ..$ rule : NULL
+##   .. .. ..$ notes: NULL
+##   .. ..$ questionablePointRemoval:List of 2
+##   .. .. ..$ rule : NULL
+##   .. .. ..$ notes: NULL
+##   .. ..$ taxonomicHarmonization  :List of 2
+##   .. .. ..$ rule : NULL
+##   .. .. ..$ notes: NULL
+##   .. ..$ cultivatedRemoval       :List of 2
+##   .. .. ..$ rule : NULL
+##   .. .. ..$ notes: NULL
+##   .. ..$ nonNativeRemoval        :List of 2
+##   .. .. ..$ rule : NULL
+##   .. .. ..$ notes: NULL
+##   ..$ environmental:List of 3
+##   .. ..$ environmentalOutlierRemoval:List of 2
+##   .. .. ..$ rule : NULL
+##   .. .. ..$ notes: NULL
+##   .. ..$ environmentalThin          :List of 2
+##   .. .. ..$ rule : NULL
+##   .. .. ..$ notes: NULL
+##   .. ..$ notes                      : NULL
+##   ..$ dataPrepNotes: NULL
+##  $ modelFit      :List of 24
+##   ..$ algorithm          : NULL
+##   ..$ algorithmCitation  : NULL
+##   ..$ speciesCount       : NULL
+##   ..$ covariateScaling   : NULL
+##   ..$ occurrenceTreatedAs: NULL
+##   ..$ selectionRules     : NULL
+##   ..$ finalModelSettings : NULL
+##   ..$ notes              : NULL
+##   ..$ partition          :List of 5
+##   .. ..$ occurrenceSubsampling: NULL
+##   .. ..$ numberFolds          : NULL
+##   .. ..$ partitionSet         : NULL
+##   .. ..$ partitionRule        : NULL
+##   .. ..$ notes                : NULL
+##   ..$ resampling         :List of 2
+##   .. ..$ resamplingRule: NULL
+##   .. ..$ notes         : NULL
+##   ..$ samplingBias       :List of 1
+##   .. ..$ notes: NULL
+##   ..$ maxent             :List of 19
+##   .. ..$ featureSet                 : NULL
+##   .. ..$ featureRule                : NULL
+##   .. ..$ regularizationMultiplierSet: NULL
+##   .. ..$ regularizationRule         : NULL
+##   .. ..$ convergenceThresholdSet    : NULL
+##   .. ..$ samplingBiasRule           : NULL
+##   .. ..$ samplingBiasNotes          : NULL
+##   .. ..$ targetGroupSampleSize      : NULL
+##   .. ..$ offsetSet                  : NULL
+##   .. ..$ offsetRule                 : NULL
+##   .. ..$ expertMapProbSet           : NULL
+##   .. ..$ expertMapProbRule          : NULL
+##   .. ..$ expertMapRateSet           : NULL
+##   .. ..$ expertMapRateRule          : NULL
+##   .. ..$ expertMapSkewSet           : NULL
+##   .. ..$ expertMapSkewRule          : NULL
+##   .. ..$ expertMapShiftSet          : NULL
+##   .. ..$ expertMapShiftRule         : NULL
+##   .. ..$ notes                      : NULL
+##   ..$ ppm                :List of 3
+##   .. ..$ formula: NULL
+##   .. ..$ fitting: NULL
+##   .. ..$ notes  : NULL
+##   ..$ ensemble           :List of 2
+##   .. ..$ weighting: NULL
+##   .. ..$ notes    : NULL
+##   ..$ glm                :List of 3
+##   .. ..$ family : NULL
+##   .. ..$ formula: NULL
+##   .. ..$ notes  : NULL
+##   ..$ mars               :List of 1
+##   .. ..$ notes: NULL
+##   ..$ brt                :List of 6
+##   .. ..$ nTrees          : NULL
+##   .. ..$ interactionDepth: NULL
+##   .. ..$ shrinkage       : NULL
+##   .. ..$ bagFraction     : NULL
+##   .. ..$ trainFraction   : NULL
+##   .. ..$ notes           : NULL
+##   ..$ bioclim            :List of 1
+##   .. ..$ notes: NULL
+##   ..$ ann                :List of 1
+##   .. ..$ notes: NULL
+##   ..$ gam                :List of 3
+##   .. ..$ family : NULL
+##   .. ..$ formula: NULL
+##   .. ..$ notes  : NULL
+##   ..$ randomForest       :List of 1
+##   .. ..$ notes: NULL
+##   ..$ rangeBagging       :List of 4
+##   .. ..$ votes           : NULL
+##   .. ..$ nDimensions     : NULL
+##   .. ..$ proportionSubset: NULL
+##   .. ..$ notes           : NULL
+##   ..$ occupancy          :List of 3
+##   .. ..$ formula           : NULL
+##   .. ..$ observationFormula: NULL
+##   .. ..$ notes             : NULL
+##   ..$ references         : NULL
+##  $ prediction    :List of 7
+##   ..$ continuous   :List of 3
+##   .. ..$ units : NULL
+##   .. ..$ minVal: NULL
+##   .. ..$ maxVal: NULL
+##   ..$ binary       :List of 2
+##   .. ..$ thresholdSet : NULL
+##   .. ..$ thresholdRule: NULL
+##   ..$ notes        : NULL
+##   ..$ extrapolation: NULL
+##   ..$ transfer     :List of 3
+##   .. ..$ environment1 :List of 7
+##   .. .. ..$ units        : NULL
+##   .. .. ..$ minVal       : NULL
+##   .. .. ..$ maxVal       : NULL
+##   .. .. ..$ thresholdSet : NULL
+##   .. .. ..$ thresholdRule: NULL
+##   .. .. ..$ extrapolation: NULL
+##   .. .. ..$ notes        : NULL
+##   .. ..$ notes        : NULL
+##   .. ..$ extrapolation: NULL
+##   ..$ ensembleRule : NULL
+##   ..$ uncertainty  :List of 4
+##   .. ..$ units : NULL
+##   .. ..$ minVal: NULL
+##   .. ..$ maxVal: NULL
+##   .. ..$ notes : NULL
+##  $ evaluation    :List of 5
+##   ..$ trainingDataStats  :List of 15
+##   .. ..$ AUC               : NULL
+##   .. ..$ pearsonCor        : NULL
+##   .. ..$ cohensKappa       : NULL
+##   .. ..$ trueSkillStatistic: NULL
+##   .. ..$ truePositiveRate  : NULL
+##   .. ..$ trueNegativeRate  : NULL
+##   .. ..$ falsePositiveRate : NULL
+##   .. ..$ falseNegativeRate : NULL
+##   .. ..$ boyce             : NULL
+##   .. ..$ pAUC              : NULL
+##   .. ..$ pAUCLoThreshold   : NULL
+##   .. ..$ pAUCHiThreshold   : NULL
+##   .. ..$ AIC               : NULL
+##   .. ..$ BIC               : NULL
+##   .. ..$ DIC               : NULL
+##   ..$ testingDataStats   :List of 12
+##   .. ..$ AUC               : NULL
+##   .. ..$ AUCDiff           : NULL
+##   .. ..$ pearsonCor        : NULL
+##   .. ..$ cohensKappa       : NULL
+##   .. ..$ trueSkillStatistic: NULL
+##   .. ..$ truePositiveRate  : NULL
+##   .. ..$ trueNegativeRate  : NULL
+##   .. ..$ falsePositiveRate : NULL
+##   .. ..$ falseNegativeRate : NULL
+##   .. ..$ boyce             : NULL
+##   .. ..$ omissionRate      : NULL
+##   .. ..$ notes             : NULL
+##   ..$ evaluationDataStats:List of 9
+##   .. ..$ AUC               : NULL
+##   .. ..$ pearsonCor        : NULL
+##   .. ..$ cohensKappa       : NULL
+##   .. ..$ trueSkillStatistic: NULL
+##   .. ..$ truePositiveRate  : NULL
+##   .. ..$ trueNegativeRate  : NULL
+##   .. ..$ falsePositiveRate : NULL
+##   .. ..$ falseNegativeRate : NULL
+##   .. ..$ boyce             : NULL
+##   ..$ references         : NULL
+##   ..$ notes              : NULL
+##  $ code          :List of 9
+##   ..$ wallace         :List of 9
+##   .. ..$ occsNum           : NULL
+##   .. ..$ userCSV           : NULL
+##   .. ..$ removedIDs        : NULL
+##   .. ..$ occsCellPolyCoords: NULL
+##   .. ..$ userBgExt         : NULL
+##   .. ..$ userBgPath        : NULL
+##   .. ..$ userBgShpParams   : NULL
+##   .. ..$ maxentEvalPlotCell: NULL
+##   .. ..$ bcPlotSettings    : NULL
+##   ..$ software        :List of 2
+##   .. ..$ platform: NULL
+##   .. ..$ packages: NULL
+##   ..$ demoCodeLink    : NULL
+##   ..$ vignetteCodeLink: NULL
+##   ..$ fullCodeLink    : NULL
+##   ..$ demoDataLink    : NULL
+##   ..$ vignetteDataLink: NULL
+##   ..$ fullDataLink    : NULL
+##   ..$ codeNotes       : NULL
+##  - attr(*, &quot;class&quot;)= chr [1:2] &quot;list&quot; &quot;RMM&quot;</code></pre>
+</div>
+<div id="populating-an-rmm-object" class="section level2">
+<h2>Populating an rmm object</h2>
+<p><code>rmm</code> objects can be populated manually by entering data direcetly into the fields (see <code>vignette('rmm_Multispecies',package='rangeModelMetadata')</code>), or through the use of several helper functions. Although the <code>rmm</code> object template already contains a number of fields that depend on the specified <code>family</code> (see options with <code>rmmFamilies()</code>), users can also add new fields as needed. We provide suggestions of both common fields to add and common values for many fields.</p>
+<p>Not sure which fields are available or what values to enter? We can suggest options.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rmmSuggest</span>(<span class="st">'dataPrep'</span>,<span class="dt">fullFieldDepth=</span><span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## $type
+## [1] &quot;field2&quot;
+## 
+## $suggestions
+## [1] &quot;dataPrep$geographic&quot;    &quot;dataPrep$biological&quot;   
+## [3] &quot;dataPrep$environmental&quot; &quot;dataPrep$dataPrepNotes&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rmmSuggest</span>(<span class="st">'dataPrep'</span>,<span class="dt">fullFieldDepth=</span><span class="ot">TRUE</span>) <span class="co"># for all fields below the specified one</span></code></pre></div>
+<pre><code>## $type
+## [1] &quot;field2&quot;
+## 
+## $suggestions
+##  [1] &quot;dataPrep$geographic$geographicStandardization$rule&quot;      
+##  [2] &quot;dataPrep$geographic$geographicStandardization$notes&quot;     
+##  [3] &quot;dataPrep$geographic$geographicalOutlierRemoval$rule&quot;     
+##  [4] &quot;dataPrep$geographic$geographicalOutlierRemoval$notes&quot;    
+##  [5] &quot;dataPrep$geographic$centroidRemoval$rule&quot;                
+##  [6] &quot;dataPrep$geographic$centroidRemoval$notes&quot;               
+##  [7] &quot;dataPrep$geographic$pointInPolygon$rule&quot;                 
+##  [8] &quot;dataPrep$geographic$pointInPolygon$notes&quot;                
+##  [9] &quot;dataPrep$geographic$altitudeRemoval$rule&quot;                
+## [10] &quot;dataPrep$geographic$spatialThin$rule&quot;                    
+## [11] &quot;dataPrep$geographic$spatialThin$notes&quot;                   
+## [12] &quot;dataPrep$biological$duplicateRemoval$rule&quot;               
+## [13] &quot;dataPrep$biological$duplicateRemoval$notes&quot;              
+## [14] &quot;dataPrep$biological$questionablePointRemoval$rule&quot;       
+## [15] &quot;dataPrep$biological$questionablePointRemoval$notes&quot;      
+## [16] &quot;dataPrep$biological$taxonomicHarmonization$rule&quot;         
+## [17] &quot;dataPrep$biological$taxonomicHarmonization$notes&quot;        
+## [18] &quot;dataPrep$biological$cultivatedRemoval$rule&quot;              
+## [19] &quot;dataPrep$biological$cultivatedRemoval$notes&quot;             
+## [20] &quot;dataPrep$biological$nonNativeRemoval$rule&quot;               
+## [21] &quot;dataPrep$biological$nonNativeRemoval$notes&quot;              
+## [22] &quot;dataPrep$environmental$environmentalOutlierRemoval$rule&quot; 
+## [23] &quot;dataPrep$environmental$environmentalOutlierRemoval$notes&quot;
+## [24] &quot;dataPrep$environmental$environmentalThin$rule&quot;           
+## [25] &quot;dataPrep$environmental$environmentalThin$notes&quot;          
+## [26] &quot;dataPrep$environmental$notes&quot;                            
+## [27] &quot;dataPrep$dataPrepNotes&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rmmSuggest</span>(<span class="st">'dataPrep$biological$duplicateRemoval'</span>)</code></pre></div>
+<pre><code>## $type
+## [1] &quot;entity&quot;
+## 
+## $suggestions
+## [1] &quot;dataPrep$biological$duplicateRemoval$rule&quot; 
+## [2] &quot;dataPrep$biological$duplicateRemoval$notes&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rmmSuggest</span>(<span class="st">'dataPrep$biological$duplicateRemoval$rule'</span>)</code></pre></div>
+<pre><code>## $suggestions
+## [1] &quot;environmental&quot;            &quot;coordinate&quot;              
+## [3] &quot;other (specify in Notes)&quot;</code></pre>
+<p>Here, it may help to learn the two pieces of unavoidable jargon we use: * A <strong>field</strong> describes levels of the hierarchy. E.g., <code>dataPrep</code> is field 1, <code>errors</code> is field 2 and <code>duplicateRemoval</code> is field 3. * An <strong>entity</strong> is described by a complete set of <strong>fields</strong> and has a particular value. In the example above <code>'dataPrep$errors$duplicateRemoval$rule</code> is an entity, and it can take one of the four suggested values: “Environmental duplicates” “coordinate duplicates”, “other (specify in Notes)”, “NA”.</p>
+<p>Note above, that when you ask for suggestions for a field (the first three lines), you get suggestions of the relevant fields to consider. But the last line refers to to the lowest level in the hierachy, an <strong>entity</strong> and so values are suggested.</p>
+<p>Another more complex example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rmmSuggest</span>(<span class="st">'modelFit'</span>)</code></pre></div>
+<pre><code>## $type
+## [1] &quot;field2&quot;
+## 
+## $suggestions
+##  [1] &quot;modelFit$algorithm&quot;           &quot;modelFit$algorithmCitation&quot;  
+##  [3] &quot;modelFit$speciesCount&quot;        &quot;modelFit$covariateScaling&quot;   
+##  [5] &quot;modelFit$occurrenceTreatedAs&quot; &quot;modelFit$selectionRules&quot;     
+##  [7] &quot;modelFit$finalModelSettings&quot;  &quot;modelFit$notes&quot;              
+##  [9] &quot;modelFit$partition&quot;           &quot;modelFit$resampling&quot;         
+## [11] &quot;modelFit$samplingBias&quot;        &quot;modelFit$maxent&quot;             
+## [13] &quot;modelFit$ppm&quot;                 &quot;modelFit$ensemble&quot;           
+## [15] &quot;modelFit$glm&quot;                 &quot;modelFit$mars&quot;               
+## [17] &quot;modelFit$brt&quot;                 &quot;modelFit$bioclim&quot;            
+## [19] &quot;modelFit$ann&quot;                 &quot;modelFit$gam&quot;                
+## [21] &quot;modelFit$randomForest&quot;        &quot;modelFit$rangeBagging&quot;       
+## [23] &quot;modelFit$occupancy&quot;           &quot;modelFit$references&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rmmSuggest</span>(<span class="st">'modelFit$maxent'</span>)</code></pre></div>
+<pre><code>## $type
+## [1] &quot;field3&quot;
+## 
+## $suggestions
+##  [1] &quot;modelFit$maxent$featureSet&quot;                 
+##  [2] &quot;modelFit$maxent$featureRule&quot;                
+##  [3] &quot;modelFit$maxent$regularizationMultiplierSet&quot;
+##  [4] &quot;modelFit$maxent$regularizationRule&quot;         
+##  [5] &quot;modelFit$maxent$convergenceThresholdSet&quot;    
+##  [6] &quot;modelFit$maxent$samplingBiasRule&quot;           
+##  [7] &quot;modelFit$maxent$samplingBiasNotes&quot;          
+##  [8] &quot;modelFit$maxent$targetGroupSampleSize&quot;      
+##  [9] &quot;modelFit$maxent$offsetSet&quot;                  
+## [10] &quot;modelFit$maxent$offsetRule&quot;                 
+## [11] &quot;modelFit$maxent$expertMapProbSet&quot;           
+## [12] &quot;modelFit$maxent$expertMapProbRule&quot;          
+## [13] &quot;modelFit$maxent$expertMapRateSet&quot;           
+## [14] &quot;modelFit$maxent$expertMapRateRule&quot;          
+## [15] &quot;modelFit$maxent$expertMapSkewSet&quot;           
+## [16] &quot;modelFit$maxent$expertMapSkewRule&quot;          
+## [17] &quot;modelFit$maxent$expertMapShiftSet&quot;          
+## [18] &quot;modelFit$maxent$expertMapShiftRule&quot;         
+## [19] &quot;modelFit$maxent$notes&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rmmSuggest</span>(<span class="st">'$modelFit$maxent$featureSet'</span>)</code></pre></div>
+<pre><code>## $suggestions
+## [1] &quot;L&quot;     &quot;LQ&quot;    &quot;LQP&quot;   &quot;LQPT&quot;  &quot;LQPTH&quot; &quot; H&quot;    &quot;HT&quot;</code></pre>
+<p>To make it easier to fill some <code>rmm</code> fields, we provide autofill functions that extract relevant information from common R objects used in a range modeling workflow.</p>
+<!-- Also see `vignette('rmm_workflow')` for a demonstration of how to fill in metadata during an SDM workflow. -->
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm=<span class="kw">rmmTemplate</span>()
+rmm=<span class="kw">rmmAutofillPackageCitation</span>(rmm,<span class="kw">c</span>(<span class="st">'raster'</span>,<span class="st">'sp'</span>))
+<span class="co"># search GBIF for occurrence data to demonstrate the autofill function</span>
+bv=spocc<span class="op">::</span><span class="kw">occ</span>(<span class="st">'Bradypus variegatus'</span>, <span class="st">'gbif'</span>, <span class="dt">limit=</span><span class="dv">50</span>, <span class="dt">has_coords=</span><span class="ot">TRUE</span>)
+rmm=<span class="kw">rmmAutofillspocc</span>(rmm,bv<span class="op">$</span>gbif)
+<span class="co"># get some env layers to demonstrate the autofill function</span>
+rasterFiles=<span class="kw">list.files</span>(<span class="dt">path=</span><span class="kw">paste</span>(<span class="kw">system.file</span>(<span class="dt">package=</span><span class="st">'dismo'</span>), <span class="st">'/ex'</span>, <span class="dt">sep=</span><span class="st">''</span>),
+                       <span class="dt">pattern=</span><span class="st">'grd'</span>, <span class="dt">full.names=</span><span class="ot">TRUE</span>)
+<span class="co"># make a stack of the rasters</span>
+env=raster<span class="op">::</span><span class="kw">stack</span>(rasterFiles)
+rmm=<span class="kw">rmmAutofillEnvironment</span>(rmm,env,<span class="dt">transfer=</span><span class="dv">0</span>) <span class="co"># for fitting environment</span>
+<span class="co"># just using the same rasters for demonstration; in practice these are different</span>
+rmm=<span class="kw">rmmAutofillEnvironment</span>(rmm,env,<span class="dt">transfer=</span><span class="dv">1</span>) <span class="co"># for transfer environment 1</span>
+rmm=<span class="kw">rmmAutofillEnvironment</span>(rmm,env,<span class="dt">transfer=</span><span class="dv">2</span>) <span class="co"># for transfer environment 2 </span></code></pre></div>
+<p>To see what fields you might’ve missed…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">empties=<span class="kw">rmmCheckEmpty</span>(rmm)</code></pre></div>
+<pre><code>## ===================================
+## There are  53 empty obligate fields:
+## $authorship$rmmName
+## $authorship$names
+## $authorship$ownership
+## $authorship$license
+## $authorship$contact
+## $authorship$relatedReferences
+## $authorship$authorNotes
+## $authorship$miscNotes
+## $authorship$doi
+## $studyObjective$purpose
+## $studyObjective$rangeType
+## $studyObjective$invasion
+## $studyObjective$transfer
+## $data$occurrence$spatialAccuracy
+## $data$environment$yearMin
+## $data$environment$yearMax
+## $data$environment$extentRule
+## $data$environment$projection
+## $data$environment$sources
+## $data$environment$notes
+## $data$observation$variableNames
+## $data$observation$minVal
+## $data$observation$maxVal
+## $data$dataNotes
+## $dataPrep$dataPrepNotes
+## $modelFit$algorithmCitation
+## $modelFit$speciesCount
+## $modelFit$selectionRules
+## $modelFit$finalModelSettings
+## $modelFit$notes
+## $modelFit$partition$partitionSet
+## $modelFit$partition$partitionRule
+## $modelFit$partition$notes
+## $modelFit$references
+## $prediction$binary$thresholdSet
+## $prediction$binary$thresholdRule
+## $prediction$extrapolation
+## $prediction$transfer$environment1$extrapolation
+## $prediction$transfer$notes
+## $prediction$uncertainty$units
+## $prediction$uncertainty$minVal
+## $prediction$uncertainty$maxVal
+## $prediction$uncertainty$notes
+## $evaluation$references
+## $evaluation$notes
+## $code$software$platform
+## $code$demoCodeLink
+## $code$vignetteCodeLink
+## $code$fullCodeLink
+## $code$demoDataLink
+## $code$vignetteDataLink
+## $code$fullDataLink
+## $code$codeNotes
+## ===================================
+## ===================================</code></pre>
+<!-- # rmmCleanEmpties(rmm) -->
+</div>
+<div id="checking-an-rmm-object" class="section level2">
+<h2>Checking an rmm object</h2>
+<p>To check the field names in your object, use <code>rmmNameCheck</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Make an empty template</span>
+rmm1&lt;-<span class="kw">rmmTemplate</span>() 
+<span class="co"># Add a new, non-standard field</span>
+rmm1<span class="op">$</span>dataPrep<span class="op">$</span>biological<span class="op">$</span>taxonomicHarmonization<span class="op">$</span>taxonomy_source&lt;-<span class="st">&quot;The Plant List&quot;</span> <span class="co"># # Checking the names identifies the new, non-standard field we've added (&quot;taxonomy_source&quot;)</span>
+rmm1=<span class="kw">rmmCheckName</span>(rmm1) </code></pre></div>
+<pre><code>## The following names are not similar to any suggested names, please verify that these are accurate:
+## $dataPrep$biological$taxonomicHarmonization$taxonomy_source
+## </code></pre>
+<p>This check identifies the entity <code>$dataPrep$biological$taxonomicHarmonization$taxonomy_source</code> as non-standard. It’s non-standard because it’s not an entity in the data dictionary, and I just added it. That’s not a violation or anything bad, this check just let’s you know it’s there. This check can be useful to detect misspellings of standardized field names too.</p>
+<p>To check the field values in your rmm object, use the function <code>rmmValueCheck</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#First, we create an empty rmm template</span>
+rmm1&lt;-<span class="kw">rmmTemplate</span>() 
+<span class="co">#We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2, and a word that is clearly not a climate layer, 'cromulent'.</span>
+rmm1<span class="op">$</span>data<span class="op">$</span>environment<span class="op">$</span>variableNames&lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;bio1&quot;</span>, <span class="st">&quot;bio 2&quot;</span>, <span class="st">&quot;bio3&quot;</span>, <span class="st">&quot;cromulent&quot;</span>) 
+<span class="co">#Now, when we check the values, we see that bio1 and bio2 are reported as exact matches, while 'bio 2' is flagged as a partial match with a suggested value of 'bio2', and 'cromulent' is flagged as not matched at all.</span>
+<span class="kw">rmmCheckValue</span>(<span class="dt">rmm =</span> rmm1) </code></pre></div>
+<pre><code>## 
+## ==========================================
+## For the field rmm$data$environment$variableNames
+##  The following entries appear accurate:
+## 
+##  bio1; bio3
+##  The following entries are similar to suggested values, please verify:
+## bio 2
+## 
+## Suggested alternatives include: 
+## bio2
+##  The following entries are not similar to any suggested values, please verify that these are accurate:
+## cromulent
+## </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#If we'd like to return a dataframe containing this information in a perhaps more useful format:</span>
+rmmCheckValueOutput&lt;-<span class="kw">rmmCheckValue</span>(<span class="dt">rmm =</span> rmm1,<span class="dt">returnData =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## 
+## ==========================================
+## For the field rmm$data$environment$variableNames
+##  The following entries appear accurate:
+## 
+##  bio1; bio3
+##  The following entries are similar to suggested values, please verify:
+## bio 2
+## 
+## Suggested alternatives include: 
+## bio2
+##  The following entries are not similar to any suggested values, please verify that these are accurate:
+## cromulent
+## </code></pre>
+<p><!-- names<-rmmCheckName(rmm,returnData = T) --></p>
+<p><!-- values<-rmmCheckValue(rmm = rmm,returnData = T) --></p>
+<p><!-- missing_names<-rmmCheckMissingNames(rmm,useCase = useCase) --></p>
+<p><!-- empty_values<-rmmCheckEmpty(rmm = rmm,useCase = useCase) --></p>
+<p>These ‘check’ functions work by comparing the values or field names within an <code>rmm</code> object to those in a data dictionary. These functions are designed to check for non-standard values and names, and DO NOT necessarily identify correct vs. incorrect values/names. Non-standard values may be perfectly valid, or they may be erroneous, and the user will have to make this distinction.</p>
+<p>To run all the available checks at once, we’ll check the object that we filled in a few chunks back.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rmmCheckFinalize</span>(rmm, <span class="dt">family=</span><span class="st">'base'</span>)</code></pre></div>
+<pre><code>## 
+## 
+## 
+##  Element name ' $data$transfer$environment2$resolution ' not found in data dictionary !
+##  Did you mean: ' $data$transfer$environment1$resolution '? 
+## 
+## 
+##  Element name ' $data$transfer$environment2$extentSet ' not found in data dictionary !
+##  Did you mean: ' $data$transfer$environment1$extentSet '? The following names are similar to suggested names, please verify:
+## $data$transfer$environment2$resolution
+## $data$transfer$environment2$extentSet
+## Suggested alternatives include: 
+## $data$transfer$environment1$resolution
+## $data$transfer$environment1$extentSet
+##  
+## ==========================================
+## For the field rmm$data$occurrence$dataType
+##  The following entries appear accurate:
+## 
+##  presence only
+##  
+## ==========================================
+## For the field rmm$data$environment$variableNames
+##  The following entries appear accurate:
+## 
+##  bio1; bio12; bio16; bio17; bio5; bio6; bio7; bio8
+##  The following entries are similar to suggested values, please verify:
+## biome
+## 
+## Suggested alternatives include: 
+## bio1
+##  ===================================
+## There are  53 empty obligate fields:
+## $authorship$rmmName
+## $authorship$names
+## $authorship$ownership
+## $authorship$license
+## $authorship$contact
+## $authorship$relatedReferences
+## $authorship$authorNotes
+## $authorship$miscNotes
+## $authorship$doi
+## $studyObjective$purpose
+## $studyObjective$rangeType
+## $studyObjective$invasion
+## $studyObjective$transfer
+## $data$occurrence$spatialAccuracy
+## $data$environment$yearMin
+## $data$environment$yearMax
+## $data$environment$extentRule
+## $data$environment$projection
+## $data$environment$sources
+## $data$environment$notes
+## $data$observation$variableNames
+## $data$observation$minVal
+## $data$observation$maxVal
+## $data$dataNotes
+## $dataPrep$dataPrepNotes
+## $modelFit$algorithmCitation
+## $modelFit$speciesCount
+## $modelFit$selectionRules
+## $modelFit$finalModelSettings
+## $modelFit$notes
+## $modelFit$partition$partitionSet
+## $modelFit$partition$partitionRule
+## $modelFit$partition$notes
+## $modelFit$references
+## $prediction$binary$thresholdSet
+## $prediction$binary$thresholdRule
+## $prediction$extrapolation
+## $prediction$transfer$environment1$extrapolation
+## $prediction$transfer$notes
+## $prediction$uncertainty$units
+## $prediction$uncertainty$minVal
+## $prediction$uncertainty$maxVal
+## $prediction$uncertainty$notes
+## $evaluation$references
+## $evaluation$notes
+## $code$software$platform
+## $code$demoCodeLink
+## $code$vignetteCodeLink
+## $code$fullCodeLink
+## $code$demoDataLink
+## $code$vignetteDataLink
+## $code$fullDataLink
+## $code$codeNotes
+## ===================================
+## ===================================</code></pre>
+</div>
+<div id="outputing-an-rmm-object" class="section level2">
+<h2>Outputing an <code>rmm</code> object</h2>
+<p>To make <code>rmm</code> objects portable to other interfaces, they are readily written to csv format.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">outFile=<span class="st">'~/Desktop/demo_rmmToCSV.csv'</span>
+rmmObj=<span class="kw">rmmTemplate</span>()
+<span class="kw">rmmToCSV</span>(rmmObj,<span class="dt">filename=</span>outFile)
+<span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">'open '</span>, outFile, <span class="st">' -a &quot;Microsoft Excel&quot;'</span>))</code></pre></div>
+</div>
+<div id="miscellaneous" class="section level2">
+<h2>Miscellaneous</h2>
+<p>It can be helpful to simply view the data dictionary:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dd=<span class="kw">rmmDataDictionary</span>()
+<span class="kw">str</span>(dd)</code></pre></div>
+<pre><code>## 'data.frame':    216 obs. of  10 variables:
+##  $ field1           : chr  &quot;authorship&quot; &quot;authorship&quot; &quot;authorship&quot; &quot;authorship&quot; ...
+##  $ field2           : chr  NA NA NA NA ...
+##  $ field3           : chr  NA NA NA NA ...
+##  $ entity           : chr  &quot;rmmName&quot; &quot;names&quot; &quot;ownership&quot; &quot;license&quot; ...
+##  $ class            : chr  &quot;character&quot; &quot;character vector&quot; &quot;character&quot; &quot;character&quot; ...
+##  $ taxonSpecific    : chr  &quot;no&quot; &quot;no&quot; &quot;no&quot; &quot;no&quot; ...
+##  $ constrainedValues: chr  &quot;NULL&quot; &quot;NULL&quot; &quot;NULL&quot; &quot;CC; CC BY; CC BY-SA; CC BY-ND; CC BY-NC; CC BY-NC-SA; CC BY-NC-ND; other&quot; ...
+##  $ family           : chr  &quot;base&quot; &quot;base&quot; &quot;base&quot; &quot;base&quot; ...
+##  $ examples         : chr  &quot;MerowMaitnerOwensKassEnquistGuralnick_2018_Acer_Maxent_b3&quot; &quot;Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob;&quot; &quot;Merow, Cory;&quot; &quot;CC; CC BY; CC BY-SA; CC BY-ND; CC BY-NC; CC BY-NC-SA; CC BY-NC-ND&quot; ...
+##  $ description      : chr  &quot;Use the format Author_Year_Taxa_Model_fw, where the last two characters (here, fw) are alphanumeric and random.&quot; &quot;The names of those who created this model. Use the format Last, First and Last, First and Last, First, followin&quot;| __truncated__ &quot;The names of the person(s) who own this model. Use the format Last, First and Last, First and Last, First, foll&quot;| __truncated__ &quot;The license under which this model has been produced.  See https://creativecommons.org/licenses/ for common options.&quot; ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># rmmDataDictionary(excel=TRUE) # try this if you have excel</span></code></pre></div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

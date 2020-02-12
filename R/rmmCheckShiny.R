@@ -42,8 +42,8 @@ rmmCheckShiny <- function() {
           shiny::fileInput("rmm1", label = "Load RMM 1", accept = c("csv", "rds")),
           shiny::fileInput("rmm2", label = "Load RMM 2", accept = c("csv", "rds")),
           # CM: for flexibility, can we also accept .rdata or .rda? This should be no issue now that we have an rmm class, right?
-          shiny::helpText("Note: Single RMMs can be loaded as .rds or .csv files."),
-          shiny::helpText("Note: TBD.")
+          shiny::helpText("Note: Single RMMs can be loaded as .rds or .csv files.")#,
+          #shiny::helpText("Note: TBD.")
         ),
 
         # Show a summary of the dataset and an HTML table with the

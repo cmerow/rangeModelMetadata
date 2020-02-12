@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Jamie Kass, Cory Merow, Brian Maitner, Hannah Owens, Brian Enquist, Rob Guralnick" />
+
+<meta name="date" content="2019-04-30" />
+
+<title>An example workflow for building rangeModelMetadata objects</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">An example workflow for building rangeModelMetadata objects</h1>
+<h4 class="author"><em>Jamie Kass, Cory Merow, Brian Maitner, Hannah Owens, Brian Enquist, Rob Guralnick</em></h4>
+<h4 class="date"><em>2019-04-30</em></h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#building-a-range-model">Building a range model</a><ul>
+<li><a href="#get-data">Get data</a></li>
+<li><a href="#prepare-data">Prepare data</a></li>
+<li><a href="#model-fitting">Model Fitting</a></li>
+<li><a href="#model-evaluation">Model evaluation</a></li>
+<li><a href="#predictions">Predictions</a></li>
+<li><a href="#transfer-model">Transfer model</a></li>
+</ul></li>
+<li><a href="#build-an-rmm-object">Build an <code>rmm</code> object</a><ul>
+<li><a href="#authorship">Authorship</a></li>
+<li><a href="#study-objective">Study Objective</a></li>
+<li><a href="#autofill-when-possible">Autofill when possible</a></li>
+<li><a href="#data">Data</a></li>
+<li><a href="#data-preparation-cleaning">Data Preparation (cleaning)</a></li>
+<li><a href="#model-fitting-1">Model Fitting</a></li>
+<li><a href="#prediction">Prediction</a></li>
+<li><a href="#evaluation">Evaluation</a></li>
+<li><a href="#code">Code</a></li>
+<li><a href="#check-your-rmm-object">Check your <code>rmm</code> object</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rangeModelMetadata)
+<span class="kw">library</span>(rgbif)
+<span class="kw">library</span>(raster)
+<span class="kw">library</span>(dismo)
+<span class="kw">library</span>(ENMeval)
+<span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(sp)
+<span class="kw">library</span>(spThin)
+<span class="kw">library</span>(jsonlite)</code></pre></div>
+<div id="building-a-range-model" class="section level1">
+<h1>Building a range model</h1>
+<div id="get-data" class="section level2">
+<h2>Get data</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># search GBIF for occurrence data</span>
+bv &lt;-<span class="st"> </span>rgbif<span class="op">::</span><span class="kw">occ_search</span>(<span class="dt">scientificName =</span><span class="st">'Bradypus variegatus'</span>)
+<span class="co"># restrict table to coordinates</span>
+occs &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(bv<span class="op">$</span>data, decimalLongitude, decimalLatitude)
+<span class="co"># remove duplicate values</span>
+occs &lt;-<span class="st"> </span>occs[<span class="op">!</span><span class="kw">duplicated</span>(occs),]
+<span class="co"># get environmental rasters from dismo package folder</span>
+files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path=</span><span class="kw">paste</span>(<span class="kw">system.file</span>(<span class="dt">package=</span><span class="st">'dismo'</span>), <span class="st">'/ex'</span>,
+                               <span class="dt">sep=</span><span class="st">''</span>), <span class="dt">pattern=</span><span class="st">'grd'</span>, <span class="dt">full.names=</span><span class="ot">TRUE</span>)
+<span class="co"># make a stack of the rasters</span>
+envs &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw">stack</span>(files)</code></pre></div>
+<!-- bv <- spocc::occ('Bradypus variegatus', 'gbif', limit=300, has_coords=TRUE) -->
+<!-- occs=dplyr::select(bv$gbif$data$Bradypus_variegatus, longitude, latitude) -->
+<!-- # remove correlated predictors -->
+<!-- (cors=layerStats(envs, 'pearson', na.rm=T)[[1]]) -->
+<!-- envs=envs[[c('bio1','bio7','bio12','bio16')]] -->
+<!-- (cors=layerStats(envs, 'pearson', na.rm=T)[[1]]) -->
+</div>
+<div id="prepare-data" class="section level2">
+<h2>Prepare data</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># thin points to remove spatial autocorrelation</span>
+occs.thinned &lt;-<span class="st"> </span>spThin<span class="op">::</span><span class="kw">thin.algorithm</span>(<span class="kw">data.frame</span>(occs), <span class="dt">thin.par=</span><span class="dv">20</span>, <span class="dt">reps=</span><span class="dv">1</span>)
+<span class="co"># make a spatial points object for the occurrences</span>
+occs.sp &lt;-<span class="st"> </span>sp<span class="op">::</span><span class="kw">SpatialPoints</span>(occs.thinned[[<span class="dv">1</span>]])
+<span class="co"># get the bounding box</span>
+bb &lt;-<span class="st"> </span>sp<span class="op">::</span><span class="kw">bbox</span>(occs.sp)
+<span class="co"># make extent object and buffer by 5 degrees</span>
+bb.buf &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw">extent</span>(bb[<span class="dv">1</span>]<span class="op">-</span><span class="dv">5</span>, bb[<span class="dv">3</span>]<span class="op">+</span><span class="dv">5</span>, bb[<span class="dv">2</span>]<span class="op">-</span><span class="dv">5</span>, bb[<span class="dv">4</span>]<span class="op">+</span><span class="dv">5</span>)
+<span class="co"># crop environmental rasters by the extent to make the background extent</span>
+bg.ext &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw">crop</span>(envs, bb.buf)
+<span class="co"># generate up to 10,000 random points within the background extent (we'll sample from the &quot;biome&quot; raster as it has more holes)</span>
+bg &lt;-<span class="st"> </span>dismo<span class="op">::</span><span class="kw">randomPoints</span>(bg.ext[[<span class="dv">9</span>]], <span class="dt">n=</span><span class="dv">10000</span>) </code></pre></div>
+</div>
+<div id="model-fitting" class="section level2">
+<h2>Model Fitting</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># run ENMeval</span>
+e &lt;-<span class="st"> </span>ENMeval<span class="op">::</span><span class="kw">ENMevaluate</span>(occs, bg.ext, bg, <span class="dt">method=</span><span class="st">'block'</span>, <span class="dt">RMvalues=</span><span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">fc=</span><span class="kw">c</span>(<span class="st">'L'</span>,<span class="st">'LQ'</span>), <span class="dt">algorithm=</span><span class="st">'maxent.jar'</span>)</code></pre></div>
+</div>
+<div id="model-evaluation" class="section level2">
+<h2>Model evaluation</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># find the index number of the model with the highest mean test AUC: this will be the optimal model</span>
+i &lt;-<span class="st"> </span><span class="kw">which</span>(e<span class="op">@</span>results<span class="op">$</span>avg.test.AUC  <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(e<span class="op">@</span>results<span class="op">$</span>avg.test.AUC ))
+<span class="co"># extract the optimal model object</span>
+m &lt;-<span class="st"> </span>e<span class="op">@</span>models[[i]]</code></pre></div>
+<p>Note that the selected model uses linear and quadratic features with a regularization multiplier of 1.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(e<span class="op">@</span>results[i,])</code></pre></div>
+</div>
+<div id="predictions" class="section level2">
+<h2>Predictions</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># the prediction rasters produced by ENMeval are &quot;raw&quot; values,</span>
+<span class="co"># which correspond to the relative occurrence rate (ROR) per cell --</span>
+<span class="co"># see Merow et al. 2013 (Ecography)</span>
+p &lt;-<span class="st"> </span>e<span class="op">@</span>predictions[[i]]
+<span class="kw">plot</span>(p)</code></pre></div>
+</div>
+<div id="transfer-model" class="section level2">
+<h2>Transfer model</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># specify extent further south for model transfer (this region</span>
+<span class="co"># should have different climatic conditions than the region</span>
+<span class="co"># used to train the model). This could be useful if no observations </span>
+<span class="co"># are available in this region, but you're interested in determining </span>
+<span class="co"># if there is any potentially suitable habitat there.</span>
+pt.bb &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw">extent</span>(<span class="op">-</span><span class="dv">80</span>,<span class="op">-</span><span class="dv">40</span>,<span class="op">-</span><span class="dv">60</span>,<span class="op">-</span><span class="dv">30</span>)
+<span class="co"># crop environmental predictors by transfer extent</span>
+pt.ext &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw">crop</span>(envs, pt.bb)
+pt &lt;-<span class="st"> </span><span class="kw">predict</span>(m, pt.ext, <span class="dt">args=</span><span class="kw">c</span>(<span class="st">&quot;outputformat=raw&quot;</span>))</code></pre></div>
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+</div>
+</div>
+<div id="build-an-rmm-object" class="section level1">
+<h1>Build an <code>rmm</code> object</h1>
+<p>Begin by choosing a few families of fields relevant for this analysis and making a template. This will generate all the recommended fields, although the only fields that you must fill in are in <code>base</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># generate an empty range model metadata template</span>
+rmm=<span class="kw">rmmTemplate</span>(<span class="dt">family=</span><span class="kw">c</span>(<span class="st">'base'</span>,<span class="st">'dataPrep'</span>,<span class="st">'maxent'</span>,<span class="st">'prediction'</span>,
+                         <span class="st">'transferEnv1'</span>,<span class="st">'binaryClassification'</span>))</code></pre></div>
+<p>Note that to see a little bit less detail, it’s useful to use</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(rmm,<span class="dv">1</span>)</code></pre></div>
+<p>or</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(rmm,<span class="dv">2</span>)</code></pre></div>
+<div id="authorship" class="section level2">
+<h2>Authorship</h2>
+<p>We start by filling in some key authorship information.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="co"># in the form Author_Year_Taxa_Model_fw (where the last 2 characters are random)</span>
+rmm<span class="op">$</span>authorship<span class="op">$</span>rmmName=<span class="st">'MerowMaitnerOwensKassEnquistGuralnick_2018_BradypusVariegatus_Maxent_b3'</span>
+  <span class="co"># names are distinct from citations (below) in case a citation does not exist </span>
+rmm<span class="op">$</span>authorship<span class="op">$</span>names=<span class="st">'Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob'</span>
+rmm<span class="op">$</span>authorship<span class="op">$</span>contact=<span class="st">'cory.merow@gmail.com'</span>
+rmm<span class="op">$</span>authorship<span class="op">$</span>relatedReferences=<span class="st">'@article{, </span>
+<span class="st">  title={RMMS: Species’ Range Model Metadata Standards },</span>
+<span class="st">  author={Merow, Cory and Maitner, Brian S. and Owens, Hannah L. and Kass, </span>
+<span class="st">          Jamie M. and Enquist, Brian and Guralnick, Robert},</span>
+<span class="st">  journal={Global Ecology and Biogeography},</span>
+<span class="st">  year={2018}}'</span>
+rmm<span class="op">$</span>authorship<span class="op">$</span>license=<span class="st">'CC'</span>
+rmm<span class="op">$</span>authorship<span class="op">$</span>miscNotes=<span class="st">'Funding from NSF grant DBI-1661510 and DBI-1913673.'</span></code></pre></div>
+<!-- Would be nice to show how to make this a formal citation class, but i don't knowhow: -->
+<!-- ref='@article{, title={RMMS: Species’ Range Model Metadata Standards },author={Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob},journal={Unknown},year={2018}, publisher={Unknown}}' -->
+<!-- as(ref,'citation') -->
+</div>
+<div id="study-objective" class="section level2">
+<h2>Study Objective</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm<span class="op">$</span>studyObjective<span class="op">$</span>purpose=<span class="st">'transfer'</span>
+rmm<span class="op">$</span>studyObjective<span class="op">$</span>rangeType=<span class="st">'potential'</span>
+rmm<span class="op">$</span>studyObjective<span class="op">$</span>transfer=<span class="st">'detect unoccupied suitable habitat'</span></code></pre></div>
+<p>Note that the first two entities used standardized terms (<code>'projection'</code>) but the last one didn’t. That’s ok; the rules are meant to be flexible!</p>
+</div>
+<div id="autofill-when-possible" class="section level2">
+<h2>Autofill when possible</h2>
+<p>To make it easier to fill some <code>rmm</code> fields, we provide autofill functions that extract relevant information from common R objects used in the</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># occurrence data</span>
+rmm &lt;-<span class="st"> </span><span class="kw">rmmAutofillspocc</span>(rmm, bv<span class="op">$</span>gbif) 
+<span class="co"># autofill info for environmental rasters used for model training and transfer</span>
+rmm &lt;-<span class="st"> </span><span class="kw">rmmAutofillEnvironment</span>(rmm, bg.ext, <span class="dt">transfer=</span><span class="dv">0</span>) 
+rmm &lt;-<span class="st"> </span><span class="kw">rmmAutofillEnvironment</span>(rmm, pt.ext, <span class="dt">transfer=</span><span class="dv">1</span>)
+<span class="co"># autofill for ENMeval</span>
+rmm &lt;-<span class="st"> </span><span class="kw">rmmAutofillENMeval</span>(rmm, e, 
+                          <span class="dt">selectionCriteria=</span><span class="st">&quot;highest mean test AUC&quot;</span>,
+                          <span class="dt">optimalModelIndex=</span>i) 
+<span class="co"># R packages used</span>
+rmm &lt;-<span class="st"> </span><span class="kw">rmmAutofillPackageCitation</span>(<span class="dt">rmm=</span>rmm,
+                                  <span class="dt">packages=</span> 
+                                    <span class="kw">c</span>(<span class="st">'rgbif'</span>,<span class="st">'sp'</span>,<span class="st">'raster'</span>,<span class="st">'dismo'</span>,<span class="st">'ENMeval'</span>))</code></pre></div>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>Now we need to fill in some fields manually.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm<span class="op">$</span>data<span class="op">$</span>occurrence<span class="op">$</span>sources=<span class="kw">lapply</span>(rgbif<span class="op">::</span><span class="kw">gbif_citation</span>(bv),<span class="cf">function</span>(x) x<span class="op">$</span>citation<span class="op">$</span>citation)
+rmm<span class="op">$</span>data<span class="op">$</span>occurrence<span class="op">$</span>presenceSampleSize=<span class="kw">length</span>(occs.sp)
+rmm<span class="op">$</span>data<span class="op">$</span>occurrence<span class="op">$</span>backgroundSampleSize=<span class="kw">nrow</span>(bg)
+rmm<span class="op">$</span>data<span class="op">$</span>occurrence<span class="op">$</span>yearMin=<span class="dv">1970</span>
+rmm<span class="op">$</span>data<span class="op">$</span>occurrence<span class="op">$</span>yearMax=<span class="dv">2000</span></code></pre></div>
+<p>Note that in the use of <code>gbif_citation</code> above, we use a journal formatted style for references, instead of bibtex, as used below. We chose this because the journal formatting is returned by <code>gbif_citation</code> and bibtex it not available. Rather than request that authors spend an inordinate amount of time manually reformatting perfectly good citations (which is error prone) we suggest simply using this default format.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm<span class="op">$</span>data<span class="op">$</span>environment<span class="op">$</span>yearMin=<span class="dv">1970</span>
+rmm<span class="op">$</span>data<span class="op">$</span>environment<span class="op">$</span>yearMin=<span class="dv">2000</span>
+rmm<span class="op">$</span>data<span class="op">$</span>environment<span class="op">$</span>sources=<span class="st">'@ARTICLE{Fick2017-qs,</span>
+<span class="st">  title     = &quot;{WorldClim} 2: new 1‐km spatial resolution climate surfaces for</span>
+<span class="st">               global land areas&quot;,</span>
+<span class="st">  author    = &quot;Fick, S E and Hijmans, R J&quot;,</span>
+<span class="st">  journal   = &quot;Int. J. Climatol.&quot;,</span>
+<span class="st">  publisher = &quot;Wiley Online Library&quot;,</span>
+<span class="st">  year      =  2017}'</span>
+rmm<span class="op">$</span>data<span class="op">$</span>dataNotes=<span class="st">'WorldClim data accessed through dismo v1.1-4'</span></code></pre></div>
+<p>To fill in the min and max values of each data layer, it’s easiest to create a <code>data.frame</code> and convert that to JSON.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mm=<span class="kw">data.frame</span>(<span class="kw">rbind</span>(<span class="kw">apply</span>(<span class="kw">values</span>(envs),<span class="dv">2</span>,min,<span class="dt">na.rm=</span>T),
+                    <span class="kw">apply</span>(<span class="kw">values</span>(envs),<span class="dv">2</span>,max,<span class="dt">na.rm=</span>T)))
+rmm<span class="op">$</span>data<span class="op">$</span>environment<span class="op">$</span>minVal=<span class="kw">toJSON</span>(mm[<span class="dv">1</span>,])
+(rmm<span class="op">$</span>data<span class="op">$</span>environment<span class="op">$</span><span class="dt">maxVal=</span><span class="kw">toJSON</span>(mm[<span class="dv">2</span>,])) <span class="co"># printed to show format</span></code></pre></div>
+<p>To fill in the extent of the layers, you can either do it manually or programatically. I do it programatically because I think it’s easier to make it JSON format.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="dt">ex=</span><span class="kw">extent</span>(envs))
+<span class="co"># make an extent object a data.frame, because that's easy to use with toJSON</span>
+tmp=<span class="kw">as.data.frame</span>(<span class="kw">lapply</span>(<span class="kw">slotNames</span>(ex), <span class="cf">function</span>(i) <span class="kw">slot</span>(ex, i) )) 
+<span class="kw">names</span>(tmp)=<span class="kw">slotNames</span>(ex)
+rmm<span class="op">$</span>data<span class="op">$</span>environment<span class="op">$</span>extentSet=<span class="kw">toJSON</span>(tmp)</code></pre></div>
+<p>Have I missed anything?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rmmSuggest</span>(<span class="st">'$data'</span>) <span class="co"># note the use of quotes!</span></code></pre></div>
+<p>Oh yeah, we haven’t dealt with the environment to which the model is transferred. In the modeling above we transferred to an adjacent region. So this follows analogous information provided for the fitting layers.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm<span class="op">$</span>data<span class="op">$</span>transfer<span class="op">$</span>environment1<span class="op">$</span>yearMin=<span class="dv">1970</span>
+rmm<span class="op">$</span>data<span class="op">$</span>transfer<span class="op">$</span>environment1<span class="op">$</span>yearMin=<span class="dv">2000</span>
+rmm<span class="op">$</span>data<span class="op">$</span>transfer<span class="op">$</span>environment1<span class="op">$</span>resolution=<span class="kw">paste0</span>(<span class="kw">res</span>(pt.ext)[<span class="dv">1</span>],<span class="st">' degrees'</span>)
+rmm<span class="op">$</span>data<span class="op">$</span>transfer<span class="op">$</span>environment1<span class="op">$</span>sources=<span class="st">'@ARTICLE{Fick2017-qs,</span>
+<span class="st">  title     = &quot;{WorldClim} 2: new 1‐km spatial resolution climate surfaces for</span>
+<span class="st">               global land areas&quot;,</span>
+<span class="st">  author    = &quot;Fick, S E and Hijmans, R J&quot;,</span>
+<span class="st">  journal   = &quot;Int. J. Climatol.&quot;,</span>
+<span class="st">  publisher = &quot;Wiley Online Library&quot;,</span>
+<span class="st">  year      =  2017}'</span>
+
+mm=<span class="kw">data.frame</span>(<span class="kw">rbind</span>(<span class="kw">apply</span>(<span class="kw">values</span>(pt.ext),<span class="dv">2</span>,min,<span class="dt">na.rm=</span>T),
+                    <span class="kw">apply</span>(<span class="kw">values</span>(pt.ext),<span class="dv">2</span>,max,<span class="dt">na.rm=</span>T)))
+rmm<span class="op">$</span>data<span class="op">$</span>transfer<span class="op">$</span>environment1<span class="op">$</span>minVal=<span class="kw">toJSON</span>(mm[<span class="dv">1</span>,])
+(rmm<span class="op">$</span>data<span class="op">$</span>transfer<span class="op">$</span>environment1<span class="op">$</span><span class="dt">maxVal=</span><span class="kw">toJSON</span>(mm[<span class="dv">2</span>,])) <span class="co"># printed to show format</span>
+
+(<span class="dt">ex=</span><span class="kw">extent</span>(pt.ext))
+<span class="co"># make an extent object a data.frame, because that's easy to use with toJSON</span>
+tmp=<span class="kw">as.data.frame</span>(<span class="kw">lapply</span>(<span class="kw">slotNames</span>(ex), <span class="cf">function</span>(i) <span class="kw">slot</span>(ex, i) )) 
+<span class="kw">names</span>(tmp)=<span class="kw">slotNames</span>(ex)
+rmm<span class="op">$</span>data<span class="op">$</span>transfer<span class="op">$</span>environment1<span class="op">$</span>extentSet=<span class="kw">toJSON</span>(tmp)</code></pre></div>
+</div>
+<div id="data-preparation-cleaning" class="section level2">
+<h2>Data Preparation (cleaning)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># duplicated observations removed within the grid cells defined by the environmental layers</span>
+rmm<span class="op">$</span>dataPrep<span class="op">$</span>biological<span class="op">$</span>duplicateRemoval<span class="op">$</span>rule=<span class="st">'one observation per cell'</span> 
+rmm<span class="op">$</span>dataPrep<span class="op">$</span>geographic<span class="op">$</span>spatialThin<span class="op">$</span>rule=<span class="st"> &quot;20km used as minimum distance between points&quot;</span></code></pre></div>
+</div>
+<div id="model-fitting-1" class="section level2">
+<h2>Model Fitting</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm<span class="op">$</span>modelFit<span class="op">$</span>partition<span class="op">$</span>partitionRule=<span class="st">'block cross validation: partitions occurrence localities by finding the latitude and longitude that divide the occurrence localities into four groups of (insofar as possible) equal numbers'</span>
+rmm<span class="op">$</span>modelFit<span class="op">$</span>maxent<span class="op">$</span>featureSet=<span class="st">'LQ'</span>
+rmm<span class="op">$</span>modelFit<span class="op">$</span>maxent<span class="op">$</span>regularizationMultiplierSet=<span class="dv">1</span>
+rmm<span class="op">$</span>modelFit<span class="op">$</span>maxent<span class="op">$</span>samplingBiasRule=<span class="st">'ignored'</span>
+rmm<span class="op">$</span>modelFit<span class="op">$</span>maxent<span class="op">$</span>notes=<span class="st">'ENMeval was used to compare models with L and LQ features, each using regularization multipliers of 1,2,3. The best model was selected based on AUC evaluated under cross validation.'</span>
+rmm<span class="op">$</span>modelFit<span class="op">$</span>maxent<span class="op">$</span>numberParameters=e<span class="op">@</span>results[i,]<span class="op">$</span>parameters</code></pre></div>
+<p>Note that we took the value of <code>rmm$modelFit$partition$partitionRule</code> straight from the helpfile of <code>ENMeval::get.block</code>; this can be useful for standardizing text. Also note that we demonstrate how to add a field which is not included in the standards metadata dictionary ’rmm<span class="math inline">\(modelFit\)</span>maxent$numberParameters` to describe the number of parameters retained in the selected model.</p>
+</div>
+<div id="prediction" class="section level2">
+<h2>Prediction</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fill in remaining fields for model prediction in background extent</span>
+rmm<span class="op">$</span>prediction<span class="op">$</span>continuous<span class="op">$</span>units &lt;-<span class="st"> &quot;relative occurrence rate&quot;</span>
+rmm<span class="op">$</span>prediction<span class="op">$</span>continuous<span class="op">$</span>minVal &lt;-<span class="st"> </span><span class="kw">cellStats</span>(p, min)
+rmm<span class="op">$</span>prediction<span class="op">$</span>continuous<span class="op">$</span>maxVal &lt;-<span class="st"> </span><span class="kw">cellStats</span>(p, max)
+<span class="co"># clamping is the default for predict()</span>
+rmm<span class="op">$</span>prediction<span class="op">$</span>extrapolation &lt;-<span class="st"> &quot;clamping&quot;</span></code></pre></div>
+<p>Analogous fields for transfer</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm<span class="op">$</span>prediction<span class="op">$</span>transfer<span class="op">$</span>environment1<span class="op">$</span>units &lt;-<span class="st"> &quot;relative occurrence rate&quot;</span>
+rmm<span class="op">$</span>prediction<span class="op">$</span>transfer<span class="op">$</span>environment1<span class="op">$</span>minVal &lt;-<span class="st"> </span><span class="kw">cellStats</span>(pt, min)
+rmm<span class="op">$</span>prediction<span class="op">$</span>transfer<span class="op">$</span>environment1<span class="op">$</span>maxVal &lt;-<span class="st"> </span><span class="kw">cellStats</span>(pt, max)
+<span class="co"># clamping is the default for predict()</span>
+rmm<span class="op">$</span>prediction<span class="op">$</span>extrapolation &lt;-<span class="st"> &quot;clamping&quot;</span></code></pre></div>
+</div>
+<div id="evaluation" class="section level2">
+<h2>Evaluation</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm<span class="op">$</span>evaluation<span class="op">$</span>trainingDataStats<span class="op">$</span>AUC=e<span class="op">@</span>results[i,]<span class="op">$</span>trainAUC
+rmm<span class="op">$</span>evaluation<span class="op">$</span>testingDataStats<span class="op">$</span>AUC=e<span class="op">@</span>results[i,]<span class="op">$</span>avg.test.AUC</code></pre></div>
+</div>
+<div id="code" class="section level2">
+<h2>Code</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmm<span class="op">$</span>code<span class="op">$</span>software=<span class="st">'@Manual{</span>
+<span class="st">  title = {R: A Language and Environment for Statistical Computing},</span>
+<span class="st">  author = {{R Core Team}},</span>
+<span class="st">  organization = {R Foundation for Statistical Computing},</span>
+<span class="st">  address = {Vienna, Austria},</span>
+<span class="st">  year = {2017},</span>
+<span class="st">  url = {https://www.R-project.org/},}'</span>
+rmm<span class="op">$</span>code<span class="op">$</span>vignetteCodeLink=<span class="st">'https://github.com/cmerow/rangeModelMetadata/blob/master/vignettes/rmm_workflowWithExampleRangeModel.Rmd'</span></code></pre></div>
+</div>
+<div id="check-your-rmm-object" class="section level2">
+<h2>Check your <code>rmm</code> object</h2>
+<p>Let’s see how we’re doing so far by printing all the filled fields.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#print just the non-NULL fields</span>
+<span class="kw">rmmCleanNULLs</span>(rmm)</code></pre></div>
+<p>Check the final object by printing all the filled fields.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#print just the non-NULL fields</span>
+<span class="kw">rmmCleanNULLs</span>(rmm)
+<span class="co"># you can also use this function to omit the NULLs at the end of your workflow using, so if you're happy with the above...</span>
+rmm &lt;-<span class="st"> </span><span class="kw">rmmCleanNULLs</span>(rmm)</code></pre></div>
+<p>Now run all availables checks to be sure you’re ready to go.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rmmCheckFinalize</span>(rmm)</code></pre></div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
