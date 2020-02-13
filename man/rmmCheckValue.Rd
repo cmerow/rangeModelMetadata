@@ -39,10 +39,12 @@ rmmCheckValue_output<-rmmCheckValue(rmm = rmm,returnData = TRUE)
 
 }
 \seealso{
-Other check: \code{\link{rmmCheckEmpty}},
-  \code{\link{rmmCheckFinalize}},
-  \code{\link{rmmCheckMissingNames}},
-  \code{\link{rmmCheckName}}, \code{\link{rmmCleanNULLs}}
+Other check: 
+\code{\link{rmmCheckEmpty}()},
+\code{\link{rmmCheckFinalize}()},
+\code{\link{rmmCheckMissingNames}()},
+\code{\link{rmmCheckName}()},
+\code{\link{rmmCleanNULLs}()}
 }
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,

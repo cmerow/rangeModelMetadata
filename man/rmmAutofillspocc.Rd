@@ -30,10 +30,11 @@ rmmAutofillspocc(rmm = rmm, occ = xs)
 \seealso{
 \code{\link[spocc]{occ}}
 
-Other autofill: \code{\link{rmmAutofillBIEN}},
-  \code{\link{rmmAutofillENMeval}},
-  \code{\link{rmmAutofillEnvironment}},
-  \code{\link{rmmAutofillPackageCitation}}
+Other autofill: 
+\code{\link{rmmAutofillBIEN}()},
+\code{\link{rmmAutofillENMeval}()},
+\code{\link{rmmAutofillEnvironment}()},
+\code{\link{rmmAutofillPackageCitation}()}
 }
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,

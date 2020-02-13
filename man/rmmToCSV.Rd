@@ -37,8 +37,9 @@ tmp=rmmToCSV(rmm,file='somePathOnYourMachine/rmm_example.csv')
 }
 }
 \seealso{
-Other csvConversion: \code{\link{cleanForCSV}},
-  \code{\link{csvToRMM}}
+Other csvConversion: 
+\code{\link{cleanForCSV}()},
+\code{\link{csvToRMM}()}
 }
 \author{
 Hannah Owens <hannah.owens@gmail.com>, Cory Merow <cory.merow@gmail.com>

@@ -1,8 +1,9 @@
-library(googlesheets)
+library(googlesheets4)
 
-d_title=gs_title('Model Metadata Dictionary')
-d=as.data.frame(gs_read(d_title),stringsAsFactors=F)
-
+# version 1
+# d_title=read_sheet('https://docs.google.com/spreadsheets/d/1QNwT3O9Hp_NaO1RhS58qRQt1jAdWTdXuIS-TIFgZ3Mw/edit#gid=0')
+#d=as.data.frame(gs_read(d_title),stringsAsFactors=F)
+d=read_sheet('https://docs.google.com/spreadsheets/d/1rEtDPigNWL8eXqIhiY8r2E2XiZWiiE3o9jW41rPPY7A/edit#gid=0',col_type='c')
 
 #== Write out the dictionary to the package for use with building the metadata template
 if(Sys.info()['user']=='ctg') userPath='/Users/ctg/Dropbox/Projects/Range_Metadata'

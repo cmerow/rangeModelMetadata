@@ -1,32 +1,32 @@
-## ----setup, include=FALSE------------------------------------------------
+## ----setup, include=FALSE-----------------------------------------------------
 knitr::opts_chunk$set(echo = TRUE)
 
-## ----message=FALSE-------------------------------------------------------
+## ----message=FALSE------------------------------------------------------------
 library(rangeModelMetadata)
 library(sp)
 library(spocc)
 library(dplyr)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 rmm1=rmmTemplate(family=c('base')) 
 str(rmm1)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 rmm2=rmmTemplate(family=NULL)
 str(rmm2)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 rmmSuggest('dataPrep',fullFieldDepth=FALSE)
 rmmSuggest('dataPrep',fullFieldDepth=TRUE) # for all fields below the specified one
 rmmSuggest('dataPrep$biological$duplicateRemoval')
 rmmSuggest('dataPrep$biological$duplicateRemoval$rule')
 
-## ------------------------------------------------------------------------
-rmmSuggest('modelFit')
-rmmSuggest('modelFit$maxent')
-rmmSuggest('$modelFit$maxent$featureSet')
+## -----------------------------------------------------------------------------
+rmmSuggest('model')
+rmmSuggest('model$algorithm$maxent')
+rmmSuggest('$model$algorithm$maxent$featureSet')
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 rmm=rmmTemplate()
 rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
 # search GBIF for occurrence data to demonstrate the autofill function
@@ -42,17 +42,17 @@ rmm=rmmAutofillEnvironment(rmm,env,transfer=0) # for fitting environment
 rmm=rmmAutofillEnvironment(rmm,env,transfer=1) # for transfer environment 1
 rmm=rmmAutofillEnvironment(rmm,env,transfer=2) # for transfer environment 2 
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 empties=rmmCheckEmpty(rmm)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 # Make an empty template
 rmm1<-rmmTemplate() 
 # Add a new, non-standard field
 rmm1$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List" # # Checking the names identifies the new, non-standard field we've added ("taxonomy_source")
 rmm1=rmmCheckName(rmm1) 
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #First, we create an empty rmm template
 rmm1<-rmmTemplate() 
 #We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2, and a word that is clearly not a climate layer, 'cromulent'.
@@ -62,16 +62,16 @@ rmmCheckValue(rmm = rmm1)
 #If we'd like to return a dataframe containing this information in a perhaps more useful format:
 rmmCheckValueOutput<-rmmCheckValue(rmm = rmm1,returnData = TRUE)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 rmmCheckFinalize(rmm, family='base')
 
-## ----eval=F--------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  outFile='~/Desktop/demo_rmmToCSV.csv'
 #  rmmObj=rmmTemplate()
 #  rmmToCSV(rmmObj,filename=outFile)
 #  system(paste0('open ', outFile, ' -a "Microsoft Excel"'))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 dd=rmmDataDictionary()
 str(dd)
 # rmmDataDictionary(excel=TRUE) # try this if you have excel

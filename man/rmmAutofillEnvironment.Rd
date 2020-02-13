@@ -38,10 +38,11 @@ rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
 }
 }
 \seealso{
-Other autofill: \code{\link{rmmAutofillBIEN}},
-  \code{\link{rmmAutofillENMeval}},
-  \code{\link{rmmAutofillPackageCitation}},
-  \code{\link{rmmAutofillspocc}}
+Other autofill: 
+\code{\link{rmmAutofillBIEN}()},
+\code{\link{rmmAutofillENMeval}()},
+\code{\link{rmmAutofillPackageCitation}()},
+\code{\link{rmmAutofillspocc}()}
 }
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,

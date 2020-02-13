@@ -4,8 +4,12 @@
 \alias{rmmCheckName}
 \title{Check field names of a range model metadata list against conventions}
 \usage{
-rmmCheckName(rmm, cutoff_distance = 3, returnData = F,
-  interactiveCorrections = FALSE)
+rmmCheckName(
+  rmm,
+  cutoff_distance = 3,
+  returnData = F,
+  interactiveCorrections = FALSE
+)
 }
 \arguments{
 \item{rmm}{a range model metadata list}
@@ -38,10 +42,12 @@ rmm.1=rmmCheckName(rmm)
 
 }
 \seealso{
-Other check: \code{\link{rmmCheckEmpty}},
-  \code{\link{rmmCheckFinalize}},
-  \code{\link{rmmCheckMissingNames}},
-  \code{\link{rmmCheckValue}}, \code{\link{rmmCleanNULLs}}
+Other check: 
+\code{\link{rmmCheckEmpty}()},
+\code{\link{rmmCheckFinalize}()},
+\code{\link{rmmCheckMissingNames}()},
+\code{\link{rmmCheckValue}()},
+\code{\link{rmmCleanNULLs}()}
 }
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,

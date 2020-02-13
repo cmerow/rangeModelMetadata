@@ -26,10 +26,12 @@ rmm<-rmmTemplate() # Make an empty template
 
 }
 \seealso{
-Other check: \code{\link{rmmCheckEmpty}},
-  \code{\link{rmmCheckFinalize}},
-  \code{\link{rmmCheckName}}, \code{\link{rmmCheckValue}},
-  \code{\link{rmmCleanNULLs}}
+Other check: 
+\code{\link{rmmCheckEmpty}()},
+\code{\link{rmmCheckFinalize}()},
+\code{\link{rmmCheckName}()},
+\code{\link{rmmCheckValue}()},
+\code{\link{rmmCleanNULLs}()}
 }
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,

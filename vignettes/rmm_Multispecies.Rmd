@@ -23,7 +23,7 @@ library(rangeModelMetadata)
 library(raster)
 ```
 
-#Authorship
+# Authorship
 ```{r}
 rmm <- rmmTemplate(family=c('base'))
 
@@ -33,7 +33,7 @@ rmm$authorship$contact <- 'hannah.owens@gmail.com'
 rmm$authorship$relatedReferences <- '@article{, title={Evolution of codﬁshes (Teleostei: Gadinae) in geographical and ecological space: evidence that physiological limits drove diversiﬁcation of subarctic ﬁshes},author={Owens, Hannah},journal={Journal of Biogeography}, year={2015}, publisher={Wiley-Blackwell}}'
 ```
 
-#Data
+# Data
 
 ```{r}
 rmm$data$occurrence$taxon <- c("Arctogadus borisovi", "Arcogadus glacialis", "Boreogadus saida", "Eleginus gracilis", "Gadus macrocephalus", "Gadus morhua", "Gadus ogac", "Melanogrammus aeglefinus", "Merlangius merlangus", "Microgadus proximus", "Microgadus tomcod", "Pollachius pollachius", "Pollachius virens", "Gadus chalcogrammus", "Trisopterus esmarkii", "Trisopterus luscus", "Trisopterus minutus")
@@ -90,7 +90,7 @@ rmm$data$transfer$environment1$resolution <- "1 X 1 degree"
 rmm$data$transfer$environment1$sources <- c("NOAA National Geophysical Data Center", "NOAA World Ocean Atlas", "NOAA National Snow and Ice Data Center")
 ```
 
-#Data prep
+# Data prep
 
 ```{r}
 rmm$dataPrep$duplicateRemoval$rule <- "coordinate"
@@ -99,7 +99,7 @@ rmm$dataPrep$pointInPolygon$rule <- "Remove points outside training region of sp
 rmm$dataPrep$spatialThin$rule <- "Reduced spatial resolution of points to match resolution of environmental data (1 X 1 resolution)."
 ```
 
-#Model
+# Model
 
 ```{r}
 rmm$modelFit$algorithm <- "maxent"
@@ -108,7 +108,7 @@ rmm$modelFit$maxent$featureSet <- "LQP"
 rmm$modelFit$maxent$notes <- "Ten bootstrap replicates trained with 50% of occurrence points chosen using random seed, maximum of 10000 iterations"
 ```
 
-#Output
+# Prediction
 
 ```{r}
 rmm$prediction$continuous$units <- "absolute probability"
@@ -116,12 +116,12 @@ rmm$prediction$transfer$environment1$units <- "absolute probability"
 rmm$prediction$transfer$environment1$extrapolation <- "No clamping or extrapolation"
 ```
 
-#Performance
+# Assessment
 ```{r}
 rmm$evaluation$notes <- "Inferred distribution congruent with known ranges for all species."
 ```
 
-#Tidying it all up
+# Tidying it all up
 ```{r}
 rmmClean <- rmmCleanNULLs(rmm)
 rmmCheckFinalize(rmmClean)

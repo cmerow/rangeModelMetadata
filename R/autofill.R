@@ -41,9 +41,9 @@ rmmAutofillPackageCitation=function(rmm,packages){
   return(rmm)
 }
 
-####################################################################################
-####################################################################################
-####################################################################################
+#############################################################################
+#############################################################################
+#############################################################################
 
 #' @title  Add relevant environmental data information to an rmm object
 #'
@@ -113,9 +113,9 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 }
 
 
-####################################################################################
-####################################################################################
-####################################################################################
+#############################################################################
+#############################################################################
+#############################################################################
 # CM: 7/11/18: I'm not sure there's really much to autofill from a prediction, so bailing until someone has a better idea
 # @title Add relevant model prediction info to an rmm object
 # @description Add relevant model prediction info to an rmm object
@@ -141,9 +141,9 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 #   rmm
 # }
 
-####################################################################################
-####################################################################################
-####################################################################################
+#############################################################################
+#############################################################################
+#############################################################################
 
 # @title Add relevant model info to an rmm object
 # @description Does stuff
@@ -169,9 +169,9 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 # }
 
 
-####################################################################################
-####################################################################################
-####################################################################################
+#############################################################################
+#############################################################################
+#############################################################################
 
 #' @title Fill in relevant rmm fields from an ENMevaluation object.
 #'
@@ -207,59 +207,59 @@ rmmAutofillEnvironment=function(rmm,env,transfer){
 #' @export
 
 rmmAutofillENMeval <- function(rmm, e, selectionCriteria, optimalModelIndex) {
-  rmm$modelFit$algorithm <- e@algorithm
+  rmm$model$algorithms <- e@algorithm
   rmm$data$occurrence$presenceSampleSize <- nrow(e@occ.pts)
   rmm$data$occurrence$backgroundSampleSize <- nrow(e@bg.pts)
-  rmm$modelFit$partition$occurrenceSubsampling <- "k-fold cross validation"
-  rmm$modelFit$partition$notes <- "background points also partitioned"
+  rmm$model$partition$occurrenceSubsampling <- "k-fold cross validation"
+  rmm$model$partition$notes <- "background points also partitioned"
   k <- length(unique(e@occ.grp))
-  rmm$modelFit$partition$numberFolds <- k
+  rmm$model$partition$numberFolds <- k
   # for now, we ignore sampling bias -- future versions will include this option
-  rmm$modelFit$maxent$samplingBiasRule <- 'ignored'
+  rmm$model$algorithm$maxent$samplingBiasRule <- 'ignored'
 
   if (e@partition.method == "randomkfold") {
-    rmm$modelFit$partition$partitionSet <- "random"
-    rmm$modelFit$partition$partitionRule <- "user-specified random partitions"
+    rmm$model$partition$partitionSet <- "random"
+    rmm$model$partition$partitionRule <- "user-specified random partitions"
   }
   if (e@partition.method == "jackknife") {
-    rmm$modelFit$partition$partitionSet <- "jackknife"
-    rmm$modelFit$partition$partitionRule <- "leave-one-out partitions (each occurrence locality receives its own bin)"
+    rmm$model$partition$partitionSet <- "jackknife"
+    rmm$model$partition$partitionRule <- "leave-one-out partitions (each occurrence locality receives its own bin)"
   }
   if (e@partition.method == "block") {
-    rmm$modelFit$partition$partitionSet <- "spatial blocks"
-    rmm$modelFit$partition$partitionRule <- "4 spatial partitions defined by latitude/longitude lines that ensure a balanced number of occurrence localities in each bin"
+    rmm$model$partition$partitionSet <- "spatial blocks"
+    rmm$model$partition$partitionRule <- "4 spatial partitions defined by latitude/longitude lines that ensure a balanced number of occurrence localities in each bin"
   }
   if (e@partition.method == "checkerboard1") {
-    rmm$modelFit$partition$partitionSet <- "checkerboard blocks"
-    rmm$modelFit$partition$partitionRule <- "2 spatial partitions in a checkerboard formation that subdivide geographic space equally but do not ensure a balanced number of occurrence localities in each bin"
+    rmm$model$partition$partitionSet <- "checkerboard blocks"
+    rmm$model$partition$partitionRule <- "2 spatial partitions in a checkerboard formation that subdivide geographic space equally but do not ensure a balanced number of occurrence localities in each bin"
   }
   if (e@partition.method == "checkerboard2") {
-    rmm$modelFit$partition$partitionSet <- "spatial blocks"
-    rmm$modelFit$partition$partitionRule <- "4 spatial partitions with two levels of spatial aggregation in a checkerboard formation that subdivide geographic space equally but do not ensure a balanced number of occurrence localities in each bin"
+    rmm$model$partition$partitionSet <- "spatial blocks"
+    rmm$model$partition$partitionRule <- "4 spatial partitions with two levels of spatial aggregation in a checkerboard formation that subdivide geographic space equally but do not ensure a balanced number of occurrence localities in each bin"
   }
   if (grepl("maxnet", e@algorithm) == TRUE | grepl("maxent.jar", e@algorithm) == TRUE) {
-    rmm$modelFit$maxent$featureSet <- as.character(e@results[optimalModelIndex, "fc"])
-    rmm$modelFit$maxent$regularizationMultiplierSet <- e@results[optimalModelIndex, "rm"]
-    rmm$modelFit$maxent$numberParameters <- e@results[optimalModelIndex, "nparam"]
+    rmm$model$algorithm$maxent$featureSet <- as.character(e@results[optimalModelIndex, "fc"])
+    rmm$model$algorithm$maxent$regularizationMultiplierSet <- e@results[optimalModelIndex, "rm"]
+    rmm$model$algorithm$maxent$numberParameters <- e@results[optimalModelIndex, "nparam"]
   }
 
-  rmm$modelFit$selectionRules <- selectionCriteria
-  rmm$modelFit$finalModelSettings <- e@results[optimalModelIndex, "settings"]
-  rmm$evaluation$trainingDataStats$AUC <- e@results[optimalModelIndex, "auc.train"]
-  rmm$evaluation$trainingDataStats$AIC <- e@results[optimalModelIndex, "AICc"]
+  rmm$model$selectionRules <- selectionCriteria
+  rmm$model$finalModelSettings <- e@results[optimalModelIndex, "settings"]
+  rmm$assessment$trainingDataStats$AUC <- e@results[optimalModelIndex, "auc.train"]
+  rmm$assessment$trainingDataStats$AIC <- e@results[optimalModelIndex, "AICc"]
 
-  rmm$evaluation$testingDataStats$AUC <- e@results[optimalModelIndex, "avg.test.AUC"]
-  rmm$evaluation$testingDataStats$omissionRate <- c(e@results[optimalModelIndex, "avg.test.orMTP"], e@results[optimalModelIndex, "avg.test.or10pct"])
-  rmm$evaluation$testingDataStats$notes <- "omission rate thresholds are 1) minimum training presence, 2) 10% training presence"
+  rmm$assessment$testingDataStats$AUC <- e@results[optimalModelIndex, "avg.test.AUC"]
+  rmm$assessment$testingDataStats$omissionRate <- c(e@results[optimalModelIndex, "avg.test.orMTP"], e@results[optimalModelIndex, "avg.test.or10pct"])
+  rmm$assessment$testingDataStats$notes <- "omission rate thresholds are 1) minimum training presence, 2) 10% training presence"
 
   return(rmm)
 }
 
 
 
-####################################################################################
-####################################################################################
-####################################################################################
+#############################################################################
+#############################################################################
+#############################################################################
 
 
 #' @title  Add occurrence metadata from a BIEN query to an rmm object
@@ -308,9 +308,9 @@ rmmAutofillBIEN <- function(rmm, occurrences){
 }
 
 
-####################################################################################
-####################################################################################
-####################################################################################
+#############################################################################
+#############################################################################
+#############################################################################
 
 
 #' @title  Add occurrence metadata from a spocc query to an rmm object

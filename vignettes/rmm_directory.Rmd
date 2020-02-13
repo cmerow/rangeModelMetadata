@@ -14,7 +14,7 @@ The rangeModelMetadata package is designed to provide functionality for working 
 
 For full information on each function, see the associated help file.
 
-###Primary functions
+### Primary functions
 
 * `rmmTemplate` Creates an empty `rmm` object that can then be populated by the user.
 <!-- * `rmmCheckFull` Prints only the rmm fields that have been populated. -->
@@ -22,7 +22,8 @@ For full information on each function, see the associated help file.
 * `rmmSuggest` Provides suggested values for rmm object fields.
 
 
-###`rmm` Autofill functions
+### `rmm` Autofill functions
+
 Functions to automatically populate the relevant fields in an `rmm` object.  
 
 * `rmmAutofillPackageCitation` Takes in a vector of packages used by the user in a workflow and returns a vector of Bibtex citations that can be inserted into the rmm object.
@@ -31,7 +32,8 @@ Functions to automatically populate the relevant fields in an `rmm` object.
 * `rmmAutofillBIEN` Populates occurrence field in an `rmm` object with output from a `BIEN_occurrence_...` query.
 * `rmmAutofillspocc` Populates occurrence field in an `rmm` object with output from a spocc query.
 
-###`rmm` Check functions
+### `rmm` Check functions
+
 Functions to check for common errors in `rmm` objects.
 
 * `rmmCheckName` Identifies non-standard name fields in an rmm object.
@@ -41,7 +43,8 @@ Functions to check for common errors in `rmm` objects.
 * `rmmCleanNULLs` Remove NULL entries in an `rmm` object.
 * `rmmCheckFinalize` Run all checking functions (`rmmCheck...`) sequentially to detect non-standard and missing values and fields
 
-###`rmm` Utilities
+### `rmm` Utilities
+
 * `rmmFamilies` View entity family names.
 * `rmmDataDictionary` View the data dictionary.
 * `rmmToCSV` Converts the `rmm` object to a CSV file.

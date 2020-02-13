@@ -36,10 +36,11 @@ See Examples.
 
 }
 \seealso{
-Other autofill: \code{\link{rmmAutofillBIEN}},
-  \code{\link{rmmAutofillEnvironment}},
-  \code{\link{rmmAutofillPackageCitation}},
-  \code{\link{rmmAutofillspocc}}
+Other autofill: 
+\code{\link{rmmAutofillBIEN}()},
+\code{\link{rmmAutofillEnvironment}()},
+\code{\link{rmmAutofillPackageCitation}()},
+\code{\link{rmmAutofillspocc}()}
 }
 \author{
 Jamie M. Kass <jamie.m.kass@gmail.com>

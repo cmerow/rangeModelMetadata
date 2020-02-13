@@ -24,7 +24,7 @@ library(spocc)
 library(dplyr)
 ```
 
-##What is an rmm (rangeModelMetadata) object?
+## What is an rmm (rangeModelMetadata) object?
 
 A simple `rmm` object is a list object that is structured to contain metadata pertaining to species range models. Here we make an empty `rmm` object containing only the obligate set of fields.
 ```{r}
@@ -38,7 +38,7 @@ rmm2=rmmTemplate(family=NULL)
 str(rmm2)
 ```
 
-##Populating an rmm object
+## Populating an rmm object
 
 `rmm` objects can be populated manually by entering data direcetly into the fields (see `vignette('rmm_Multispecies',package='rangeModelMetadata')`), or through the use of several helper functions.  Although the `rmm` object template already contains a number of fields that depend on the specified `family` (see options with `rmmFamilies()`), users can also add new fields as needed.  We provide suggestions of both common fields to add and common values for many fields.
 
@@ -59,9 +59,9 @@ Note above, that when you ask for suggestions for a field (the first three lines
 Another more complex example:
 
 ```{r}
-rmmSuggest('modelFit')
-rmmSuggest('modelFit$maxent')
-rmmSuggest('$modelFit$maxent$featureSet')
+rmmSuggest('model')
+rmmSuggest('model$algorithm$maxent')
+rmmSuggest('$model$algorithm$maxent$featureSet')
 ```
 
 
@@ -92,7 +92,7 @@ empties=rmmCheckEmpty(rmm)
 ```
 <!-- # rmmCleanEmpties(rmm) -->
 
-##Checking an rmm object
+## Checking an rmm object
 
 To check the field names in your object, use `rmmNameCheck`
 
@@ -133,7 +133,7 @@ To run all the available checks at once, we'll check the object that we filled i
 rmmCheckFinalize(rmm, family='base')
 ```
 
-##Outputing an `rmm` object
+## Outputing an rmm object
 
 To make `rmm` objects portable to other interfaces, they are readily written to csv format.
 ```{r,eval=F}

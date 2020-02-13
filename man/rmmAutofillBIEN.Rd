@@ -30,10 +30,11 @@ rmmAutofillBIEN(rmm = rmm, occurrences = xs)
 \seealso{
 \code{\link[BIEN]{BIEN_occurrence_species}}
 
-Other autofill: \code{\link{rmmAutofillENMeval}},
-  \code{\link{rmmAutofillEnvironment}},
-  \code{\link{rmmAutofillPackageCitation}},
-  \code{\link{rmmAutofillspocc}}
+Other autofill: 
+\code{\link{rmmAutofillENMeval}()},
+\code{\link{rmmAutofillEnvironment}()},
+\code{\link{rmmAutofillPackageCitation}()},
+\code{\link{rmmAutofillspocc}()}
 }
 \author{
 Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,

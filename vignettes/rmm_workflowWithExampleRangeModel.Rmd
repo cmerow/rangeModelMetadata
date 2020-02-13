@@ -42,6 +42,8 @@ bv <- rgbif::occ_search(scientificName ='Bradypus variegatus')
 occs <- dplyr::select(bv$data, decimalLongitude, decimalLatitude)
 # remove duplicate values
 occs <- occs[!duplicated(occs),]
+# remove NAs
+occs <- occs[complete.cases(occs),]
 # make a stack of Worldclim v1.4 bioclim rasters 
 # Note 1: we are using the Worldclim version that comes with the current
 # dismo distribution, which is the older v1.4 -- if you want to use v2.0 or
