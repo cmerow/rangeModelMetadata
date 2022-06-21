@@ -28,6 +28,7 @@
 # this documentation when the user looks them up from the command
 # line.
 # @family - a family name. All functions that have the same family tag will be linked in the documentation.
+#' @return list of suggestions
 #' @export
 
 # Need to make this also take objects of the form rmm$data rather than just a character
@@ -39,11 +40,12 @@ rmmSuggest=function(charString,fullFieldDepth=FALSE){
   # toss leading $ if it occures
   if(substr(charString,1,1)=='$') charString=substr(charString,2,nchar(charString))
 
-  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",
+                                 package='rangeModelMetadata'),stringsAsFactors=FALSE)
   dd=.rmmLeftJustify(dd)
 
   out=sapply(c('type','suggestions'),function(x) NULL)
-  fields=unlist(strsplit(charString,'$',fixed=T))
+  fields=unlist(strsplit(charString,'$',fixed=TRUE))
   dd1=dd
   # subset to get just the rows related to the charString
   for(i in 1:length(fields)) dd1=subset(dd1,dd1[,i]==fields[i])
@@ -52,7 +54,7 @@ rmmSuggest=function(charString,fullFieldDepth=FALSE){
     if(!fullFieldDepth){
       suggestions=unique(dd1[,i+1])
       suggestions=make.names(suggestions)
-      suggestions=gsub('\\.(\\w?)', '\\U\\1', suggestions, perl=T)
+      suggestions=gsub('\\.(\\w?)', '\\U\\1', suggestions, perl=TRUE)
       out$suggestions=paste0(charString,"$",suggestions)
     } else {
       out$suggestions=as.vector(apply(dd1[,1:4],1,function(x) gsub('$NA','',paste0(x,collapse='$'),fixed=T)))

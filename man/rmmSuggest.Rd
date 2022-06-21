@@ -21,6 +21,9 @@ rmmSuggest('modelFit$algorithmSettings$')
 rmmSuggest('modelFit$algorithmSettings$maxent$')
 rmmSuggest('$modelFit$algorithmSettings$maxent$featureSet')}
 }
+\value{
+list of suggestions
+}
 \description{
 Supply fields to receive suggested inputs
 }

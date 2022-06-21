@@ -4,10 +4,13 @@
 \alias{rmmDataDictionary}
 \title{Open range model metadata dictionary.}
 \usage{
-rmmDataDictionary(excel = F)
+rmmDataDictionary(excel = FALSE)
 }
 \arguments{
 \item{excel}{logical; open in excel?}
+}
+\value{
+If `excel==FALSE`, returns a data.frame, if `excel==TRUE` it returns nothing but attempts to open the metadata dictionary in excel.
 }
 \description{
 For viewing only

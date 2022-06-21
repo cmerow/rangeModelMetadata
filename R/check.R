@@ -18,7 +18,7 @@
 #' # Checking the names should identify the new, non-standard field we've added ("taxonomy_source")
 #'
 #'
-#' @return Either an rmm list object (returnData=F) or a data.frame containing information on possible name errors (returnData=T).
+#' @return Either an rmm list object (`returnData=FALSE`) or a data.frame containing information on possible name errors (`returnData=TRUE`).
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 #' @note Names returned by this check may be either incorrectly named or correctly named but missing from the data dictionary.
 # @seealso
@@ -57,7 +57,7 @@ rmmCheckName <- function(rmm,
   list_elements<-list_elements[terminal]
   rm(terminal)
 
-  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=FALSE)
   dd_names<-NULL
   for(i in 1:nrow(dd)){
     val_i<-dd[i,][unique(c(grep(pattern = "field",x = colnames(dd)),grep(pattern = "entity",x = colnames(dd)))) ]#The complicate indexing ensures that id additional fields (eg field4,field5) are added things won't break
@@ -89,10 +89,10 @@ rmmCheckName <- function(rmm,
             dd_names[which.min(adist(x = element_i,y = dd_names))]
 
           # prompt
-          cat("\n\n")
-          cat("\n Element name '",element_i,"' not found in data dictionary", "!\n Did you mean: '",name_check_df$partial_match_suggestions[i],"'? " ) # prompt
+          message("\n\n")
+          message("\n Element name '",element_i,"' not found in data dictionary", "!\n Did you mean: '",name_check_df$partial_match_suggestions[i],"'? " ) # prompt
           if(interactiveCorrections){
-            cat("Type 'y' or 'n'.")
+            message("Type 'y' or 'n'.")
 
             take <- scan(n = 1, quiet = TRUE, what = 'raw')
 
@@ -123,37 +123,37 @@ rmmCheckName <- function(rmm,
   if(nrow(name_check_df)>0){
 
     # if(length(which(!is.na(name_check_df$exact_match)))>0 ){
-    #   cat(paste("The following names appear accurate:", sep = "",collapse = "\n"))
-    #   cat(paste("\n",paste(name_check_df$exact_match[which(!is.na(name_check_df$exact_match))],collapse = "\n"), sep = ""   ))
-    #   cat(noquote("\n "))
+    #   message(paste("The following names appear accurate:", sep = "",collapse = "\n"))
+    #   message(paste("\n",paste(name_check_df$exact_match[which(!is.na(name_check_df$exact_match))],collapse = "\n"), sep = ""   ))
+    #   message(noquote("\n "))
     # }
 
     if(length(which(!is.na(name_check_df$corrected_name)))>0 ){
-      cat(noquote("\n"))
-      cat("The following names were corrected:\n")
-      cat(paste("\n",paste(name_check_df$partial_match[which(!is.na(name_check_df$corrected_name))],collapse = "\n"), sep = ""   ))
-      cat(noquote("\n "))
+      message(noquote("\n"))
+      message("The following names were corrected:\n")
+      message(paste("\n",paste(name_check_df$partial_match[which(!is.na(name_check_df$corrected_name))],collapse = "\n"), sep = ""   ))
+      message(noquote("\n "))
     }
 
     if(length(which(!is.na(name_check_df$partial_match) & is.na(name_check_df$corrected_name)))>0 ){
-      cat("The following names are similar to suggested names, please verify:\n")
-      cat(paste(paste(name_check_df$partial_match[which(!is.na(name_check_df$partial_match) & is.na(name_check_df$corrected_name) )],collapse = "\n"), sep = ""   ))
-      cat(paste("\nSuggested alternatives include: \n",paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions) & is.na(name_check_df$corrected_name))],collapse = "\n"), sep = ""   ))
-      #cat(paste(paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions))],collapse = "\n"), sep = ""   ))
-      cat(noquote("\n "))
+      message("The following names are similar to suggested names, please verify:\n")
+      message(paste(paste(name_check_df$partial_match[which(!is.na(name_check_df$partial_match) & is.na(name_check_df$corrected_name) )],collapse = "\n"), sep = ""   ))
+      message(paste("\nSuggested alternatives include: \n",paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions) & is.na(name_check_df$corrected_name))],collapse = "\n"), sep = ""   ))
+      #message(paste(paste(name_check_df$partial_match_suggestions[which(!is.na(name_check_df$partial_match_suggestions))],collapse = "\n"), sep = ""   ))
+      message(noquote("\n "))
     }
 
     if(length(which(!is.na(name_check_df$not_matched)))>0 ){
-      cat(paste("The following names are not similar to any suggested names, please verify that these are accurate:\n", sep = ""   ))
-      cat(paste(paste(name_check_df$not_matched[which(!is.na(name_check_df$not_matched))],collapse = "\n"), sep = ""   ))
-      cat(noquote("\n "))
+      message(paste("The following names are not similar to any suggested names, please verify that these are accurate:\n", sep = ""   ))
+      message(paste(paste(name_check_df$not_matched[which(!is.na(name_check_df$not_matched))],collapse = "\n"), sep = ""   ))
+      message(noquote("\n "))
     }
 
-    if(returnData==T){
+    if(returnData==TRUE){
       return(name_check_df)
     }
 
-    if(returnData==F){return(rmm)}
+    if(returnData==FALSE){return(rmm)}
 
   }#overall fx
 
@@ -201,7 +201,7 @@ rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
 
   dd<-utils::read.csv(system.file("extdata/dataDictionary.csv",
                                   package='rangeModelMetadata'),
-                      stringsAsFactors=F)
+                      stringsAsFactors=FALSE)
 
   dd_constrained=dd[which(dd$constrainedValues!='NULL'),]
 
@@ -278,37 +278,37 @@ rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
   if(nrow(value_check_df)>0){
 
     for(r in 1:nrow(value_check_df)){
-      cat('\n==========================================\n')
-      cat(noquote(paste("For the field ",value_check_df$field[r],collapse = "\n",sep = ""))  )
-      cat(noquote("\n "))
+      message('\n==========================================\n')
+      message(noquote(paste("For the field ",value_check_df$field[r],collapse = "\n",sep = ""))  )
+      message(noquote("\n "))
 
       if(!is.na(value_check_df$exact_match[r])){
-        cat(noquote(paste("The following entries appear accurate:\n"   )))
-        cat(noquote(paste("\n",value_check_df$exact_match[r])))
-        cat(noquote("\n "))
+        message(noquote(paste("The following entries appear accurate:\n"   )))
+        message(noquote(paste("\n",value_check_df$exact_match[r])))
+        message(noquote("\n "))
         }
       if(!is.na(value_check_df$partial_match[r])){
-        cat(noquote(paste0("The following entries are similar to suggested values, please verify:\n" )))
-        cat(noquote(paste(value_check_df$partial_match[r])))
-        cat(noquote(paste0( "\n\nSuggested alternatives include: \n",value_check_df$partial_match_suggestions[r]  )))
-        cat(noquote("\n "))
+        message(noquote(paste0("The following entries are similar to suggested values, please verify:\n" )))
+        message(noquote(paste(value_check_df$partial_match[r])))
+        message(noquote(paste0( "\n\nSuggested alternatives include: \n",value_check_df$partial_match_suggestions[r]  )))
+        message(noquote("\n "))
         }
 
       if(!is.na(value_check_df$not_matched[r])){
-        cat(noquote(paste("The following entries are not similar to any suggested values, please verify that these are accurate:\n"   )))
-        cat(noquote(paste(value_check_df$not_matched[r])))
-        cat(noquote("\n "))
+        message(noquote(paste("The following entries are not similar to any suggested values, please verify that these are accurate:\n"   )))
+        message(noquote(paste(value_check_df$not_matched[r])))
+        message(noquote("\n "))
         }
     }
 
   }else{  #if there are values to check
 
-    cat(noquote("There are no suggested fields to verify in this rmm object."))
-    cat(noquote("\n "))
+    message(noquote("There are no suggested fields to verify in this rmm object."))
+    message(noquote("\n "))
 
   } #if there are no values to check
 
-  if(returnData==T){
+  if(returnData){
     return(value_check_df)
   }
 
@@ -368,7 +368,7 @@ rmmCheckMissingNames<-function(rmm,family=c("base")){
   list_elements<-list_elements[terminal]
 
 
-  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=FALSE)
 
     keep=unique(unlist(lapply(family,function(fam){grep(fam,dd$family)})))
   dd_ob<-dd[keep,]
@@ -385,7 +385,7 @@ rmmCheckMissingNames<-function(rmm,family=c("base")){
   missing_names<-obligate_names[which(!obligate_names%in%list_elements)]
   #list_elements[which(!list_elements%in%obligate_names)]
 
-  if(length(missing_names)==0){cat("All obligate field names are present.")}
+  if(length(missing_names)==0){message("All obligate field names are present.")}
 
   return(missing_names)
 
@@ -447,7 +447,7 @@ rmmCheckEmpty<-function(rmm, family=c('base')){
   list_elements<-list_elements[terminal]
   rm(terminal)
 
-  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=FALSE)
 
   #Identify which fields are empty
   nulls<-NULL
@@ -464,7 +464,7 @@ rmmCheckEmpty<-function(rmm, family=c('base')){
 
   output_data$Empty_field<-empties
 
-  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=FALSE)
   dd_names<-NULL
   for(i in 1:nrow(dd)){
     val_i<-dd[i,][unique(c(grep(pattern = "field",x = colnames(dd)),grep(pattern = "entity",x = colnames(dd)))) ]#The complicate indexing ensures that id additional fields (eg field4,field5) are added things won't break
@@ -491,25 +491,25 @@ rmmCheckEmpty<-function(rmm, family=c('base')){
 
   #If there are missing obligate values, warn the user
   if(sum(na.omit(output_data$Obligate))>0){
-    cat('===================================\n')
-    cat(paste("There are ",sum(na.omit(output_data$Obligate)), "empty obligate fields:\n" ))
-    cat(paste(output_data$Empty_field[which(output_data$Obligate==1)],sep = ", ",collapse = "\n"))
-    cat("\n")
+    message('===================================\n')
+    message(paste("There are ",sum(na.omit(output_data$Obligate)), "empty obligate fields:\n" ))
+    message(paste(output_data$Empty_field[which(output_data$Obligate==1)],sep = ", ",collapse = "\n"))
+    message("\n")
   }
-  cat('===================================\n')
+  message('===================================\n')
   if(sum(na.omit(output_data$Suggested))>0){
-    cat(paste("There are ",sum(na.omit(output_data$Suggested)), "empty suggested fields." ))
-    cat("\n")
+    message(paste("There are ",sum(na.omit(output_data$Suggested)), "empty suggested fields." ))
+    message("\n")
   }
-  cat('===================================\n')
+  message('===================================\n')
   if(sum(na.omit(output_data$Optional))>0){
-    cat(paste("There are ",sum(na.omit(output_data$Optional)), "empty optional fields." ))
-    cat("\n")
+    message(paste("There are ",sum(na.omit(output_data$Optional)), "empty optional fields." ))
+    message("\n")
   }
 
   if(nrow(output_data)==0){
-    cat("All fields are populated.")
-    cat("\n")
+    message("All fields are populated.")
+    message("\n")
 
   }
 
@@ -601,7 +601,7 @@ rmmCheckFinalize<-function(rmm,family=c('base')){
      length(na.omit(names$partial_match))==0 & length(na.omit(names$not_matched))==0 & #All names are exactly matched
      sum(na.omit(empty_values$Obligate))==0
         ){
-  cat("Everything looks good!")
+  message("Everything looks good!")
   }
 }
 

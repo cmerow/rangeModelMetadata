@@ -1,29 +1,60 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Cory Merow, Brian Maitner, Hannah Owens, Jamie Kass, Brian Enquist, Rob Guralnick" />
 
-<meta name="date" content="2020-02-13" />
+<meta name="date" content="2021-06-09" />
 
 <title>An overview of making rangeModelMetadata objects</title>
 
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -33,14 +64,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -49,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -108,6 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
+
 <style type="text/css">body {
 background-color: #fff;
 margin: 1em auto;
@@ -118,9 +152,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -289,7 +320,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -304,7 +336,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">An overview of making rangeModelMetadata objects</h1>
 <h4 class="author">Cory Merow, Brian Maitner, Hannah Owens, Jamie Kass, Brian Enquist, Rob Guralnick</h4>
-<h4 class="date">2020-02-13</h4>
+<h4 class="date">2021-06-09</h4>
 
 
 <div id="TOC">
@@ -317,15 +349,16 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </ul>
 </div>
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(rangeModelMetadata)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(sp)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(spocc)</a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="kw">library</span>(dplyr)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(rangeModelMetadata)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(sp)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(spocc)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(dplyr)</span></code></pre></div>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 3.6.2</code></pre>
 <div id="what-is-an-rmm-rangemodelmetadata-object" class="section level2">
 <h2>What is an rmm (rangeModelMetadata) object?</h2>
 <p>A simple <code>rmm</code> object is a list object that is structured to contain metadata pertaining to species range models. Here we make an empty <code>rmm</code> object containing only the obligate set of fields.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">rmm1=<span class="kw">rmmTemplate</span>(<span class="dt">family=</span><span class="kw">c</span>(<span class="st">&#39;base&#39;</span>)) </a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw">str</span>(rmm1)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>rmm1=<span class="kw">rmmTemplate</span>(<span class="dt">family=</span><span class="kw">c</span>(<span class="st">&#39;base&#39;</span>)) </span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">str</span>(rmm1)</span></code></pre></div>
 <pre><code>## List of 8
 ##  $ authorship    :List of 8
 ##   ..$ rmmName          : NULL
@@ -408,8 +441,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ##   ..$ codeNotes       : NULL
 ##  - attr(*, &quot;class&quot;)= chr [1:2] &quot;list&quot; &quot;RMM&quot;</code></pre>
 <p>A more complex <code>rmm</code> object with all predefined fields. It may seem like a lot at first, but we’re trying to keep you all happy, and many of these won’t be needed. For example, you’ll only be using one modeling algorithm, so you’ll only be selecting one of the fields below under <code>$model</code>. Or, you may not use five different methods for cleaning geographic issues with your data under <code>$dataPrep$geographic</code> and so you’ll end up omitting many of those fields. As we explore the hierarchy below, it’ll seem simpler…</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">rmm2=<span class="kw">rmmTemplate</span>(<span class="dt">family=</span><span class="ot">NULL</span>)</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="kw">str</span>(rmm2)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>rmm2=<span class="kw">rmmTemplate</span>(<span class="dt">family=</span><span class="ot">NULL</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">str</span>(rmm2)</span></code></pre></div>
 <pre><code>## List of 8
 ##  $ authorship    :List of 8
 ##   ..$ rmmName          : NULL
@@ -514,7 +547,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ##   .. .. ..$ notes: NULL
 ##   .. ..$ notes                      : NULL
 ##   ..$ dataPrepNotes: NULL
-##  $ model         :List of 16
+##  $ model         :List of 15
 ##   ..$ algorithms         : NULL
 ##   ..$ algorithmCitation  : NULL
 ##   ..$ speciesCount       : NULL
@@ -621,11 +654,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ##   .. ..$ weighting : NULL
 ##   .. ..$ notes     : NULL
 ##   ..$ references         : NULL
-##   ..$ performance        :List of 1
-##   .. ..$ metrics: NULL
-##   ..$ justification      :List of 2
-##   .. ..$ performanceMetrics: NULL
-##   .. ..$ modelComplexity   : NULL
+##   ..$ justification      :List of 1
+##   .. ..$ modelComplexity: NULL
 ##  $ prediction    :List of 6
 ##   ..$ continuous   :List of 3
 ##   .. ..$ units : NULL
@@ -657,7 +687,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ##   .. ..$ inputData    : NULL
 ##   .. ..$ extrapolation: NULL
 ##   .. ..$ notes        : NULL
-##  $ assessment    :List of 8
+##  $ assessment    :List of 7
 ##   ..$ trainingDataStats  :List of 16
 ##   .. ..$ AUC               : NULL
 ##   .. ..$ pearsonCor        : NULL
@@ -701,8 +731,6 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ##   .. ..$ boyce             : NULL
 ##   .. ..$ metrics           : NULL
 ##   ..$ expertJudgement    : NULL
-##   ..$ justification      :List of 1
-##   .. ..$ performanceMetrics: NULL
 ##   ..$ responseCurves     : NULL
 ##   ..$ references         : NULL
 ##   ..$ notes              : NULL
@@ -733,14 +761,14 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h2>Populating an rmm object</h2>
 <p><code>rmm</code> objects can be populated manually by entering data direcetly into the fields (see <code>vignette(&#39;rmm_Multispecies&#39;,package=&#39;rangeModelMetadata&#39;)</code>), or through the use of several helper functions. Although the <code>rmm</code> object template already contains a number of fields that depend on the specified <code>family</code> (see options with <code>rmmFamilies()</code>), users can also add new fields as needed. We provide suggestions of both common fields to add and common values for many fields.</p>
 <p>Not sure which fields are available or what values to enter? We can suggest options.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">rmmSuggest</span>(<span class="st">&#39;dataPrep&#39;</span>,<span class="dt">fullFieldDepth=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">rmmSuggest</span>(<span class="st">&#39;dataPrep&#39;</span>,<span class="dt">fullFieldDepth=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <pre><code>## $type
 ## [1] &quot;field2&quot;
 ## 
 ## $suggestions
 ## [1] &quot;dataPrep$geographic&quot;    &quot;dataPrep$biological&quot;    &quot;dataPrep$environmental&quot;
 ## [4] &quot;dataPrep$dataPrepNotes&quot;</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">rmmSuggest</span>(<span class="st">&#39;dataPrep&#39;</span>,<span class="dt">fullFieldDepth=</span><span class="ot">TRUE</span>) <span class="co"># for all fields below the specified one</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">rmmSuggest</span>(<span class="st">&#39;dataPrep&#39;</span>,<span class="dt">fullFieldDepth=</span><span class="ot">TRUE</span>) <span class="co"># for all fields below the specified one</span></span></code></pre></div>
 <pre><code>## $type
 ## [1] &quot;field2&quot;
 ## 
@@ -772,21 +800,21 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ## [25] &quot;dataPrep$environmental$environmentalThin$notes&quot;          
 ## [26] &quot;dataPrep$environmental$notes&quot;                            
 ## [27] &quot;dataPrep$dataPrepNotes&quot;</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">rmmSuggest</span>(<span class="st">&#39;dataPrep$biological$duplicateRemoval&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">rmmSuggest</span>(<span class="st">&#39;dataPrep$biological$duplicateRemoval&#39;</span>)</span></code></pre></div>
 <pre><code>## $type
 ## [1] &quot;entity&quot;
 ## 
 ## $suggestions
 ## [1] &quot;dataPrep$biological$duplicateRemoval$rule&quot; 
 ## [2] &quot;dataPrep$biological$duplicateRemoval$notes&quot;</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">rmmSuggest</span>(<span class="st">&#39;dataPrep$biological$duplicateRemoval$rule&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">rmmSuggest</span>(<span class="st">&#39;dataPrep$biological$duplicateRemoval$rule&#39;</span>)</span></code></pre></div>
 <pre><code>## $suggestions
 ## [1] &quot;environmental&quot;            &quot;coordinate&quot;              
 ## [3] &quot;other (specify in Notes)&quot;</code></pre>
 <p>Here, it may help to learn the two pieces of unavoidable jargon we use: * A <strong>field</strong> describes levels of the hierarchy. E.g., <code>dataPrep</code> is field 1, <code>errors</code> is field 2 and <code>duplicateRemoval</code> is field 3. * An <strong>entity</strong> is described by a complete set of <strong>fields</strong> and has a particular value. In the example above <code>&#39;dataPrep$errors$duplicateRemoval$rule</code> is an entity, and it can take one of the four suggested values: “Environmental duplicates” “coordinate duplicates”, “other (specify in Notes)”, “NA”.</p>
 <p>Note above, that when you ask for suggestions for a field (the first three lines), you get suggestions of the relevant fields to consider. But the last line refers to to the lowest level in the hierachy, an <strong>entity</strong> and so values are suggested.</p>
 <p>Another more complex example:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">rmmSuggest</span>(<span class="st">&#39;model&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">rmmSuggest</span>(<span class="st">&#39;model&#39;</span>)</span></code></pre></div>
 <pre><code>## $type
 ## [1] &quot;field2&quot;
 ## 
@@ -798,8 +826,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ##  [9] &quot;model$partition&quot;           &quot;model$resampling&quot;         
 ## [11] &quot;model$samplingBias&quot;        &quot;model$algorithm&quot;          
 ## [13] &quot;model$ensemble&quot;            &quot;model$references&quot;         
-## [15] &quot;model$performance&quot;         &quot;model$justification&quot;</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">rmmSuggest</span>(<span class="st">&#39;model$algorithm$maxent&#39;</span>)</a></code></pre></div>
+## [15] &quot;model$justification&quot;</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">rmmSuggest</span>(<span class="st">&#39;model$algorithm$maxent&#39;</span>)</span></code></pre></div>
 <pre><code>## $type
 ## [1] &quot;entity&quot;
 ## 
@@ -823,30 +851,41 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ## [17] &quot;model$algorithm$maxent$expertMapShiftSet&quot;          
 ## [18] &quot;model$algorithm$maxent$expertMapShiftRule&quot;         
 ## [19] &quot;model$algorithm$maxent$notes&quot;</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">rmmSuggest</span>(<span class="st">&#39;$model$algorithm$maxent$featureSet&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">rmmSuggest</span>(<span class="st">&#39;$model$algorithm$maxent$featureSet&#39;</span>)</span></code></pre></div>
 <pre><code>## $suggestions
 ## [1] &quot;L&quot;     &quot;LQ&quot;    &quot;LQP&quot;   &quot;LQPT&quot;  &quot;LQPTH&quot; &quot; H&quot;    &quot;HT&quot;</code></pre>
 <p>To make it easier to fill some <code>rmm</code> fields, we provide autofill functions that extract relevant information from common R objects used in a range modeling workflow.</p>
 <!-- Also see `vignette('rmm_workflow')` for a demonstration of how to fill in metadata during an SDM workflow. -->
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">rmm=<span class="kw">rmmTemplate</span>()</a>
-<a class="sourceLine" id="cb20-2" title="2">rmm=<span class="kw">rmmAutofillPackageCitation</span>(rmm,<span class="kw">c</span>(<span class="st">&#39;raster&#39;</span>,<span class="st">&#39;sp&#39;</span>))</a>
-<a class="sourceLine" id="cb20-3" title="3"><span class="co"># search GBIF for occurrence data to demonstrate the autofill function</span></a>
-<a class="sourceLine" id="cb20-4" title="4">bv=spocc<span class="op">::</span><span class="kw">occ</span>(<span class="st">&#39;Bradypus variegatus&#39;</span>, <span class="st">&#39;gbif&#39;</span>, <span class="dt">limit=</span><span class="dv">50</span>, <span class="dt">has_coords=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb20-5" title="5">rmm=<span class="kw">rmmAutofillspocc</span>(rmm,bv<span class="op">$</span>gbif)</a>
-<a class="sourceLine" id="cb20-6" title="6"><span class="co"># get some env layers to demonstrate the autofill function</span></a>
-<a class="sourceLine" id="cb20-7" title="7">rasterFiles=<span class="kw">list.files</span>(<span class="dt">path=</span><span class="kw">paste</span>(<span class="kw">system.file</span>(<span class="dt">package=</span><span class="st">&#39;dismo&#39;</span>), <span class="st">&#39;/ex&#39;</span>, <span class="dt">sep=</span><span class="st">&#39;&#39;</span>),</a>
-<a class="sourceLine" id="cb20-8" title="8">                       <span class="dt">pattern=</span><span class="st">&#39;grd&#39;</span>, <span class="dt">full.names=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb20-9" title="9"><span class="co"># make a stack of the rasters</span></a>
-<a class="sourceLine" id="cb20-10" title="10">env=raster<span class="op">::</span><span class="kw">stack</span>(rasterFiles)</a>
-<a class="sourceLine" id="cb20-11" title="11">rmm=<span class="kw">rmmAutofillEnvironment</span>(rmm,env,<span class="dt">transfer=</span><span class="dv">0</span>) <span class="co"># for fitting environment</span></a>
-<a class="sourceLine" id="cb20-12" title="12"><span class="co"># just using the same rasters for demonstration; in practice these are different</span></a>
-<a class="sourceLine" id="cb20-13" title="13">rmm=<span class="kw">rmmAutofillEnvironment</span>(rmm,env,<span class="dt">transfer=</span><span class="dv">1</span>) <span class="co"># for transfer environment 1</span></a>
-<a class="sourceLine" id="cb20-14" title="14">rmm=<span class="kw">rmmAutofillEnvironment</span>(rmm,env,<span class="dt">transfer=</span><span class="dv">2</span>) <span class="co"># for transfer environment 2 </span></a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>rmm=<span class="kw">rmmTemplate</span>()</span>
+<span id="cb21-2"><a href="#cb21-2"></a>rmm=<span class="kw">rmmAutofillPackageCitation</span>(rmm,<span class="kw">c</span>(<span class="st">&#39;raster&#39;</span>,<span class="st">&#39;sp&#39;</span>))</span>
+<span id="cb21-3"><a href="#cb21-3"></a><span class="co"># search GBIF for occurrence data to demonstrate the autofill function</span></span>
+<span id="cb21-4"><a href="#cb21-4"></a>bv=spocc<span class="op">::</span><span class="kw">occ</span>(<span class="st">&#39;Bradypus variegatus&#39;</span>, <span class="st">&#39;gbif&#39;</span>, <span class="dt">limit=</span><span class="dv">50</span>, <span class="dt">has_coords=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## Registered S3 method overwritten by &#39;crul&#39;:
+##   method                 from
+##   as.character.form_file httr</code></pre>
+<pre><code>## Warning: gbif: No records returned in GBIF for Bradypus variegatus</code></pre>
+<pre><code>## Warning: gbif: Column 50 of item 1 is length 4 inconsistent with column 1 which
+## is length 50. Only length-1 columns are recycled.</code></pre>
+<pre><code>## Warning: `data_frame()` was deprecated in tibble 1.1.0.
+## Please use `tibble()` instead.</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>rmm=<span class="kw">rmmAutofillspocc</span>(rmm,bv<span class="op">$</span>gbif)</span></code></pre></div>
+<pre><code>## Warning: `as_data_frame()` was deprecated in tibble 2.0.0.
+## Please use `as_tibble()` instead.
+## The signature and semantics have changed, see `?as_tibble`.</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># get some env layers to demonstrate the autofill function</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a>rasterFiles=<span class="kw">list.files</span>(<span class="dt">path=</span><span class="kw">paste</span>(<span class="kw">system.file</span>(<span class="dt">package=</span><span class="st">&#39;dismo&#39;</span>), <span class="st">&#39;/ex&#39;</span>, <span class="dt">sep=</span><span class="st">&#39;&#39;</span>),</span>
+<span id="cb28-3"><a href="#cb28-3"></a>                       <span class="dt">pattern=</span><span class="st">&#39;grd&#39;</span>, <span class="dt">full.names=</span><span class="ot">TRUE</span>)</span>
+<span id="cb28-4"><a href="#cb28-4"></a><span class="co"># make a stack of the rasters</span></span>
+<span id="cb28-5"><a href="#cb28-5"></a>env=raster<span class="op">::</span><span class="kw">stack</span>(rasterFiles)</span>
+<span id="cb28-6"><a href="#cb28-6"></a>rmm=<span class="kw">rmmAutofillEnvironment</span>(rmm,env,<span class="dt">transfer=</span><span class="dv">0</span>) <span class="co"># for fitting environment</span></span>
+<span id="cb28-7"><a href="#cb28-7"></a><span class="co"># just using the same rasters for demonstration; in practice these are different</span></span>
+<span id="cb28-8"><a href="#cb28-8"></a>rmm=<span class="kw">rmmAutofillEnvironment</span>(rmm,env,<span class="dt">transfer=</span><span class="dv">1</span>) <span class="co"># for transfer environment 1</span></span>
+<span id="cb28-9"><a href="#cb28-9"></a>rmm=<span class="kw">rmmAutofillEnvironment</span>(rmm,env,<span class="dt">transfer=</span><span class="dv">2</span>) <span class="co"># for transfer environment 2 </span></span></code></pre></div>
 <p>To see what fields you might’ve missed…</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">empties=<span class="kw">rmmCheckEmpty</span>(rmm)</a></code></pre></div>
-<pre><code>## ===================================
-## There are  53 empty obligate fields:
-## $authorship$rmmName
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>empties=<span class="kw">rmmCheckEmpty</span>(rmm)</span></code></pre></div>
+<pre><code>## ===================================</code></pre>
+<pre><code>## There are  53 empty obligate fields:</code></pre>
+<pre><code>## $authorship$rmmName
 ## $authorship$names
 ## $authorship$license
 ## $authorship$contact
@@ -898,59 +937,77 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ## $code$demoDataLink
 ## $code$vignetteDataLink
 ## $code$fullDataLink
-## $code$codeNotes
-## ===================================
-## ===================================</code></pre>
+## $code$codeNotes</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## ===================================</code></pre>
+<pre><code>## ===================================</code></pre>
 <!-- # rmmCleanEmpties(rmm) -->
 </div>
 <div id="checking-an-rmm-object" class="section level2">
 <h2>Checking an rmm object</h2>
 <p>To check the field names in your object, use <code>rmmNameCheck</code></p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="co"># Make an empty template</span></a>
-<a class="sourceLine" id="cb23-2" title="2">rmm1&lt;-<span class="kw">rmmTemplate</span>() </a>
-<a class="sourceLine" id="cb23-3" title="3"><span class="co"># Add a new, non-standard field</span></a>
-<a class="sourceLine" id="cb23-4" title="4">rmm1<span class="op">$</span>dataPrep<span class="op">$</span>biological<span class="op">$</span>taxonomicHarmonization<span class="op">$</span>taxonomy_source&lt;-<span class="st">&quot;The Plant List&quot;</span> <span class="co"># # Checking the names identifies the new, non-standard field we&#39;ve added (&quot;taxonomy_source&quot;)</span></a>
-<a class="sourceLine" id="cb23-5" title="5">rmm1=<span class="kw">rmmCheckName</span>(rmm1) </a></code></pre></div>
-<pre><code>## The following names are not similar to any suggested names, please verify that these are accurate:
-## $dataPrep$biological$taxonomicHarmonization$taxonomy_source
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="co"># Make an empty template</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a>rmm1&lt;-<span class="kw">rmmTemplate</span>() </span>
+<span id="cb36-3"><a href="#cb36-3"></a><span class="co"># Add a new, non-standard field</span></span>
+<span id="cb36-4"><a href="#cb36-4"></a>rmm1<span class="op">$</span>dataPrep<span class="op">$</span>biological<span class="op">$</span>taxonomicHarmonization<span class="op">$</span>taxonomy_source&lt;-<span class="st">&quot;The Plant List&quot;</span> <span class="co"># # Checking the names identifies the new, non-standard field we&#39;ve added (&quot;taxonomy_source&quot;)</span></span>
+<span id="cb36-5"><a href="#cb36-5"></a>rmm1=<span class="kw">rmmCheckName</span>(rmm1) </span></code></pre></div>
+<pre><code>## The following names are not similar to any suggested names, please verify that these are accurate:</code></pre>
+<pre><code>## $dataPrep$biological$taxonomicHarmonization$taxonomy_source</code></pre>
+<pre><code>## 
 ## </code></pre>
 <p>This check identifies the entity <code>$dataPrep$biological$taxonomicHarmonization$taxonomy_source</code> as non-standard. It’s non-standard because it’s not an entity in the data dictionary, and I just added it. That’s not a violation or anything bad, this check just let’s you know it’s there. This check can be useful to detect misspellings of standardized field names too.</p>
 <p>To check the field values in your rmm object, use the function <code>rmmValueCheck</code></p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="co">#First, we create an empty rmm template</span></a>
-<a class="sourceLine" id="cb25-2" title="2">rmm1&lt;-<span class="kw">rmmTemplate</span>() </a>
-<a class="sourceLine" id="cb25-3" title="3"><span class="co">#We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2, and a word that is clearly not a climate layer, &#39;cromulent&#39;.</span></a>
-<a class="sourceLine" id="cb25-4" title="4">rmm1<span class="op">$</span>data<span class="op">$</span>environment<span class="op">$</span>variableNames&lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;bio1&quot;</span>, <span class="st">&quot;bio 2&quot;</span>, <span class="st">&quot;bio3&quot;</span>, <span class="st">&quot;cromulent&quot;</span>) </a>
-<a class="sourceLine" id="cb25-5" title="5"><span class="co">#Now, when we check the values, we see that bio1 and bio2 are reported as exact matches, while &#39;bio 2&#39; is flagged as a partial match with a suggested value of &#39;bio2&#39;, and &#39;cromulent&#39; is flagged as not matched at all.</span></a>
-<a class="sourceLine" id="cb25-6" title="6"><span class="kw">rmmCheckValue</span>(<span class="dt">rmm =</span> rmm1) </a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="co">#First, we create an empty rmm template</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a>rmm1&lt;-<span class="kw">rmmTemplate</span>() </span>
+<span id="cb40-3"><a href="#cb40-3"></a><span class="co">#We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2, and a word that is clearly not a climate layer, &#39;cromulent&#39;.</span></span>
+<span id="cb40-4"><a href="#cb40-4"></a>rmm1<span class="op">$</span>data<span class="op">$</span>environment<span class="op">$</span>variableNames&lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;bio1&quot;</span>, <span class="st">&quot;bio 2&quot;</span>, <span class="st">&quot;bio3&quot;</span>, <span class="st">&quot;cromulent&quot;</span>) </span>
+<span id="cb40-5"><a href="#cb40-5"></a><span class="co">#Now, when we check the values, we see that bio1 and bio2 are reported as exact matches, while &#39;bio 2&#39; is flagged as a partial match with a suggested value of &#39;bio2&#39;, and &#39;cromulent&#39; is flagged as not matched at all.</span></span>
+<span id="cb40-6"><a href="#cb40-6"></a><span class="kw">rmmCheckValue</span>(<span class="dt">rmm =</span> rmm1) </span></code></pre></div>
 <pre><code>## 
-## ==========================================
-## For the field rmm$data$environment$variableNames
-##  The following entries appear accurate:
-## 
-##  bio1; bio3
-##  The following entries are similar to suggested values, please verify:
-## bio 2
-## 
-## Suggested alternatives include: 
-## bio2
-##  The following entries are not similar to any suggested values, please verify that these are accurate:
-## cromulent
+## ==========================================</code></pre>
+<pre><code>## For the field rmm$data$environment$variableNames</code></pre>
+<pre><code>## 
 ## </code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="co">#If we&#39;d like to return a dataframe containing this information in a perhaps more useful format:</span></a>
-<a class="sourceLine" id="cb27-2" title="2">rmmCheckValueOutput&lt;-<span class="kw">rmmCheckValue</span>(<span class="dt">rmm =</span> rmm1,<span class="dt">returnData =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## The following entries appear accurate:</code></pre>
 <pre><code>## 
-## ==========================================
-## For the field rmm$data$environment$variableNames
-##  The following entries appear accurate:
-## 
-##  bio1; bio3
-##  The following entries are similar to suggested values, please verify:
-## bio 2
+##  bio1; bio3</code></pre>
+<pre><code>## 
+## </code></pre>
+<pre><code>## The following entries are similar to suggested values, please verify:</code></pre>
+<pre><code>## bio 2</code></pre>
+<pre><code>## 
 ## 
 ## Suggested alternatives include: 
-## bio2
-##  The following entries are not similar to any suggested values, please verify that these are accurate:
-## cromulent
+## bio2</code></pre>
+<pre><code>## 
+## </code></pre>
+<pre><code>## The following entries are not similar to any suggested values, please verify that these are accurate:</code></pre>
+<pre><code>## cromulent</code></pre>
+<pre><code>## 
+## </code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a><span class="co">#If we&#39;d like to return a dataframe containing this information in a perhaps more useful format:</span></span>
+<span id="cb54-2"><a href="#cb54-2"></a>rmmCheckValueOutput&lt;-<span class="kw">rmmCheckValue</span>(<span class="dt">rmm =</span> rmm1,<span class="dt">returnData =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## 
+## ==========================================</code></pre>
+<pre><code>## For the field rmm$data$environment$variableNames</code></pre>
+<pre><code>## 
+## </code></pre>
+<pre><code>## The following entries appear accurate:</code></pre>
+<pre><code>## 
+##  bio1; bio3</code></pre>
+<pre><code>## 
+## </code></pre>
+<pre><code>## The following entries are similar to suggested values, please verify:</code></pre>
+<pre><code>## bio 2</code></pre>
+<pre><code>## 
+## 
+## Suggested alternatives include: 
+## bio2</code></pre>
+<pre><code>## 
+## </code></pre>
+<pre><code>## The following entries are not similar to any suggested values, please verify that these are accurate:</code></pre>
+<pre><code>## cromulent</code></pre>
+<pre><code>## 
 ## </code></pre>
 <p><!-- names<-rmmCheckName(rmm,returnData = T) --></p>
 <p><!-- values<-rmmCheckValue(rmm = rmm,returnData = T) --></p>
@@ -958,41 +1015,55 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p><!-- empty_values<-rmmCheckEmpty(rmm = rmm,useCase = useCase) --></p>
 <p>These ‘check’ functions work by comparing the values or field names within an <code>rmm</code> object to those in a data dictionary. These functions are designed to check for non-standard values and names, and DO NOT necessarily identify correct vs. incorrect values/names. Non-standard values may be perfectly valid, or they may be erroneous, and the user will have to make this distinction.</p>
 <p>To run all the available checks at once, we’ll check the object that we filled in a few chunks back.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">rmmCheckFinalize</span>(rmm, <span class="dt">family=</span><span class="st">&#39;base&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a><span class="kw">rmmCheckFinalize</span>(rmm, <span class="dt">family=</span><span class="st">&#39;base&#39;</span>)</span></code></pre></div>
+<pre><code>## </code></pre>
 <pre><code>## 
-## 
-## 
-##  Element name &#39; $data$transfer$environment2$resolution &#39; not found in data dictionary !
-##  Did you mean: &#39; $data$transfer$environment1$resolution &#39;? 
-## 
-## 
-##  Element name &#39; $data$transfer$environment2$extentSet &#39; not found in data dictionary !
-##  Did you mean: &#39; $data$transfer$environment1$extentSet &#39;? The following names are similar to suggested names, please verify:
-## $data$transfer$environment2$resolution
-## $data$transfer$environment2$extentSet
+##  Element name &#39;$data$transfer$environment2$resolution&#39; not found in data dictionary!
+##  Did you mean: &#39;$data$transfer$environment1$resolution&#39;?</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## 
+##  Element name &#39;$data$transfer$environment2$extentSet&#39; not found in data dictionary!
+##  Did you mean: &#39;$data$transfer$environment1$extentSet&#39;?</code></pre>
+<pre><code>## The following names are similar to suggested names, please verify:</code></pre>
+<pre><code>## $data$transfer$environment2$resolution
+## $data$transfer$environment2$extentSet</code></pre>
+<pre><code>## 
 ## Suggested alternatives include: 
 ## $data$transfer$environment1$resolution
-## $data$transfer$environment1$extentSet
-##  
-## ==========================================
-## For the field rmm$data$occurrence$dataType
-##  The following entries appear accurate:
-## 
-##  presence only
-##  
-## ==========================================
-## For the field rmm$data$environment$variableNames
-##  The following entries appear accurate:
-## 
-##  bio1; bio12; bio16; bio17; bio5; bio6; bio7; bio8
-##  The following entries are similar to suggested values, please verify:
-## biome
+## $data$transfer$environment1$extentSet</code></pre>
+<pre><code>## 
+## </code></pre>
+<pre><code>## 
+## ==========================================</code></pre>
+<pre><code>## For the field rmm$data$occurrence$dataType</code></pre>
+<pre><code>## 
+## </code></pre>
+<pre><code>## The following entries appear accurate:</code></pre>
+<pre><code>## 
+##  presence only</code></pre>
+<pre><code>## 
+## </code></pre>
+<pre><code>## 
+## ==========================================</code></pre>
+<pre><code>## For the field rmm$data$environment$variableNames</code></pre>
+<pre><code>## 
+## </code></pre>
+<pre><code>## The following entries appear accurate:</code></pre>
+<pre><code>## 
+##  bio1; bio12; bio16; bio17; bio5; bio6; bio7; bio8</code></pre>
+<pre><code>## 
+## </code></pre>
+<pre><code>## The following entries are similar to suggested values, please verify:</code></pre>
+<pre><code>## biome</code></pre>
+<pre><code>## 
 ## 
 ## Suggested alternatives include: 
-## bio1
-##  All obligate field names are present.===================================
-## There are  53 empty obligate fields:
-## $authorship$rmmName
+## bio1</code></pre>
+<pre><code>## 
+## </code></pre>
+<pre><code>## ===================================</code></pre>
+<pre><code>## There are  53 empty obligate fields:</code></pre>
+<pre><code>## $authorship$rmmName
 ## $authorship$names
 ## $authorship$license
 ## $authorship$contact
@@ -1044,24 +1115,25 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ## $code$demoDataLink
 ## $code$vignetteDataLink
 ## $code$fullDataLink
-## $code$codeNotes
-## ===================================
-## ===================================</code></pre>
+## $code$codeNotes</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## ===================================</code></pre>
+<pre><code>## ===================================</code></pre>
 </div>
 <div id="outputing-an-rmm-object" class="section level2">
 <h2>Outputing an rmm object</h2>
 <p>To make <code>rmm</code> objects portable to other interfaces, they are readily written to csv format.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">outFile=<span class="st">&#39;~/Desktop/demo_rmmToCSV.csv&#39;</span></a>
-<a class="sourceLine" id="cb31-2" title="2">rmmObj=<span class="kw">rmmTemplate</span>()</a>
-<a class="sourceLine" id="cb31-3" title="3"><span class="kw">rmmToCSV</span>(rmmObj,<span class="dt">filename=</span>outFile)</a>
-<a class="sourceLine" id="cb31-4" title="4"><span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&#39;open &#39;</span>, outFile, <span class="st">&#39; -a &quot;Microsoft Excel&quot;&#39;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1"></a>outFile=<span class="st">&#39;~/Desktop/demo_rmmToCSV.csv&#39;</span></span>
+<span id="cb99-2"><a href="#cb99-2"></a>rmmObj=<span class="kw">rmmTemplate</span>()</span>
+<span id="cb99-3"><a href="#cb99-3"></a><span class="kw">rmmToCSV</span>(rmmObj,<span class="dt">filename=</span>outFile)</span>
+<span id="cb99-4"><a href="#cb99-4"></a><span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&#39;open &#39;</span>, outFile, <span class="st">&#39; -a &quot;Microsoft Excel&quot;&#39;</span>))</span></code></pre></div>
 </div>
 <div id="miscellaneous" class="section level2">
 <h2>Miscellaneous</h2>
 <p>It can be helpful to simply view the data dictionary:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">dd=<span class="kw">rmmDataDictionary</span>()</a>
-<a class="sourceLine" id="cb32-2" title="2"><span class="kw">str</span>(dd)</a></code></pre></div>
-<pre><code>## &#39;data.frame&#39;:    259 obs. of  10 variables:
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1"></a>dd=<span class="kw">rmmDataDictionary</span>()</span>
+<span id="cb100-2"><a href="#cb100-2"></a><span class="kw">str</span>(dd)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    254 obs. of  10 variables:
 ##  $ field1           : chr  &quot;authorship&quot; &quot;authorship&quot; &quot;authorship&quot; &quot;authorship&quot; ...
 ##  $ field2           : chr  NA NA NA NA ...
 ##  $ field3           : chr  NA NA NA NA ...
@@ -1072,7 +1144,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 ##  $ family           : chr  &quot;base&quot; &quot;base&quot; &quot;base&quot; &quot;base&quot; ...
 ##  $ examples         : chr  &quot;MerowMaitnerOwensKassEnquistGuralnick_2018_Acer_Maxent_b3&quot; &quot;Merow, Cory and Maitner, Brian and Owens, Hannah and Kass, Jamie and Enquist, Brian and Guralnick, Rob;&quot; &quot;CC; CC BY; CC BY-SA; CC BY-ND; CC BY-NC; CC BY-NC-SA; CC BY-NC-ND&quot; &quot;my.name@gmail.com&quot; ...
 ##  $ description      : chr  &quot;Use the format Author_Year_Taxa_Model_fw, where the last two characters (here, fw) are alphanumeric and random.&quot; &quot;The names of those who created this model. Use the format Last, First and Last, First and Last, First, followin&quot;| __truncated__ &quot;The license under which this model has been produced.  See https://creativecommons.org/licenses/ for common options.&quot; &quot;An email address for someone responsible for creating this model.&quot; ...</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="co"># rmmDataDictionary(excel=TRUE) # try this if you have excel</span></a></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1"></a><span class="co"># rmmDataDictionary(excel=TRUE) # try this if you have excel</span></span></code></pre></div>
 </div>
 
 

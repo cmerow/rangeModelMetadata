@@ -21,7 +21,7 @@ rmmCheckName(
 \item{interactiveCorrections}{logical. If TRUE, the user will be prompted to indicate whether the proposed correction should be accepted, thereby modifying the `rmm` object. If FALSE, suggestions will just be printed to the screen and users can edit them manually.}
 }
 \value{
-Either an rmm list object (returnData=F) or a data.frame containing information on possible name errors (returnData=T).
+Either an rmm list object (`returnData=FALSE`) or a data.frame containing information on possible name errors (`returnData=TRUE`).
 }
 \description{
 Identify nonstandard fields

@@ -26,3 +26,5 @@ doc
 *.knit.md
 .DS_Store
 .Rbuildignore
+/doc/
+/Meta/

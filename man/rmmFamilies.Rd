@@ -6,6 +6,9 @@
 \usage{
 rmmFamilies()
 }
+\value{
+a vector of characters, indicating which RMMS families are supported
+}
 \description{
 Used to see options to for specifying an rmm object template
 }

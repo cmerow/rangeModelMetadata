@@ -32,7 +32,6 @@ rmmAutofillspocc(rmm = rmm, occ = xs)
 
 Other autofill: 
 \code{\link{rmmAutofillBIEN}()},
-\code{\link{rmmAutofillENMeval}()},
 \code{\link{rmmAutofillEnvironment}()},
 \code{\link{rmmAutofillPackageCitation}()}
 }

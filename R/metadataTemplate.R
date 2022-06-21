@@ -34,7 +34,7 @@ rmmTemplate=function(family=NULL){
   # could add a check that valid families are specified
   if(any(!(family %in% rmmFamilies()))) stop('Specify a correct family. See options with rmmFamilies()')
 
-  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=F)
+  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=FALSE)
 
   # convert to old format that worked with other code
   dd=.rmmLeftJustify(dd)

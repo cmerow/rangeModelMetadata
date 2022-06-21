@@ -25,7 +25,7 @@
 cleanForCSV <- function(x = NULL){
   y <- unlist(x[1]);
   z <- unlist(x)
-  if(class(x)=="Extent"){
+  if(methods::is(class(x),"Extent")){
     temp <- paste("xmin: ", x[1], "; xmax: ", x[2], "; ymin: ", x[3], "; ymax: ", x[4], sep = "")
   }
   #For elements composed of vectors

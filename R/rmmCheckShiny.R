@@ -77,19 +77,19 @@ rmmCheckShiny <- function() {
       }
 
       checkRMM <- function(rmm_read, i) {
-        cat(paste("Performing all checks on RMM", i, "..."))
-        cat("\n")
+        message(paste("Performing all checks on RMM", i, "..."))
+        message("\n")
         rmmCheckFinalize(rmm_read)
-        cat("All checks complete.")
-        cat("\n")
-        cat("-------------------------------")
-        cat("\n")
+        message("All checks complete.")
+        message("\n")
+        message("-------------------------------")
+        message("\n")
       }
 
       output$rmmCheck <- shiny::renderPrint({
         if (!is.null(input$rmm1) & !is.null(input$rmm2)) {
-          cat("-------------------------------")
-          cat("\n")
+          message("-------------------------------")
+          message("\n")
           checkRMM(readRMM(input$rmm1), 1)
           checkRMM(readRMM(input$rmm2), 2)
         }
