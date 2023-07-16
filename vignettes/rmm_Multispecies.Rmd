@@ -20,7 +20,7 @@ knitr::opts_chunk$set(cache= FALSE)
 
 ```{r,message=FALSE}
 library(rangeModelMetadata)
-library(raster)
+library(terra)
 ```
 
 # Authorship
@@ -53,30 +53,30 @@ rmm$data$environment$variableNames <- c("Minimum Sea Ice Concentration", "Maximu
 # trainingRegionList <- list.files(pattern = "etopo", recursive = T)
 # extVect <- list()
 # for(n in trainingRegionList){
-#     tmp <- raster(n)
-#     extVect[[length(extVect)+1]] <- tmp@extent
+#     tmp <- rast(n)
+#     extVect[[length(extVect)+1]] <- ext(tmp)
 # }
 # rmm$data$environment$extentSet <- extVect
 # rm(trainingRegionList, tmp, extVect, n)
 # Manual alternative
 rmm$data$environment$extentSet <- list(
-  extent(-180,180,50.06732,90.06732),
-  extent(-180,180,54.77051,89.77051), 
-  extent(-180,180,36.77808,89.77808), 
-  extent(-180,180,39.46948,81.46948), 
-  extent(-180,180,23.25928 ,74.25928), 
-  extent(-80.8255,52.1745,32.15668,84.15668), 
-  extent( -169.2665,-31.26648,35.74249,82.74249), 
-  extent(-77.09869,56.90131,35.9895,82.9895), 
-  extent(-27.11713,42.88287,29.41553 ,72.41553), 
-  extent(-180,-115,31.06689 ,67.06689), 
-  extent(-74.711,-54.711,38.268,52.268), 
-  extent(-25.20459,34.79541,41.92908,75.92908), 
-  extent(-79.63971,33.36029,32.28247,84.28247), 
-  extent(-180,180,28.88068,75.88068),
-  extent(-26.31464,28.68536,42.62609,79.62609),
-  extent(-20.26068,26.73932,23.31372,64.31372),
-  extent(-20.40668,39.593,25.8183,71.8183))
+  ext(-180,180,50.06732,90.06732),
+  ext(-180,180,54.77051,89.77051), 
+  ext(-180,180,36.77808,89.77808), 
+  ext(-180,180,39.46948,81.46948), 
+  ext(-180,180,23.25928 ,74.25928), 
+  ext(-80.8255,52.1745,32.15668,84.15668), 
+  ext( -169.2665,-31.26648,35.74249,82.74249), 
+  ext(-77.09869,56.90131,35.9895,82.9895), 
+  ext(-27.11713,42.88287,29.41553 ,72.41553), 
+  ext(-180,-115,31.06689 ,67.06689), 
+  ext(-74.711,-54.711,38.268,52.268), 
+  ext(-25.20459,34.79541,41.92908,75.92908), 
+  ext(-79.63971,33.36029,32.28247,84.28247), 
+  ext(-180,180,28.88068,75.88068),
+  ext(-26.31464,28.68536,42.62609,79.62609),
+  ext(-20.26068,26.73932,23.31372,64.31372),
+  ext(-20.40668,39.593,25.8183,71.8183))
 ```
 
 ```{r}
@@ -84,8 +84,8 @@ rmm$data$environment$resolution <- "1 X 1 degree"
 rmm$data$environment$sources <- c("NOAA National Geophysical Data Center", "NOAA World Ocean Atlas", "NOAA National Snow and Ice Data Center")
 
 # omitted for the vignette to avoid distributing the data
-# tmp <- raster("../EnvProjectionData/etopo.asc")
-# rmm$data$transfer$environment1$extentSet <- as.character(tmp@extent)
+# tmp <- rast("../EnvProjectionData/etopo.asc")
+# rmm$data$transfer$environment1$extentSet <- tmp |> ext() |> as.character()
 rmm$data$transfer$environment1$resolution <- "1 X 1 degree"
 rmm$data$transfer$environment1$sources <- c("NOAA National Geophysical Data Center", "NOAA World Ocean Atlas", "NOAA National Snow and Ice Data Center")
 ```

@@ -19,8 +19,8 @@ Make an empty metadata list
 See Examples.
 }
 \examples{
-rmm1=rmmTemplate()
-rmm2=rmmTemplate(family=c('base'))
+rmm1 <- rmmTemplate()
+rmm2 <- rmmTemplate(family=c('base'))
 str(rmm2)
 
 }

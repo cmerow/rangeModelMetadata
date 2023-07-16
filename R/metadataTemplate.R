@@ -10,8 +10,8 @@
 #' @export
 #'
 #' @examples
-#' rmm1=rmmTemplate()
-#' rmm2=rmmTemplate(family=c('base'))
+#' rmm1 <- rmmTemplate()
+#' rmm2 <- rmmTemplate(family=c('base'))
 #' str(rmm2)
 #'
 #' @return a range model metadata list

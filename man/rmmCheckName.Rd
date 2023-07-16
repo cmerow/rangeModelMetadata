@@ -33,10 +33,10 @@ See Examples.
 Names returned by this check may be either incorrectly named or correctly named but missing from the data dictionary.
 }
 \examples{
-rmm<-rmmTemplate() # Make an empty template
-rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List"
+rmm <- rmmTemplate() # Make an empty template
+rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source <- "The Plant List"
 # Add a new, non-standard field
-rmm.1=rmmCheckName(rmm)
+rmm.1 <- rmmCheckName(rmm)
 # Checking the names should identify the new, non-standard field we've added ("taxonomy_source")
 
 

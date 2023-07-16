@@ -9,7 +9,7 @@ rmmAutofillEnvironment(rmm, env, transfer)
 \arguments{
 \item{rmm}{an rmm list}
 
-\item{env}{a raster stack}
+\item{env}{a SPatRaster object}
 
 \item{transfer}{0 if not transfer, 1:n for n environments that you're transferring to}
 }
@@ -24,17 +24,17 @@ See Examples.
 }
 \examples{
 \dontrun{
-rmm=rmmTemplate()
-rasterFiles=list.files(path=paste(system.file(package='dismo'), '/ex', sep=''),
+rmm <- rmmTemplate()
+rasterFiles <- list.files(path=paste(system.file(package='dismo'), '/ex', sep=''),
                        pattern='grd', full.names=TRUE)
 #make a stack of the rasters
-env=raster::stack(rasterFiles)
+env <- terra::rast(rasterFiles)
 # for fitting environment
-rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
+rmm <- rmmAutofillEnvironment(rmm,env,transfer=0)
 # for the first environment that you're transfering to
-rmm=rmmAutofillEnvironment(rmm,env,transfer=1)
+rmm <- rmmAutofillEnvironment(rmm,env,transfer=1)
 # for the second environment that you're transfering to, etc.
-rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
+rmm <- rmmAutofillEnvironment(rmm,env,transfer=2)
 }
 }
 \seealso{

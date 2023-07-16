@@ -12,7 +12,7 @@
 #'
 #' @return Reformatted element for use in \code{rmmToCSV} function.
 #'
-#' @author Hannah Owens <hannah.owens@@gmail.com>, Cory Merow <cory.merow@@gmail.com>
+#' @author Hannah Owens <hannah.owens@@gmail.com>, Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>
 # @note
 # @seealso
 # @references
@@ -25,7 +25,7 @@
 cleanForCSV <- function(x = NULL){
   y <- unlist(x[1]);
   z <- unlist(x)
-  if(methods::is(class(x),"Extent")){
+  if(inherits(x = x,what = c("Extent","SpatExtent"))){
     temp <- paste("xmin: ", x[1], "; xmax: ", x[2], "; ymin: ", x[3], "; ymax: ", x[4], sep = "")
   }
   #For elements composed of vectors
@@ -129,19 +129,19 @@ csvToRMM <- function(csv, family=NULL) {
 #' @param filename The name of the transcription .csv file.
 #'
 #' @examples
-#' rmm=rmmTemplate()
-#' rasterFiles=list.files(path=paste(system.file(package='dismo'), '/ex', sep=''),
+#' rmm <- rmmTemplate()
+#' rasterFiles <- list.files(path=paste(system.file(package='dismo'), '/ex', sep=''),
 #'                        pattern='grd', full.names=TRUE)
 #' #make a stack of the rasters
-#' env=raster::stack(rasterFiles)
+#' env <- terra::rast(rasterFiles)
 #' # for fitting environment
-#' rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
+#' rmm <- rmmAutofillEnvironment(rmm,env,transfer=0)
 #' # for the first environment that you're transfering to
-#' rmm=rmmAutofillEnvironment(rmm,env,transfer=1)
+#' rmm <- rmmAutofillEnvironment(rmm,env,transfer=1)
 #' # for the second environment that you're transfering to, etc.
-#' rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
+#' rmm <- rmmAutofillEnvironment(rmm,env,transfer=2)
 #' \dontrun{
-#' tmp=rmmToCSV(rmm,file='somePathOnYourMachine/rmm_example.csv')
+#' tmp <- rmmToCSV(rmm,file='somePathOnYourMachine/rmm_example.csv')
 #' }
 #' @return An data frame containing all the information from an \code{rmm} object.
 #' @author Hannah Owens <hannah.owens@@gmail.com>, Cory Merow <cory.merow@@gmail.com>
@@ -154,17 +154,18 @@ csvToRMM <- function(csv, family=NULL) {
 #' @family csvConversion
 #' @export
 
-rmmToCSV=function(x = rmmTemplate(family=NULL), filename = NULL){
+rmmToCSV <- function(x = rmmTemplate(family=NULL), filename = NULL){
+
   #Verify user has passed the function an rmm object
-  if (!any(class(x) == "list")){
-    warning("Target input invalid. Input must be of class 'list'.\n");
-    return(NULL);
-  }
+    if (!any(class(x) == "list")){
+      warning("Target input invalid. Input must be of class 'list'.\n");
+      return(NULL);
+    }
 
   #Generate headers for table
-  csvTable <- matrix(ncol = 5)
-  colnames(csvTable) <- c("Field 1", "Field 2", "Field 3", "Entity", "Value");
-  csvTable <- as.data.frame(csvTable)
+    csvTable <- matrix(ncol = 5)
+    colnames(csvTable) <- c("Field 1", "Field 2", "Field 3", "Entity", "Value");
+    csvTable <- as.data.frame(csvTable)
 
   #Loop through list of lists to fill the table
   ##Field 1

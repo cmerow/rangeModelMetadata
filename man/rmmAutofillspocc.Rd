@@ -22,7 +22,7 @@ See Examples.
 }
 \examples{
 \dontrun{
-rmm=rmmTemplate()
+rmm <- rmmTemplate()
 xs <- spocc::occ("Xanthium strumarium")
 rmmAutofillspocc(rmm = rmm, occ = xs)
 }

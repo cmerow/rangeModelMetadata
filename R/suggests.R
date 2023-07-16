@@ -9,7 +9,7 @@
 #' @param fullFieldDepth print all fields below the current field depth
 #'
 # @examples
-#' rmm1=rmmTemplate()
+#' rmm1 <- rmmTemplate()
 #' rmmSuggest('dataPrep',fullFieldDepth=FALSE)
 #' rmmSuggest('dataPrep',fullFieldDepth=TRUE)
 #' rmmSuggest('dataPrep$errors$duplicateRemoval')
@@ -32,7 +32,7 @@
 #' @export
 
 # Need to make this also take objects of the form rmm$data rather than just a character
-rmmSuggest=function(charString,fullFieldDepth=FALSE){
+rmmSuggest <- function(charString, fullFieldDepth = FALSE){
 
   #  for testing
   #  head(dd1[,1:6],20)

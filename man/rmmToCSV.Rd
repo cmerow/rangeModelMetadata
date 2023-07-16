@@ -21,19 +21,19 @@ Takes user-input rangeModelMetaData object and from it generates a .csv file tha
 See Examples.
 }
 \examples{
-rmm=rmmTemplate()
-rasterFiles=list.files(path=paste(system.file(package='dismo'), '/ex', sep=''),
+rmm <- rmmTemplate()
+rasterFiles <- list.files(path=paste(system.file(package='dismo'), '/ex', sep=''),
                        pattern='grd', full.names=TRUE)
 #make a stack of the rasters
-env=raster::stack(rasterFiles)
+env <- terra::rast(rasterFiles)
 # for fitting environment
-rmm=rmmAutofillEnvironment(rmm,env,transfer=0)
+rmm <- rmmAutofillEnvironment(rmm,env,transfer=0)
 # for the first environment that you're transfering to
-rmm=rmmAutofillEnvironment(rmm,env,transfer=1)
+rmm <- rmmAutofillEnvironment(rmm,env,transfer=1)
 # for the second environment that you're transfering to, etc.
-rmm=rmmAutofillEnvironment(rmm,env,transfer=2)
+rmm <- rmmAutofillEnvironment(rmm,env,transfer=2)
 \dontrun{
-tmp=rmmToCSV(rmm,file='somePathOnYourMachine/rmm_example.csv')
+tmp <- rmmToCSV(rmm,file='somePathOnYourMachine/rmm_example.csv')
 }
 }
 \seealso{

@@ -21,8 +21,8 @@ Using bibtex citations
 See Examples.
 }
 \examples{
-rmm=rmmTemplate()
-rmm=rmmAutofillPackageCitation(rmm,c('raster','sp'))
+rmm <- rmmTemplate()
+rmm <- rmmAutofillPackageCitation(rmm,c('terra','sf'))
 
 }
 \seealso{

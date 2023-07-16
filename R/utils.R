@@ -31,12 +31,16 @@
 #' @return a vector of characters, indicating which RMMS families are supported
 #' @export
 #'
-rmmFamilies=function(){
-  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",
+rmmFamilies <- function(){
+
+  dd <- utils::read.csv(system.file("extdata/dataDictionary.csv",
                                  package='rangeModelMetadata'),
                      stringsAsFactors=FALSE)
-  tmp=unique(dd$family)
+
+  tmp <- unique(dd$family)
+
   unique(unlist(lapply(tmp,function(x) strsplit(x,', '))))
+
 }
 
 
@@ -51,8 +55,14 @@ rmmFamilies=function(){
 #' @return If `excel==FALSE`, returns a data.frame, if `excel==TRUE` it returns nothing but attempts to open the metadata dictionary in excel.
 #' @export
 #'
-rmmDataDictionary=function(excel=FALSE){
-  ddFile=system.file("extdata/dataDictionary.csv",package='rangeModelMetadata')
-  if(!excel) {dd=utils::read.csv(ddFile,stringsAsFactors=FALSE); return(dd)}
+rmmDataDictionary <- function(excel=FALSE){
+
+  ddFile <- system.file("extdata/dataDictionary.csv",
+                        package='rangeModelMetadata')
+
+  if(!excel) {dd <- utils::read.csv(ddFile,stringsAsFactors=FALSE); return(dd)}
+
   if(excel) {system(paste0('open ', ddFile, ' -a "Microsoft Excel"')) }
 }
+
+#############
