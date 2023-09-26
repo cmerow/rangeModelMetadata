@@ -10,7 +10,7 @@ vignette: >
 ---
 
 
-The rangeModelMetadata package is designed to provide functionality for working with rangeModelMetadata (`rmm`) objects.  These `rmm` objects are nested lists that hierarchically store data associated with species range/niche/distribution models.  These objects are designed to be flexible to accommodate a wide variety of modeling frameworks while also making modelling decisions transparent. 
+The rangeModelMetadata package is designed to provide functionality for working with rangeModelMetadata (`rmm`) objects.  These `rmm` objects are nested lists that hierarchically store data associated with species range/niche/distribution models.  These objects are designed to be flexible to accommodate a wide variety of modeling frameworks while also making modeling decisions transparent. 
 
 For full information on each function, see the associated help file.
 

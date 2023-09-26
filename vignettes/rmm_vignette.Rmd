@@ -54,7 +54,7 @@ Here, it may help to learn the two pieces of unavoidable jargon we use:
 * A __field__ describes levels of the hierarchy. E.g., `dataPrep` is field 1, `errors` is field 2 and `duplicateRemoval` is field 3.
 * An __entity__ is described by a complete set of __fields__ and has a particular value. In the example above `'dataPrep$errors$duplicateRemoval$rule` is an entity, and it can take one of the four suggested values:  "Environmental duplicates" "coordinate duplicates", "other (specify in Notes)", "NA".
 
-Note above, that when you ask for suggestions for a field (the first three lines), you get suggestions of the relevant fields to consider. But the last line refers to to the lowest level in the hierachy, an __entity__ and so values are suggested.
+Note above, that when you ask for suggestions for a field (the first three lines), you get suggestions of the relevant fields to consider. But the last line refers to to the lowest level in the hierarchy, an __entity__ and so values are suggested.
 
 Another more complex example:
 
@@ -133,7 +133,7 @@ To run all the available checks at once, we'll check the object that we filled i
 rmmCheckFinalize(rmm, family='base')
 ```
 
-## Outputing an rmm object
+## Outputting an rmm object
 
 To make `rmm` objects portable to other interfaces, they are readily written to csv format.
 ```{r,eval=F}
