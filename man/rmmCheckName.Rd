@@ -16,7 +16,7 @@ rmmCheckName(
 
 \item{cutoff_distance}{number of allowed different characters to match standardized names}
 
-\item{returnData}{logical. If FALSE, the functon will return the (possibly) corrected rmm object.  If TRUE, the function will return a data.frame containing information on incorrect names.}
+\item{returnData}{logical. If FALSE, the function will return the (possibly) corrected rmm object.  If TRUE, the function will return a data.frame containing information on incorrect names.}
 
 \item{interactiveCorrections}{logical. If TRUE, the user will be prompted to indicate whether the proposed correction should be accepted, thereby modifying the `rmm` object. If FALSE, suggestions will just be printed to the screen and users can edit them manually.}
 }
@@ -33,10 +33,10 @@ See Examples.
 Names returned by this check may be either incorrectly named or correctly named but missing from the data dictionary.
 }
 \examples{
-rmm<-rmmTemplate() # Make an empty template
-rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List"
+rmm <- rmmTemplate() # Make an empty template
+rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source <- "The Plant List"
 # Add a new, non-standard field
-rmm.1=rmmCheckName(rmm)
+rmm.1 <- rmmCheckName(rmm)
 # Checking the names should identify the new, non-standard field we've added ("taxonomy_source")
 
 

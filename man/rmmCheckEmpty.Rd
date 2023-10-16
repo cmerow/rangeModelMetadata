@@ -12,7 +12,7 @@ rmmCheckEmpty(rmm, family = c("base"))
 \item{family}{an rmm family, "base" by default}
 }
 \value{
-A dataframe containing empty fields labelled as obligate, optional, or suggested.
+A dataframe containing empty fields labeled as obligate, optional, or suggested.
 }
 \description{
 Identify empty fields in an rmm object and classify these into obligate and optional fields.
@@ -22,14 +22,14 @@ See Examples.
 }
 \examples{
 #First, make an empty rmm object:
-rmm<-rmmTemplate()
+rmm <- rmmTemplate()
 #Next, we check for emtpy fields:
-empties1<-rmmCheckEmpty(rmm = rmm)
+empties1 <- rmmCheckEmpty(rmm = rmm)
 #If looks like there are quite a few empty obligate fields.  Let's populate a few:
-rmm$data$occurrence$taxon<-"Acer rubrum"
-rmm$data$environment$variableNames<-"Bio1"
+rmm$data$occurrence$taxon <- "Acer rubrum"
+rmm$data$environment$variableNames <- "Bio1"
 #Now, if we run rmmCheckEmpty again, we see there are 2 fewer empty, obligate fields
-empties2<-rmmCheckEmpty(rmm = rmm)
+empties2 <- rmmCheckEmpty(rmm = rmm)
 
 
 }

@@ -5,13 +5,13 @@
 #' @details
 #' See Examples.
 #'
-#' @param family character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use `rmmFamilies` to see supported values.
+#' @param family character string; specifies an application profile (use case) by specifying the families of entities that should be included. Specifying NULL includes all entities. Use `rmmFamilies` to see supported values.
 # @param families character vector; an alternative to specifying `family`. Provide a vector of family names to include all entities in a family in the template. Use `rmmFamilyNames` to see supported values.
 #' @export
 #'
 #' @examples
-#' rmm1=rmmTemplate()
-#' rmm2=rmmTemplate(family=c('base'))
+#' rmm1 <- rmmTemplate()
+#' rmm2 <- rmmTemplate(family=c('base'))
 #' str(rmm2)
 #'
 #' @return a range model metadata list

@@ -7,7 +7,7 @@
 rmmTemplate(family = NULL)
 }
 \arguments{
-\item{family}{character string; specifies an application profile (use case) by specifiying the families of entitiies that should be included. Specifying NULL includes all entities. Use `rmmFamilies` to see supported values.}
+\item{family}{character string; specifies an application profile (use case) by specifying the families of entities that should be included. Specifying NULL includes all entities. Use `rmmFamilies` to see supported values.}
 }
 \value{
 a range model metadata list
@@ -19,8 +19,8 @@ Make an empty metadata list
 See Examples.
 }
 \examples{
-rmm1=rmmTemplate()
-rmm2=rmmTemplate(family=c('base'))
+rmm1 <- rmmTemplate()
+rmm2 <- rmmTemplate(family=c('base'))
 str(rmm2)
 
 }

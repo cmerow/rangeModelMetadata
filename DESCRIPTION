@@ -23,29 +23,20 @@ Description: Range Modeling Metadata Standards (RMMS) address three challenges:
   <https://github.com/ecospat/ecospat>.
 License: GPL (>= 3)
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Depends: R (>= 3.5.0)
 Suggests:
-  BIEN,
-  biomod2,
   dismo,
-  ecospat,
   googlesheets4,
   knitr,
-  rmarkdown
-Imports:
-  dplyr,
-  jsonlite,
-  MASS,
-  methods,
-  raster,
+  rmarkdown,
   rgbif,
-  rgdal,
-  rgeos,
+  dplyr,
+  sf
+Imports:
   shiny,
-  sp,
-  spatstat,
   spocc,
-  spThin,
-  utils
+  utils,
+  BIEN,
+  terra
 VignetteBuilder: knitr

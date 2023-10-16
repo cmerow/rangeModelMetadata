@@ -20,18 +20,18 @@ This function launches a shiny app in the default web browser
 }
 \examples{
 \dontrun{
-rmm1=rmmTemplate()
-rmm1=rmmAutofillPackageCitation(rmm1,c('raster','sp'))
-rasterFiles=list.files(path=paste(system.file(package='dismo'), '/ex', sep=''),
+rmm1 <- rmmTemplate()
+rmm1 <- rmmAutofillPackageCitation(rmm1,c('raster','sp'))
+rasterFiles <- list.files(path=paste(system.file(package='dismo'), '/ex', sep=''),
                        pattern='grd', full.names=TRUE)
 make a stack of the rasters
-env=raster::stack(rasterFiles)
+env <- terra::rast(rasterFiles)
 # for fitting environment
-rmm1=rmmAutofillEnvironment(rmm1,env,transfer=0)
+rmm1 <- rmmAutofillEnvironment(rmm1,env,transfer=0)
 # for transfer environment 1 (assuming different than for fitting)
-rmm1=rmmAutofillEnvironment(rmm1,env,transfer=1)
+rmm1 <- rmmAutofillEnvironment(rmm1,env,transfer=1)
 # for transfer environment 2 (assuming different than 1)
-rmm1=rmmAutofillEnvironment(rmm1,env,transfer=2)
+rmm1 <- rmmAutofillEnvironment(rmm1,env,transfer=2)
 }
 \dontrun{ rmmCheckShiny(rmm1) }
 

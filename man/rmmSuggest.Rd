@@ -11,7 +11,7 @@ rmmSuggest(charString, fullFieldDepth = FALSE)
 
 \item{fullFieldDepth}{print all fields below the current field depth
 
-rmm1=rmmTemplate()
+rmm1 <- rmmTemplate()
 rmmSuggest('dataPrep',fullFieldDepth=FALSE)
 rmmSuggest('dataPrep',fullFieldDepth=TRUE)
 rmmSuggest('dataPrep$errors$duplicateRemoval')

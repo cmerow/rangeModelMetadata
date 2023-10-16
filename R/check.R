@@ -8,13 +8,13 @@
 #'
 #' @param rmm a range model metadata list
 #' @param cutoff_distance number of allowed different characters to match standardized names
-#' @param returnData logical. If FALSE, the functon will return the (possibly) corrected rmm object.  If TRUE, the function will return a data.frame containing information on incorrect names.
+#' @param returnData logical. If FALSE, the function will return the (possibly) corrected rmm object.  If TRUE, the function will return a data.frame containing information on incorrect names.
 #' @param interactiveCorrections logical. If TRUE, the user will be prompted to indicate whether the proposed correction should be accepted, thereby modifying the `rmm` object. If FALSE, suggestions will just be printed to the screen and users can edit them manually.
 #' @examples
-#' rmm<-rmmTemplate() # Make an empty template
-#' rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source<-"The Plant List"
+#' rmm <- rmmTemplate() # Make an empty template
+#' rmm$dataPrep$biological$taxonomicHarmonization$taxonomy_source <- "The Plant List"
 #' # Add a new, non-standard field
-#' rmm.1=rmmCheckName(rmm)
+#' rmm.1 <- rmmCheckName(rmm)
 #' # Checking the names should identify the new, non-standard field we've added ("taxonomy_source")
 #'
 #'
@@ -36,15 +36,16 @@ rmmCheckName <- function(rmm,
                          returnData = F,
                          interactiveCorrections=FALSE ){
 
-  list_elements<-utils::capture.output(rmm)
-  list_elements<-list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
+  list_elements <- utils::capture.output(rmm)
+  list_elements <- list_elements[grep(pattern = "$",
+                                      x = list_elements,fixed = T)] #remove elements that aren't field names
 
   #Now, we need to purge the non-terminal list elements.
   #Solution (probably not optimal):
   #Identify elements that are completely contained within another element (but are not identical to that element).
   #Any of these will not be terminal element names
 
-  terminal<-lapply(X = list_elements,FUN = function(x){
+  terminal <- lapply(X = list_elements,FUN = function(x){
 
     if(length(grep(pattern = x,x = unique(list_elements),fixed = T))>1){
       output<-FALSE
@@ -53,45 +54,55 @@ rmmCheckName <- function(rmm,
     }
     return(output)
   })
-  terminal<-unlist(terminal)
-  list_elements<-list_elements[terminal]
+
+  terminal <- unlist(terminal)
+  list_elements <- list_elements[terminal]
   rm(terminal)
 
-  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=FALSE)
-  dd_names<-NULL
+  dd <- utils::read.csv(system.file("extdata/dataDictionary.csv",
+                                    package='rangeModelMetadata'),
+                        stringsAsFactors=FALSE)
+  dd_names <- NULL
   for(i in 1:nrow(dd)){
-    val_i<-dd[i,][unique(c(grep(pattern = "field",x = colnames(dd)),grep(pattern = "entity",x = colnames(dd)))) ]#The complicate indexing ensures that id additional fields (eg field4,field5) are added things won't break
-    val_i<-val_i[which(!is.na(val_i))]
-    val_i<-paste("$",paste(val_i,collapse = "$"),sep = "")
-    dd_names<-c(dd_names,val_i)
+    val_i <- dd[i,][unique(c(grep(pattern = "field",x = colnames(dd)),
+                             grep(pattern = "entity",x = colnames(dd)))) ]#The complicate indexing ensures that id additional fields (eg field4,field5) are added things won't break
+    val_i <- val_i[which(!is.na(val_i))]
+    val_i <- paste("$",paste(val_i,collapse = "$"),sep = "")
+    dd_names <- c(dd_names,val_i)
   }
 
   rm(i,val_i)
   #i=26,12
 
-  name_check_df<-as.data.frame((matrix(ncol=5,nrow = length(list_elements))))
-  colnames(name_check_df)<-c("exact_match","partial_match",
-                             "partial_match_suggestions","corrected_name","not_matched")
+  name_check_df <- as.data.frame((matrix(ncol = 5, nrow = length(list_elements))))
+  colnames(name_check_df) <- c("exact_match","partial_match",
+                             "partial_match_suggestions","corrected_name",
+                             "not_matched")
 
   for(i in 1:length(list_elements)){
 
-    element_i<-list_elements[i]
+    element_i <- list_elements[i]
 
     if(element_i%in%dd_names){
-      name_check_df$exact_match[i]<-element_i}else{  #if name is valid, else:
 
-        min_dist<-min(adist(x = element_i,y = dd_names))
+      name_check_df$exact_match[i] <- element_i}else{  #if name is valid, else:
 
-        if(min_dist<=cutoff_distance){
+        min_dist <- min(adist(x = element_i,y = dd_names))
 
-          name_check_df$partial_match[i]<-element_i
-          name_check_df$partial_match_suggestions[i]<-
-            dd_names[which.min(adist(x = element_i,y = dd_names))]
+        if(min_dist <= cutoff_distance){
+
+          name_check_df$partial_match[i] <- element_i
+          name_check_df$partial_match_suggestions[i] <-
+            dd_names[which.min(adist(x = element_i, y = dd_names))]
 
           # prompt
           message("\n\n")
-          message("\n Element name '",element_i,"' not found in data dictionary", "!\n Did you mean: '",name_check_df$partial_match_suggestions[i],"'? " ) # prompt
+          message("\n Element name '",element_i,
+                  "' not found in data dictionary", "!\n Did you mean: '",
+                  name_check_df$partial_match_suggestions[i],"'? " ) # prompt
+
           if(interactiveCorrections){
+
             message("Type 'y' or 'n'.")
 
             take <- scan(n = 1, quiet = TRUE, what = 'raw')
@@ -100,27 +111,33 @@ rmmCheckName <- function(rmm,
               #rename list element_i to the partial match suggestion
 
               el_i<-paste("rmm",element_i,sep = "")
-              bad_name<-unlist(strsplit(el_i,"$",fixed = T))[length(unlist(strsplit(el_i,"$",fixed = T)))]
-              parent_i<-paste(unlist(strsplit(el_i,"$",fixed = T))[1:length(unlist(strsplit(el_i,"$",fixed = T)))-1],collapse = "$")
 
-              exp_i<-paste("names(",parent_i,")[",which(names(eval(parse(text = parent_i)))==bad_name),"] <- '",unlist(strsplit(name_check_df$partial_match_suggestions[i],split = "$",fixed = T))[length(unlist(strsplit(name_check_df$partial_match_suggestions[i],split = "$",fixed = T)))],"'",sep = "")
+              bad_name <- unlist(strsplit(el_i,"$",fixed = T))[length(unlist(strsplit(el_i,"$",fixed = T)))]
+
+              parent_i <- paste(unlist(strsplit(el_i,"$",fixed = T))[1:length(unlist(strsplit(el_i,"$",fixed = T)))-1],collapse = "$")
+
+              exp_i <- paste("names(",parent_i,")[",which(names(eval(parse(text = parent_i)))==bad_name),"]
+                             <- '",unlist(strsplit(name_check_df$partial_match_suggestions[i],split = "$",fixed = T))[length(unlist(strsplit(name_check_df$partial_match_suggestions[i],split = "$",fixed = T)))],"'",sep = "")
+
               eval(parse(text = exp_i))
-              name_check_df$corrected_name[i]<-dd_names[which.min(adist(x = element_i,y = dd_names))]
+
+              name_check_df$corrected_name[i] <- dd_names[which.min(adist(x = element_i,y = dd_names))]
 
             }
           } # end interactive corrections
           #end prompt
         }
 
-        if(min_dist>cutoff_distance){
-          name_check_df$not_matched[i]<-element_i
+        if(min_dist > cutoff_distance){
+
+          name_check_df$not_matched[i] <- element_i
 
         }
 
       }#if name is NOT valid exactly
   }#i loop
 
-  if(nrow(name_check_df)>0){
+  if(nrow(name_check_df) > 0){
 
     # if(length(which(!is.na(name_check_df$exact_match)))>0 ){
     #   message(paste("The following names appear accurate:", sep = "",collapse = "\n"))
@@ -128,7 +145,7 @@ rmmCheckName <- function(rmm,
     #   message(noquote("\n "))
     # }
 
-    if(length(which(!is.na(name_check_df$corrected_name)))>0 ){
+    if(length(which(!is.na(name_check_df$corrected_name))) >0 ){
       message(noquote("\n"))
       message("The following names were corrected:\n")
       message(paste("\n",paste(name_check_df$partial_match[which(!is.na(name_check_df$corrected_name))],collapse = "\n"), sep = ""   ))
@@ -175,8 +192,8 @@ rmmCheckName <- function(rmm,
 #' @param returnData Should a dataframe containing information on matched and unmatched values be returned?  Default is FALSE
 #'
 #' @examples
-#' rmm<-rmmTemplate() #First, we create an empty rmm template
-#' rmm$data$environment$variableNames<- c("bio1", "bio 2", "bio3", "cromulent")
+#' rmm <- rmmTemplate() #First, we create an empty rmm template
+#' rmm$data$environment$variableNames <- c("bio1", "bio 2", "bio3", "cromulent")
 #' #We add 3 of the bioclim layers, including a spelling error (an extra space) in bio2,
 #' # and a word that is clearly not a climate layer, 'cromulent'.
 #' rmmCheckValue(rmm = rmm)
@@ -184,7 +201,7 @@ rmmCheckName <- function(rmm,
 #' #while 'bio 2' is flagged as a partial match with a suggested value of 'bio2',
 #' # and cromulent is flagged as not matched at all.
 #' #If we'd like to return a dataframe containing this information in a perhaps more useful format:
-#' rmmCheckValue_output<-rmmCheckValue(rmm = rmm,returnData = TRUE)
+#' rmmCheckValue_output <- rmmCheckValue(rmm = rmm, returnData = TRUE)
 #'
 #' @return Text describing identical, similar and non-matched values for rmm entities with suggested values.  If returnData = T, a dataframe is returned containing 5 columns: field (the rmm entity), exact_match (values that appear correct), partial_match (values that are partial_match to common values), not_matched( values that are dissimilar from accepted values), partial_match_suggestions (suggested values for partial_match values).
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
@@ -199,11 +216,11 @@ rmmCheckName <- function(rmm,
 
 rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
 
-  dd<-utils::read.csv(system.file("extdata/dataDictionary.csv",
-                                  package='rangeModelMetadata'),
-                      stringsAsFactors=FALSE)
+  dd <- utils::read.csv(system.file("extdata/dataDictionary.csv",
+                                    package='rangeModelMetadata'),
+                        stringsAsFactors=FALSE)
 
-  dd_constrained=dd[which(dd$constrainedValues!='NULL'),]
+  dd_constrained <- dd[which(dd$constrainedValues!='NULL'),]
 
   #For all fields with either a kinda or yes in the valuesConstrained field, check values against those in datadictionary
 
@@ -212,50 +229,64 @@ rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
   #Print each set of values along with a note.
 
 
-  value_check_df<-as.data.frame((matrix(ncol=5,nrow = nrow(dd_constrained))))
-  colnames(value_check_df)<-c("field","exact_match","partial_match",
-                              "partial_match_suggestions","not_matched")
+  value_check_df <- as.data.frame((matrix(ncol=5,nrow = nrow(dd_constrained))))
+
+  colnames(value_check_df) <- c("field","exact_match","partial_match",
+                                "partial_match_suggestions","not_matched")
 
   for(i in 1:nrow(dd_constrained)){
 
-    dd_i<-dd_constrained[i,][c("field1",'field2','field3','entity')]
+    dd_i <- dd_constrained[i,][c("field1",'field2','field3','entity')]
 
-    if(length(which(is.na(dd_i)))>0){
-      dd_i<-paste(dd_i[-which(is.na(dd_i))],collapse = "$")
-    }else{dd_i<-paste(dd_i,collapse = "$")}
+    if(length(which(is.na(dd_i))) > 0){
 
-    value_check_df[i,1]<-dd_i<-paste("rmm",dd_i,sep = "$")
+      dd_i <- paste(dd_i[-which(is.na(dd_i))],collapse = "$")
 
-    constrained_values<-dd_constrained$constrainedValues[i]
-    constrained_values<-unlist(strsplit(x = constrained_values,split = "; "))
-    value_i<-eval(parse(text=dd_i))
+    }else{ dd_i <- paste(dd_i,collapse = "$")}
+
+    value_check_df[i,1] <- dd_i<-paste("rmm",dd_i,sep = "$")
+
+    constrained_values <- dd_constrained$constrainedValues[i]
+    constrained_values <- unlist(strsplit(x = constrained_values,split = "; "))
+    value_i <- eval(parse(text=dd_i))
 
     if(!is.null(eval(parse(text=dd_i)))){
 
       for(j in 1:length(eval(parse(text=dd_i)))){
 
-        element_j<-eval(parse(text=dd_i))[j]
+        element_j <- eval(parse(text=dd_i))[j]
 
         if(element_j %in% constrained_values){
-          value_check_df$exact_match[i]<-paste(na.omit(c(value_check_df$exact_match[i],element_j)),sep = "; ",collapse = "; ")}else{
+
+          value_check_df$exact_match[i] <-
+            paste(na.omit(c(value_check_df$exact_match[i],element_j)),
+                  sep = "; ",collapse = "; ")}else{
 
             #get the distance between the value and the potential values.
 
-            min_dist<-min(adist(x = element_j,y = constrained_values))
+            min_dist <- min(adist(x = element_j,y = constrained_values))
 
-            if(min_dist<=cutoff_distance){
+            if(min_dist <= cutoff_distance){
+
               constrained_values[which.min(adist(x = element_j,y = constrained_values))]
 
-              value_check_df$partial_match[i]<-paste(na.omit(c(value_check_df$partial_match[i],element_j)),sep = "; ",collapse = "; ")
-              value_check_df$partial_match_suggestions[i]<-paste(na.omit(c(value_check_df$partial_match_suggestions[i],constrained_values[which.min(adist(x = element_j,y = constrained_values))])),sep = "; ",collapse = "; ")
+              value_check_df$partial_match[i] <- paste(na.omit(c(value_check_df$partial_match[i],element_j)),sep = "; ",collapse = "; ")
+
+              value_check_df$partial_match_suggestions[i] <- paste(na.omit(c(value_check_df$partial_match_suggestions[i],constrained_values[which.min(adist(x = element_j,y = constrained_values))])),sep = "; ",collapse = "; ")
+
             }
 
             if(min_dist>cutoff_distance){
-              value_check_df$not_matched[i]<-paste(na.omit(c(value_check_df$not_matched[i],element_j)),sep = "; ",collapse = "; ")
+
+              value_check_df$not_matched[i] <-
+                paste(na.omit(c(value_check_df$not_matched[i],element_j)),
+                      sep = "; ",collapse = "; ")
 
             }else{
 
-              value_check_df$partial_match[i]<-paste(na.omit(c(value_check_df$not_matched[i],element_j)),sep = "; ",collapse = "; ")
+              value_check_df$partial_match[i] <-
+                paste(na.omit(c(value_check_df$not_matched[i],element_j)),
+                      sep = "; ",collapse = "; ")
 
             }
             #take the partial_matchst value,
@@ -273,25 +304,35 @@ rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
   #Print stuff
 
   #Remove fields consisting of all NAs
-  value_check_df<-value_check_df[!apply(is.na(value_check_df[,2:5]),1,all),]
+  value_check_df <- value_check_df[!apply(is.na(value_check_df[,2:5]),1,all),]
 
-  if(nrow(value_check_df)>0){
+  if(nrow(value_check_df) > 0){
 
     for(r in 1:nrow(value_check_df)){
+
       message('\n==========================================\n')
-      message(noquote(paste("For the field ",value_check_df$field[r],collapse = "\n",sep = ""))  )
+
+      message(noquote(paste("For the field ",value_check_df$field[r],
+                            collapse = "\n",sep = ""))  )
+
       message(noquote("\n "))
 
       if(!is.na(value_check_df$exact_match[r])){
+
         message(noquote(paste("The following entries appear accurate:\n"   )))
         message(noquote(paste("\n",value_check_df$exact_match[r])))
         message(noquote("\n "))
-        }
+
+      }
+
       if(!is.na(value_check_df$partial_match[r])){
+
         message(noquote(paste0("The following entries are similar to suggested values, please verify:\n" )))
         message(noquote(paste(value_check_df$partial_match[r])))
-        message(noquote(paste0( "\n\nSuggested alternatives include: \n",value_check_df$partial_match_suggestions[r]  )))
+        message(noquote(paste0( "\n\nSuggested alternatives include: \n",
+                                value_check_df$partial_match_suggestions[r]  )))
         message(noquote("\n "))
+
         }
 
       if(!is.na(value_check_df$not_matched[r])){
@@ -330,7 +371,7 @@ rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
 #' @param family The rmm family to check the rmm against
 #'
 #' @examples
-#' rmm<-rmmTemplate() # Make an empty template
+#' rmm <- rmmTemplate() # Make an empty template
 #'
 #'
 #' @return A vector of names that are missing from the rmm object.
@@ -345,17 +386,17 @@ rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
 #' @import utils
 #' @export
 
-rmmCheckMissingNames<-function(rmm,family=c("base")){
+rmmCheckMissingNames <- function(rmm, family=c("base")){
 
-  list_elements<-capture.output(rmm)
-  list_elements<-list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
+  list_elements <- capture.output(rmm)
+  list_elements <- list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
 
   #Now, we need to purge the non-terminal list elements.
   #Solution (probably not optimal):
   #Identify elements that are completely contained within another element (but are not identical to that element).
   #Any of these will not be terminal element names
 
-  terminal<-lapply(X = list_elements,FUN = function(x){
+  terminal <- lapply(X = list_elements,FUN = function(x){
 
     if(length(grep(pattern = x,x = unique(list_elements),fixed = T))>1){
       output<-FALSE
@@ -364,25 +405,30 @@ rmmCheckMissingNames<-function(rmm,family=c("base")){
     }
     return(output)
   })
-  terminal<-unlist(terminal)
-  list_elements<-list_elements[terminal]
 
+  terminal <- unlist(terminal)
+  list_elements <- list_elements[terminal]
 
-  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=FALSE)
+  dd <- utils::read.csv(system.file("extdata/dataDictionary.csv",
+                                    package='rangeModelMetadata'),
+                        stringsAsFactors=FALSE)
 
-    keep=unique(unlist(lapply(family,function(fam){grep(fam,dd$family)})))
-  dd_ob<-dd[keep,]
+  keep <- unique(unlist(lapply(family,function(fam){grep(fam,dd$family)})))
 
-  obligate_names<-NULL
+  dd_ob <- dd[keep,]
+
+  obligate_names <- NULL
+
   for(i in 1:nrow(dd_ob)){
-    val_i<-dd_ob[i,][unique(c(grep(pattern = "field",x = colnames(dd_ob)),grep(pattern = "entity",x = colnames(dd_ob)))) ]#The complicate indexing ensures that id additional fields (eg field4,field5) are added things won't break
-    val_i<-val_i[which(!is.na(val_i))]
-    val_i<-paste("$",paste(val_i,collapse = "$"),sep = "")
+    val_i <- dd_ob[i,][unique(c(grep(pattern = "field",x = colnames(dd_ob)),
+                                grep(pattern = "entity",x = colnames(dd_ob)))) ]#The complicate indexing ensures that id additional fields (eg field4,field5) are added things won't break
+    val_i <- val_i[which(!is.na(val_i))]
+    val_i <- paste("$",paste(val_i,collapse = "$"),sep = "")
     obligate_names<-c(obligate_names,val_i)
 
   }
 
-  missing_names<-obligate_names[which(!obligate_names%in%list_elements)]
+  missing_names <- obligate_names[which(!obligate_names%in%list_elements)]
   #list_elements[which(!list_elements%in%obligate_names)]
 
   if(length(missing_names)==0){message("All obligate field names are present.")}
@@ -407,17 +453,17 @@ rmmCheckMissingNames<-function(rmm,family=c("base")){
 #'
 #' @examples
 #' #First, make an empty rmm object:
-#' rmm<-rmmTemplate()
+#' rmm <- rmmTemplate()
 #' #Next, we check for emtpy fields:
-#' empties1<-rmmCheckEmpty(rmm = rmm)
+#' empties1 <- rmmCheckEmpty(rmm = rmm)
 #' #If looks like there are quite a few empty obligate fields.  Let's populate a few:
-#' rmm$data$occurrence$taxon<-"Acer rubrum"
-#' rmm$data$environment$variableNames<-"Bio1"
+#' rmm$data$occurrence$taxon <- "Acer rubrum"
+#' rmm$data$environment$variableNames <- "Bio1"
 #' #Now, if we run rmmCheckEmpty again, we see there are 2 fewer empty, obligate fields
-#' empties2<-rmmCheckEmpty(rmm = rmm)
+#' empties2 <- rmmCheckEmpty(rmm = rmm)
 #'
 #'
-#' @return A dataframe containing empty fields labelled as obligate, optional, or suggested.
+#' @return A dataframe containing empty fields labeled as obligate, optional, or suggested.
 #' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
 # @seealso
 # @references
@@ -428,48 +474,59 @@ rmmCheckMissingNames<-function(rmm,family=c("base")){
 #' @export
 
 #CM: 7/11/18: note that I removed the optional and suggested options as we don't have those any more.
-rmmCheckEmpty<-function(rmm, family=c('base')){
+rmmCheckEmpty <- function(rmm, family = c('base')){
 
-  list_elements<-capture.output(rmm)
-  list_elements<-list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
+  list_elements <- capture.output(rmm)
+  list_elements <- list_elements[grep(pattern = "$",x = list_elements,fixed = T)] #remove elements that aren't field names
 
   #Now, we need to purge the non-terminal list elements.
   #Solution (probably not optimal):
   #Identify elements that are completely contained within another element (but are not identical to that element).
   #Any of these will not be terminal element names
 
-  terminal<-lapply(X = list_elements,FUN = function(x){
+  terminal <- lapply(X = list_elements, FUN = function(x){
     if(length(grep(pattern = x,x = unique(list_elements),fixed = T))>1){
-      output<-FALSE}else{output<-TRUE}
+      output <- FALSE}else{output<-TRUE}
     return(output)
   })
-  terminal<-unlist(terminal)
-  list_elements<-list_elements[terminal]
+
+  terminal <- unlist(terminal)
+  list_elements <- list_elements[terminal]
   rm(terminal)
 
-  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=FALSE)
+  dd <- utils::read.csv(system.file("extdata/dataDictionary.csv",
+                                    package='rangeModelMetadata'),
+                        stringsAsFactors=FALSE)
 
   #Identify which fields are empty
-  nulls<-NULL
+  nulls <- NULL
   for(i in 1:length(list_elements)){
     # eval(parse(text = paste("rmm",list_elements[i],sep = "",collapse = "")))
-    if(is.null(eval(parse(text = paste("rmm",list_elements[i],sep = "",collapse = ""))))){output<-TRUE}else{output<-FALSE}
+    if(is.null(eval(parse(text = paste("rmm",list_elements[i],
+                                       sep = "",collapse = ""))))){
+      output<-TRUE
+      }else{output<-FALSE}
+
     nulls<-cbind(nulls,output)  }
+
   rm(i,output)
 
-  empties<-list_elements[nulls]
+  empties <- list_elements[nulls]
 
-  output_data<-as.data.frame(matrix(ncol = 4,nrow = length(empties)))
-  colnames(output_data)<-c("Empty_field","Obligate","Suggested","Optional")
+  output_data <- as.data.frame(matrix(ncol = 4,nrow = length(empties)))
+  colnames(output_data) <- c("Empty_field","Obligate","Suggested","Optional")
 
-  output_data$Empty_field<-empties
+  output_data$Empty_field <- empties
 
-  dd=utils::read.csv(system.file("extdata/dataDictionary.csv",package='rangeModelMetadata'),stringsAsFactors=FALSE)
-  dd_names<-NULL
+  dd <- utils::read.csv(system.file("extdata/dataDictionary.csv",
+                                    package='rangeModelMetadata'),
+                        stringsAsFactors=FALSE)
+  dd_names <- NULL
   for(i in 1:nrow(dd)){
-    val_i<-dd[i,][unique(c(grep(pattern = "field",x = colnames(dd)),grep(pattern = "entity",x = colnames(dd)))) ]#The complicate indexing ensures that id additional fields (eg field4,field5) are added things won't break
-    val_i<-val_i[which(!is.na(val_i))]
-    val_i<-paste("$",paste(val_i,collapse = "$"),sep = "")
+    val_i <- dd[i,][unique(c(grep(pattern = "field",x = colnames(dd)),
+                             grep(pattern = "entity",x = colnames(dd)))) ]#The complicate indexing ensures that id additional fields (eg field4,field5) are added things won't break
+    val_i <- val_i[which(!is.na(val_i))]
+    val_i <- paste("$",paste(val_i,collapse = "$"),sep = "")
     dd_names<-c(dd_names,val_i)
   }
 
@@ -478,8 +535,9 @@ rmmCheckEmpty<-function(rmm, family=c('base')){
 
   #CM: check the use case issue
   for(fam in family){
+
     output_data$Obligate[which(output_data$Empty_field %in%
-                               dd_names[which(dd$family==fam)])]<-1
+                               dd_names[which(dd$family==fam)])] <- 1
   }
 
   # output_data$Obligate[which(output_data$Empty_field %in%
@@ -546,7 +604,7 @@ rmmCheckEmpty<-function(rmm, family=c('base')){
 
 # would better if this didn't have the quotes in the names, but this is fine for viewing
 
-rmmCleanNULLs=function(rmm){
+rmmCleanNULLs <- function(rmm){
   # from https://stackoverflow.com/questions/26539441/remove-null-elements-from-list-of-lists/26540063
   is.NullOb <- function(x) is.null(x) | all(sapply(x, is.null))
 
@@ -570,7 +628,7 @@ rmmCleanNULLs=function(rmm){
 #' @param family The rmm family to check the rmm against
 #'
 #' @examples
-#' rmm<-rmmTemplate() # Make an empty template
+#' rmm <- rmmTemplate() # Make an empty template
 #' rmmCheckFinalize(rmm)
 #'
 #'
@@ -586,15 +644,15 @@ rmmCleanNULLs=function(rmm){
 #' @import utils
 #' @export
 
-rmmCheckFinalize<-function(rmm,family=c('base')){
+rmmCheckFinalize<-function(rmm,family = c('base')){
 
-  names<-rmmCheckName(rmm,returnData = TRUE)
+  names <- rmmCheckName(rmm,returnData = TRUE)
 
-  values<-rmmCheckValue(rmm = rmm,returnData = TRUE)
+  values <- rmmCheckValue(rmm = rmm,returnData = TRUE)
 
-  missing_names<-rmmCheckMissingNames(rmm,family = family)
+  missing_names <- rmmCheckMissingNames(rmm,family = family)
 
-  empty_values<-rmmCheckEmpty(rmm = rmm,family = family)
+  empty_values <- rmmCheckEmpty(rmm = rmm,family = family)
 
   if(length(na.omit(values$partial_match))==0 & length(na.omit(values$not_matched))==0 & #All values are exactly matched
      length(missing_names)==0 & #No names are missing

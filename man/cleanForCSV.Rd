@@ -24,6 +24,6 @@ Other csvConversion:
 \code{\link{rmmToCSV}()}
 }
 \author{
-Hannah Owens <hannah.owens@gmail.com>, Cory Merow <cory.merow@gmail.com>
+Hannah Owens <hannah.owens@gmail.com>, Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>
 }
 \concept{csvConversion}
