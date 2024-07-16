@@ -613,7 +613,8 @@ rmmCleanNULLs <- function(rmm){
     x <- Filter(Negate(is.NullOb), x)
     lapply(x, function(x) if (is.list(x)) rmNullObs(x) else x)
   }
-  rmNullObs(rmm)
+  rmm <- rmNullObs(rmm)
+  return(rmm)
 }
 ##################################
 
