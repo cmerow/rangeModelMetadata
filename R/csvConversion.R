@@ -199,7 +199,7 @@ rmmToCSV <- function(x = rmmTemplate(family=NULL), filename = NULL){
                 csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], names(x[[i]][[j]][[k]])[l], "NULL"));
               }
               else{
-                csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], names(x[[i]][[j]][[k]])[l], cleanForCSV(x[[i]][[j]][[k]][[l]])));
+                csvTable <- rbind(csvTable, c(names(x)[i],names(x[[i]])[j], names(x[[i]][[j]])[k], names(x[[i]][[j]][[k]])[l], cleanForCSV(x[[i]][[j]][[k]][[l]])))
               }
             }
           }
@@ -209,11 +209,11 @@ rmmToCSV <- function(x = rmmTemplate(family=NULL), filename = NULL){
   }
 
   #Assign header row
-  csvTable <- csvTable[-1,];
+  csvTable <- csvTable[-1,]
 
   #Write to csv
-  if(!is.null(filename)) utils::write.csv(csvTable, filename, row.names = F);
+  if(!is.null(filename)) utils::write.csv(csvTable, filename, row.names = F)
 
-  return(csvTable);
+  return(csvTable)
 }
 
