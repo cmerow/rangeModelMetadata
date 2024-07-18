@@ -672,6 +672,3 @@ rmmCheckFinalize<-function(rmm,family = c('base')){
   message("Everything looks good!")
   }
 }
-
-
-
