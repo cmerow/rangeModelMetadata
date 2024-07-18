@@ -85,7 +85,8 @@ rmmCheckName <- function(rmm,
 
     if(element_i%in%dd_names){
 
-      name_check_df$exact_match[i] <- element_i}else{  #if name is valid, else:
+      name_check_df$exact_match[i] <- element_i
+      }else{  #if name is valid, else:
 
         min_dist <- min(adist(x = element_i,y = dd_names))
 
@@ -204,7 +205,7 @@ rmmCheckName <- function(rmm,
 #' rmmCheckValue_output <- rmmCheckValue(rmm = rmm, returnData = TRUE)
 #'
 #' @return Text describing identical, similar and non-matched values for rmm entities with suggested values.  If returnData = T, a dataframe is returned containing 5 columns: field (the rmm entity), exact_match (values that appear correct), partial_match (values that are partial_match to common values), not_matched( values that are dissimilar from accepted values), partial_match_suggestions (suggested values for partial_match values).
-#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>,
+#' @author Cory Merow <cory.merow@@gmail.com>, Brian Maitner <bmaitner@@gmail.com>, Hannah Owens <hannah.owens@@gmail.com>
 #' @note Names returned by this check may be either incorrectly named or correctly named but missing from the data dictionary.
 # @seealso
 # @references
@@ -222,11 +223,11 @@ rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
 
   dd_constrained <- dd[which(dd$constrainedValues!='NULL'),]
 
-  #For all fields with either a kinda or yes in the valuesConstrained field, check values against those in datadictionary
+  # For all fields with constrained values, check values against those in dataDictionary
 
-  #Split values into a "exact_match", "partial_match", and "not partial_match" set.
+  # Split values into a "exact_match", "partial_match", and "not partial_match" set.
 
-  #Print each set of values along with a note.
+  # Print each set of values along with a note.
 
 
   value_check_df <- as.data.frame((matrix(ncol=5,nrow = nrow(dd_constrained))))
@@ -238,23 +239,35 @@ rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
 
     dd_i <- dd_constrained[i,][c("field1",'field2','field3','entity')]
 
-    if(length(which(is.na(dd_i))) > 0){
+    # Get values to check
+    value_i <- unlist(rmm[which(names(rmm) == dd_i$field1)], recursive = FALSE)
+    if(!is.null(value_i)) names(value_i) <- gsub("\\.", "$", names(value_i))
+    if (!is.na(dd_i$field2)){
+      value_i <- unlist(value_i[which(names(value_i) == paste(dd_i[1:2],collapse = "$"))], recursive = FALSE)
+    }
+    if(!is.null(value_i)) names(value_i) <- gsub("\\.", "$", names(value_i))
+    if (!is.na(dd_i$field3)){
+      value_i <- unlist(value_i[which(names(value_i) == paste(dd_i[1:3],collapse = "$"))], recursive = FALSE)
+    }
+    if(!is.null(value_i)) names(value_i) <- gsub("\\.", "$", names(value_i))
 
-      dd_i <- paste(dd_i[-which(is.na(dd_i))],collapse = "$")
+    dd_i <- dd_i[-which(is.na(dd_i))]
+    dd_i <- paste(dd_i,collapse = "$")
 
-    }else{ dd_i <- paste(dd_i,collapse = "$")}
+    if(dd_i %in% names(value_i)){
+      value_i <- value_i[[which(names(value_i) == dd_i)]]
+    } else value_i <- NULL
 
-    value_check_df[i,1] <- dd_i<-paste("rmm",dd_i,sep = "$")
+    value_check_df[i,1] <- paste("rmm",dd_i,sep = "$")
 
     constrained_values <- dd_constrained$constrainedValues[i]
     constrained_values <- unlist(strsplit(x = constrained_values,split = "; "))
-    value_i <- eval(parse(text=dd_i))
 
-    if(!is.null(eval(parse(text=dd_i)))){
+    if(!is.null(value_i)){
 
-      for(j in 1:length(eval(parse(text=dd_i)))){
+      for(j in 1:length(value_i)){
 
-        element_j <- eval(parse(text=dd_i))[j]
+        element_j <- value_i[[j]]
 
         if(element_j %in% constrained_values){
 
@@ -262,37 +275,37 @@ rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
             paste(na.omit(c(value_check_df$exact_match[i],element_j)),
                   sep = "; ",collapse = "; ")}else{
 
-            #get the distance between the value and the potential values.
+                    #get the distance between the value and the potential values.
 
-            min_dist <- min(adist(x = element_j,y = constrained_values))
+                    min_dist <- min(adist(x = element_j,y = constrained_values))
 
-            if(min_dist <= cutoff_distance){
+                    if(min_dist <= cutoff_distance){
 
-              constrained_values[which.min(adist(x = element_j,y = constrained_values))]
+                      constrained_values[which.min(adist(x = element_j,y = constrained_values))]
 
-              value_check_df$partial_match[i] <- paste(na.omit(c(value_check_df$partial_match[i],element_j)),sep = "; ",collapse = "; ")
+                      value_check_df$partial_match[i] <- paste(na.omit(c(value_check_df$partial_match[i],element_j)),sep = "; ",collapse = "; ")
 
-              value_check_df$partial_match_suggestions[i] <- paste(na.omit(c(value_check_df$partial_match_suggestions[i],constrained_values[which.min(adist(x = element_j,y = constrained_values))])),sep = "; ",collapse = "; ")
+                      value_check_df$partial_match_suggestions[i] <- paste(na.omit(c(value_check_df$partial_match_suggestions[i],constrained_values[which.min(adist(x = element_j,y = constrained_values))])),sep = "; ",collapse = "; ")
 
-            }
+                    }
 
-            if(min_dist>cutoff_distance){
+                    if(min_dist>cutoff_distance){
 
-              value_check_df$not_matched[i] <-
-                paste(na.omit(c(value_check_df$not_matched[i],element_j)),
-                      sep = "; ",collapse = "; ")
+                      value_check_df$not_matched[i] <-
+                        paste(na.omit(c(value_check_df$not_matched[i],element_j)),
+                              sep = "; ",collapse = "; ")
 
-            }else{
+                    }else{
 
-              value_check_df$partial_match[i] <-
-                paste(na.omit(c(value_check_df$not_matched[i],element_j)),
-                      sep = "; ",collapse = "; ")
+                      value_check_df$partial_match[i] <-
+                        paste(na.omit(c(value_check_df$not_matched[i],element_j)),
+                              sep = "; ",collapse = "; ")
 
-            }
-            #take the partial_matchst value,
-            #or if distance > something, label it as "not_matched"
+                    }
+                    #take the partial_matchst value,
+                    #or if distance > something, label it as "not_matched"
 
-          }#if element is not in suggested values
+                  }#if element is not in suggested values
 
 
       }#j loop
@@ -333,13 +346,13 @@ rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
                                 value_check_df$partial_match_suggestions[r]  )))
         message(noquote("\n "))
 
-        }
+      }
 
       if(!is.na(value_check_df$not_matched[r])){
         message(noquote(paste("The following entries are not similar to any suggested values, please verify that these are accurate:\n"   )))
         message(noquote(paste(value_check_df$not_matched[r])))
         message(noquote("\n "))
-        }
+      }
     }
 
   }else{  #if there are values to check
@@ -352,8 +365,6 @@ rmmCheckValue <- function(rmm, cutoff_distance = 3, returnData = F ){
   if(returnData){
     return(value_check_df)
   }
-
-
 }#end of fx
 
 ####################################################################
@@ -649,11 +660,11 @@ rmmCheckFinalize<-function(rmm,family = c('base')){
 
   names <- rmmCheckName(rmm,returnData = TRUE)
 
-  values <- rmmCheckValue(rmm = rmm,returnData = TRUE)
+  values <- rmmCheckValue(rmm = rmm,returnData = TRUE) # Error
 
-  missing_names <- rmmCheckMissingNames(rmm,family = family)
+  missing_names <- rmmCheckMissingNames(rmm,family = family) # Error
 
-  empty_values <- rmmCheckEmpty(rmm = rmm,family = family)
+  empty_values <- rmmCheckEmpty(rmm = rmm,family = family) # Error
 
   if(length(na.omit(values$partial_match))==0 & length(na.omit(values$not_matched))==0 & #All values are exactly matched
      length(missing_names)==0 & #No names are missing

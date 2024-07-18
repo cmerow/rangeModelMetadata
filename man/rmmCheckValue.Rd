@@ -47,6 +47,6 @@ Other check:
 \code{\link{rmmCleanNULLs}()}
 }
 \author{
-Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>,
+Cory Merow <cory.merow@gmail.com>, Brian Maitner <bmaitner@gmail.com>, Hannah Owens <hannah.owens@gmail.com>
 }
 \concept{check}
