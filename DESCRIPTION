@@ -23,7 +23,7 @@ Description: Range Modeling Metadata Standards (RMMS) address three challenges:
   <https://github.com/ecospat/ecospat>.
 License: GPL (>= 3)
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Depends: R (>= 3.5.0)
 Suggests:
   dismo,
