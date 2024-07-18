@@ -424,9 +424,7 @@ rmmCheckMissingNames <- function(rmm, family=c("base")){
                                     package='rangeModelMetadata'),
                         stringsAsFactors=FALSE)
 
-  keep <- unique(unlist(lapply(family,function(fam){grep(fam,dd$family)})))
-
-  dd_ob <- dd[keep,]
+  dd_ob <- dd[dd$family %in% family,]
 
   obligate_names <- NULL
 
@@ -658,13 +656,13 @@ rmmCleanNULLs <- function(rmm){
 
 rmmCheckFinalize<-function(rmm,family = c('base')){
 
-  names <- rmmCheckName(rmm,returnData = TRUE)
+  names <- rmmCheckName(rmm, returnData = TRUE)
 
-  values <- rmmCheckValue(rmm = rmm,returnData = TRUE) # Error
+  values <- rmmCheckValue(rmm = rmm, returnData = TRUE)
 
-  missing_names <- rmmCheckMissingNames(rmm,family = family) # Error
+  missing_names <- rmmCheckMissingNames(rmm, family = family)
 
-  empty_values <- rmmCheckEmpty(rmm = rmm,family = family) # Error
+  empty_values <- rmmCheckEmpty(rmm = rmm, family = family)
 
   if(length(na.omit(values$partial_match))==0 & length(na.omit(values$not_matched))==0 & #All values are exactly matched
      length(missing_names)==0 & #No names are missing
